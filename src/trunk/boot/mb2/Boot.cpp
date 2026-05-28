@@ -182,4 +182,4 @@ namespace trunk
         }
     }
 
-} // namespace trunk::boot
+} // namespace trunk

@@ -25,14 +25,14 @@
 ; *              2. Switch RSP to the real kernel stack (higher-half)           *
 ; *              3. Zero the BSS segment                                        *
 ; *              4. Run C++ global constructors (.init_array)                   *
-; *              5. Call boot_entry(mb2_magic, mb2_phys) in boot.cpp            *
+; *              5. Call boot_entry(mb2_magic, mb2_phys) in Boot.cpp            *
 ; *            edi/esi still hold MB2 magic and info ptr from Entry32.          *
 ; *                                                                             *
 ; *******************************************************************************
 
 bits 64
 
-extern boot_entry           ; boot.cpp  — C linkage
+extern boot_entry           ; Boot.cpp  — C linkage
 extern __bss_start          ; linker script symbol
 extern __bss_end            ; linker script symbol
 extern __stack_top          ; linker script symbol
@@ -72,13 +72,6 @@ Entry64:
     ; The C++ runtime requires BSS to be zeroed before any static constructors
     ; or kernel code runs. The bootloader does NOT do this for us.
 
-    ; ***************************************************************************
-    ; *  AUTHOR  : Trollycat                                                    *
-    ; *  FUNC    : bss_zero (inline)                                            *
-    ; *  DATE    : 2026                                                         *
-    ; *  PURPOSE : Writes zero bytes from __bss_start to __bss_end using        *
-    ; *            rep stosb. Must run before any C/C++ code.                   *
-    ; ***************************************************************************
     mov rdi, __bss_start
     mov rcx, __bss_end
     sub rcx, rdi
@@ -89,6 +82,8 @@ Entry64:
     ; The linker collects constructor function pointers into .init_array.
     ; We call each one in order. Required for any static C++ objects.
 
+    mov rbx, __init_array_start
+    
     ; ***************************************************************************
     ; *  AUTHOR  : Trollycat                                                    *
     ; *  FUNC    : ctor_loop (inline)                                           *
@@ -96,7 +91,6 @@ Entry64:
     ; *  PURPOSE : Iterates __init_array_start .. __init_array_end, calling     *
     ; *            each 8-byte function pointer in sequence.                    *
     ; ***************************************************************************
-    mov rbx, __init_array_start
 .ctor_loop:
     cmp rbx, __init_array_end
     jge .ctor_done
