@@ -28,7 +28,7 @@
 #include <trunk/boot/Boot.h>
 #include <trunk/kernel/Kernel.h>
 
-namespace trunk
+namespace trunk::boot
 {
 
     // ── MB2 constants ───────────────────────────────────────
@@ -174,7 +174,7 @@ namespace trunk
         BootInfo info{};
         parse_mb2(static_cast<uptr>(mb2_phys), info);
 
-        trunk::kmain(info);
+        kernel::kmain(info);
 
         for (;;)
         {
@@ -182,4 +182,4 @@ namespace trunk
         }
     }
 
-} // namespace trunk
+} // namespace trunk::boot

@@ -30,7 +30,9 @@
 
 #include <trunk/drivers/serial/Serial.h>
 
-namespace trunk
+namespace serial = trunk::drivers::serial;
+
+namespace trunk::kernel
 {
 
     /* *******************************************************************************
@@ -40,27 +42,27 @@ namespace trunk
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
     [[noreturn]]
-    void kmain(const BootInfo &info) noexcept
+    void kmain(const boot::BootInfo &info) noexcept
     {
         (void)info;
 
-        serial_init();
+        serial::serial_init();
 
-        serial_puts("Entered kmain()...\n");
-        serial_puts("BootInfo voided...\n");
+        serial::serial_puts("Entered kmain()...\n");
+        serial::serial_puts("BootInfo voided...\n");
 
-        serial_puts("Initializing GDT...\n");
+        serial::serial_puts("Initializing GDT...\n");
 
-        gdt_init();
+        gdt::gdt_init();
 
-        serial_puts("GDT initialized.\n");
+        serial::serial_puts("GDT initialized.\n");
 
-        serial_puts("Kernel halting.\n");
+        serial::serial_puts("Kernel halting.\n");
         for (;;)
         {
-            serial_puts("Kernel halted. Press ALT F4 to exit.\n");
+            serial::serial_puts("Kernel halted. Press ALT F4 to exit.\n");
             asm volatile("hlt");
-            serial_puts("Kernel resumed after halt. This should never happen.\n");
+            serial::serial_puts("Kernel resumed after halt. This should never happen.\n");
         }
     }
 

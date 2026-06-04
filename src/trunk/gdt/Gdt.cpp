@@ -25,7 +25,7 @@
  ********************************************************************************/
 #include <trunk/gdt/Gdt.h>
 
-namespace trunk
+namespace trunk::gdt
 {
     static GdtEntry gdt[5];
     static GdtPointer gdt_pointer;
@@ -65,4 +65,4 @@ namespace trunk
 
         gdt_flush(reinterpret_cast<uptr>(&gdt_pointer));
     }
-} // namespace trunk
+} // namespace trunk::gdt

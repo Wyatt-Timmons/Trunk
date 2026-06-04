@@ -258,22 +258,22 @@ install: $(KERNEL_ELF)
 # --- Run targets -------------------------------------------------------------
 
 .PHONY: run
-run: all
+run: all disk install
 	$(call _info,Launching QEMU...)
 	@sudo bash $(SCRIPTS_DIR)/run/qemu_basic.sh
 
 .PHONY: run-kvm
-run-kvm: all
+run-kvm: all disk install
 	$(call _info,Launching QEMU \(KVM\)...)
 	@sudo bash $(SCRIPTS_DIR)/run/qemu_kvm.sh
 
 .PHONY: run-gdb
-run-gdb: all
+run-gdb: all disk install
 	$(call _info,Launching QEMU \(GDB :1234\)...)
 	@sudo bash $(SCRIPTS_DIR)/run/qemu_gdb.sh
 
 .PHONY: run-headless
-run-headless: all
+run-headless: all disk install
 	$(call _info,Launching QEMU \(headless\)...)
 	@sudo bash $(SCRIPTS_DIR)/run/qemu_headless.sh
 

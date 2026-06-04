@@ -29,7 +29,7 @@
 
 #include <Types.h>
 
-namespace trunk
+namespace trunk::asi
 {
 
     /* *******************************************************************************
@@ -329,4 +329,4 @@ namespace trunk
         return (static_cast<u64>(high) << 32) | low;
     }
 
-} // namespace trunk
+} // namespace trunk::asi

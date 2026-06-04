@@ -27,7 +27,7 @@
 
 #include <trunk/boot/Boot.h>
 
-namespace trunk
+namespace trunk::kernel
 {
 
     /* *******************************************************************************
@@ -38,6 +38,6 @@ namespace trunk
      *            is in a known-good 64-bit state. Never returns.                    *
      ********************************************************************************/
     [[noreturn]]
-    void kmain(const BootInfo &info) noexcept;
+    void kmain(const boot::BootInfo &info) noexcept;
 
-} // namespace trunk
+} // namespace trunk::kernel

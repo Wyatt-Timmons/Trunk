@@ -30,7 +30,7 @@
 
 #include <Types.h>
 
-namespace trunk
+namespace trunk::boot
 {
 
     enum class MemoryType : u32
@@ -77,4 +77,4 @@ namespace trunk
         }
     };
 
-} // namespace trunk
+} // namespace trunk::boot

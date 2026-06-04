@@ -27,7 +27,7 @@
 
 #include <trunk/drivers/serial/Serial.h>
 
-namespace trunk
+namespace trunk::drivers::serial
 {
 
     /* ******************************************************************************
@@ -41,7 +41,7 @@ namespace trunk
      * *****************************************************************************/
     bool serial_is_transmit_ready() noexcept
     {
-        return (inb(SERIAL_REG_LINE_STATUS) & SERIAL_LSR_TX_EMPTY) != 0;
+        return (asi::inb(SERIAL_REG_LINE_STATUS) & SERIAL_LSR_TX_EMPTY) != 0;
     }
 
     /* ******************************************************************************
@@ -58,27 +58,27 @@ namespace trunk
     void serial_init() noexcept
     {
         // Disable all interrupts
-        outb(SERIAL_REG_INT_ENABLE, 0x00);
+        asi::outb(SERIAL_REG_INT_ENABLE, 0x00);
 
         // Enable DLAB to set baud rate divisor
-        outb(SERIAL_REG_LINE_CTRL, SERIAL_LCR_DLAB);
+        asi::outb(SERIAL_REG_LINE_CTRL, SERIAL_LCR_DLAB);
 
         // Set divisor low and high bytes (115200 baud)
-        outb(SERIAL_REG_DATA, SERIAL_BAUD_115200_LO);
-        outb(SERIAL_REG_INT_ENABLE, SERIAL_BAUD_115200_HI);
+        asi::outb(SERIAL_REG_DATA, SERIAL_BAUD_115200_LO);
+        asi::outb(SERIAL_REG_INT_ENABLE, SERIAL_BAUD_115200_HI);
 
         // Disable DLAB, set 8 data bits, no parity, 1 stop bit (8N1)
-        outb(SERIAL_REG_LINE_CTRL, SERIAL_LCR_8N1);
+        asi::outb(SERIAL_REG_LINE_CTRL, SERIAL_LCR_8N1);
 
         // Enable FIFO, clear TX and RX queues, 14-byte threshold
-        outb(SERIAL_REG_FIFO,
-             SERIAL_FCR_ENABLE |
-                 SERIAL_FCR_CLEAR_RX |
-                 SERIAL_FCR_CLEAR_TX |
-                 SERIAL_FCR_TRIGGER_14);
+        asi::outb(SERIAL_REG_FIFO,
+                  SERIAL_FCR_ENABLE |
+                      SERIAL_FCR_CLEAR_RX |
+                      SERIAL_FCR_CLEAR_TX |
+                      SERIAL_FCR_TRIGGER_14);
 
         // Enable modem: DTR + RTS + OUT2 (required for interrupts later)
-        outb(SERIAL_REG_MODEM_CTRL, 0x0B);
+        asi::outb(SERIAL_REG_MODEM_CTRL, 0x0B);
     }
 
     /* ******************************************************************************
@@ -101,7 +101,7 @@ namespace trunk
         {
         }
 
-        outb(SERIAL_REG_DATA, static_cast<u8>(c));
+        asi::outb(SERIAL_REG_DATA, static_cast<u8>(c));
     }
 
     /* ******************************************************************************
@@ -119,4 +119,4 @@ namespace trunk
             serial_putchar(*s++);
     }
 
-} // namespace trunk
+} // namespace trunk::drivers::serial

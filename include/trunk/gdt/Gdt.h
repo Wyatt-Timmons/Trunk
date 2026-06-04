@@ -28,7 +28,7 @@
 
 #include <Types.h>
 
-namespace trunk
+namespace trunk::gdt
 {
     struct [[gnu::packed]] GdtEntry
     {
@@ -72,7 +72,7 @@ namespace trunk
      ********************************************************************************/
     void gdt_init() noexcept;
 
-} // namespace trunk
+} // namespace trunk::gdt
 
 /* *******************************************************************************
  *  AUTHOR  : Trollycat                                                          *

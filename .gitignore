@@ -6,6 +6,9 @@ iso/
 *.log
 disk.img
 
+# Tracking
+.CL_B_F_N_T
+
 # Compiler generated
 *.o
 *.d

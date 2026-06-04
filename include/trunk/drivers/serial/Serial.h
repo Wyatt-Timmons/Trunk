@@ -31,7 +31,7 @@
 #include <Types.h>
 #include <trunk/asi/Io.h>
 
-namespace trunk
+namespace trunk::drivers::serial
 {
 
     /* ******************************************************************************
@@ -143,4 +143,4 @@ namespace trunk
      * *****************************************************************************/
     [[nodiscard]] bool serial_is_transmit_ready() noexcept;
 
-} // namespace trunk
+} // namespace trunk::drivers::serial
