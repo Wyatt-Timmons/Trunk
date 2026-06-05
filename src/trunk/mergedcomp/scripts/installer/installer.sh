@@ -22,7 +22,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 require_kernel
-[[ -f "setup/grub/grub.cfg" ]] || fail "grub.cfg not found."
+[[ -f "src/trunk/mergedcomp/setup/grub/grub.cfg" ]] || fail "grub.cfg not found."
 
 # --- Safety warning ----------------------------------------------------------
 if [[ "$TARGET_TYPE" == "disk" ]]; then
@@ -58,7 +58,7 @@ ok "Mounted at $MOUNT"
 step "Copying kernel and grub.cfg..."
 mkdir -p "$MOUNT/boot/grub"
 cp build/elf/trunk.elf  "$MOUNT/boot/trunk.elf"
-cp setup/grub/grub.cfg  "$MOUNT/boot/grub/grub.cfg"
+cp src/trunk/mergedcomp/setup/grub/grub.cfg  "$MOUNT/boot/grub/grub.cfg"
 ok "Files copied"
 
 # --- Install GRUB UEFI -------------------------------------------------------

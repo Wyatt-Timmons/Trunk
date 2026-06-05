@@ -34,8 +34,8 @@
 
 # --- Configuration -----------------------------------------------------------
 
-include config/build.cfg
-include config/toolchain.cfg
+include src/trunk/mergedcomp/config/build.cfg
+include src/trunk/mergedcomp/config/toolchain.cfg
 
 # --- Mode default ------------------------------------------------------------
 
@@ -70,8 +70,8 @@ _clean = @printf "  $(_R)[ CLEAN ]$(_RS)  %s\n" "$1"
 
 SRC_DIR      := src
 INCLUDE_DIR  := include
-SETUP_DIR    := setup
-SCRIPTS_DIR  := scripts
+SETUP_DIR    := src/trunk/mergedcomp/setup
+SCRIPTS_DIR  := src/trunk/mergedcomp/scripts
 
 BUILD_DIR    := build
 OBJ_DIR      := $(BUILD_DIR)/obj
