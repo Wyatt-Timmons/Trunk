@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #  Trunk — Shared library sourced by all scripts
 
+ROOT_DIR_COMMON="${ROOT_DIR_COMMON:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+[[ -f "$ROOT_DIR_COMMON/config/build.cfg" ]] && source "$ROOT_DIR_COMMON/config/build.cfg"
+
 # --- Colors ------------------------------------------------------------------
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -10,6 +13,26 @@ BLUE='\033[0;34m'
 MAGENTA='\033[0;35m'
 BOLD='\033[1m'
 RESET='\033[0m'
+
+VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+
+OBJ_DIR="${BUILD_DIR}/obj"
+ELF_DIR="${BUILD_DIR}/elf"
+ISO_DIR="${BUILD_DIR}/iso"
+IMG_DIR="${BUILD_DIR}/img"
+LOG_DIR="${BUILD_DIR}/logs"
+LOG_QEMU_DIR="${LOG_DIR}/qemu"
+LOG_BUILD_DIR="${LOG_DIR}/build"
+
+LINKER_DIR="${SETUP_DIR}/linker"
+GRUB_DIR="${SETUP_DIR}/grub"
+
+KERNEL_ELF="${ELF_DIR}/${KERNEL_NAME}.elf"
+KERNEL_BIN="${ELF_DIR}/${KERNEL_NAME}.bin"
+ISO_IMAGE="${ISO_DIR}/${KERNEL_NAME}.iso"
+DISK_IMAGE="${IMG_DIR}/${KERNEL_NAME}.img"
+LINKER_SCRIPT="${LINKER_DIR}/trunk.ld"
+
 
 # --- Output ------------------------------------------------------------------
 ok()   { printf "  ${GREEN}[ OK ]${RESET}    %s\n" "$1"; }
@@ -98,6 +121,7 @@ require_root() {
 
 # --- Kernel check ------------------------------------------------------------
 require_kernel() {
-    [[ -f "build/elf/trunk.elf" ]] || \
+    local kernel_file="${KERNEL_ELF:-build/elf/trunk.elf}"
+    [[ -f "$kernel_file" ]] || \
         fail "trunk.elf not found. Run 'make kernel' first."
 }

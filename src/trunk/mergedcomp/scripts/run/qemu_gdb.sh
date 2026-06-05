@@ -4,6 +4,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source "$ROOT_DIR/scripts/lib/common.sh"
+source "$ROOT_DIR/config/build.cfg"
 source "$ROOT_DIR/config/qemu.cfg"
 
 BOOT_MODE="auto"
@@ -22,7 +23,7 @@ LOG=$(make_log "qemu_gdb")
 printf "\n"
 info "QEMU GDB — CPU frozen at boot"
 warn "In another terminal run:"
-printf "    ${CYAN}x86_64-elf-gdb build/elf/trunk.elf${RESET}\n"
+printf "    ${CYAN}x86_64-elf-gdb $KERNEL_ELF${RESET}\n"
 printf "    ${CYAN}(gdb) target remote :${QEMU_GDB_PORT}${RESET}\n"
 printf "    ${CYAN}(gdb) continue${RESET}\n"
 info "QEMU monitor: telnet :55555"

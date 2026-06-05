@@ -37,6 +37,32 @@
 include src/trunk/mergedcomp/config/build.cfg
 include src/trunk/mergedcomp/config/toolchain.cfg
 
+# --- Computed variables from base config ------------------------------------
+
+VERSION           := $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
+
+OBJ_DIR           := $(BUILD_DIR)/obj
+ELF_DIR           := $(BUILD_DIR)/elf
+ISO_DIR           := $(BUILD_DIR)/iso
+IMG_DIR           := $(BUILD_DIR)/img
+LOG_DIR           := $(BUILD_DIR)/logs
+LOG_QEMU_DIR      := $(LOG_DIR)/qemu
+LOG_BUILD_DIR     := $(LOG_DIR)/build
+
+LINKER_DIR        := $(SETUP_DIR)/linker
+GRUB_DIR          := $(SETUP_DIR)/grub
+
+KERNEL_ELF        := $(ELF_DIR)/$(KERNEL_NAME).elf
+KERNEL_BIN        := $(ELF_DIR)/$(KERNEL_NAME).bin
+ISO_IMAGE         := $(ISO_DIR)/$(KERNEL_NAME).iso
+DISK_IMAGE        := $(IMG_DIR)/$(KERNEL_NAME).img
+LINKER_SCRIPT     := $(LINKER_DIR)/trunk.ld
+
+# --- Alias for compatibility ------------------------------------------------
+
+LOG_BUILD := $(LOG_BUILD_DIR)
+LOG_QEMU  := $(LOG_QEMU_DIR)
+
 # --- Mode default ------------------------------------------------------------
 
 MODE ?= DEBUG
@@ -65,33 +91,6 @@ _ld    = @printf "  $(_Y)[ LD ]$(_RS)  %s\n" "$1"
 _iso   = @printf "  $(_B)[ ISO ]$(_RS)  %s\n" "$1"
 _disk  = @printf "  $(_B)[ DISK ]$(_RS)  %s\n" "$1"
 _clean = @printf "  $(_R)[ CLEAN ]$(_RS)  %s\n" "$1"
-
-# --- Directories -------------------------------------------------------------
-
-SRC_DIR      := src
-INCLUDE_DIR  := include
-SETUP_DIR    := src/trunk/mergedcomp/setup
-SCRIPTS_DIR  := src/trunk/mergedcomp/scripts
-
-BUILD_DIR    := build
-OBJ_DIR      := $(BUILD_DIR)/obj
-ELF_DIR      := $(BUILD_DIR)/elf
-ISO_DIR      := $(BUILD_DIR)/iso
-IMG_DIR      := $(BUILD_DIR)/img
-LOG_DIR      := $(BUILD_DIR)/logs
-LOG_BUILD    := $(LOG_DIR)/build
-LOG_QEMU     := $(LOG_DIR)/qemu
-
-LINKER_DIR   := $(SETUP_DIR)/linker
-GRUB_DIR     := $(SETUP_DIR)/grub
-
-# --- Artifacts ---------------------------------------------------------------
-
-KERNEL_ELF    := $(ELF_DIR)/$(KERNEL_NAME).elf
-KERNEL_BIN    := $(ELF_DIR)/$(KERNEL_NAME).bin
-ISO_IMAGE     := $(ISO_DIR)/$(KERNEL_NAME).iso
-DISK_IMAGE    := $(IMG_DIR)/$(KERNEL_NAME).img
-LINKER_SCRIPT := $(LINKER_DIR)/trunk.ld
 
 # --- Build mode --------------------------------------------------------------
 

@@ -1,0 +1,1 @@
+include src/trunk/tros/kern/init/Makefile

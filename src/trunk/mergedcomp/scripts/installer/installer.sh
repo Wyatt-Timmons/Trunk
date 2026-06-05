@@ -3,7 +3,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
 source "$ROOT_DIR/scripts/lib/common.sh"
+source "$ROOT_DIR/config/build.cfg"
 source "$ROOT_DIR/config/disk.cfg"
 
 require_root
@@ -22,7 +24,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 require_kernel
-[[ -f "src/trunk/mergedcomp/setup/grub/grub.cfg" ]] || fail "grub.cfg not found."
+[[ -f "$GRUB_DIR/grub.cfg" ]] || fail "grub.cfg not found."
 
 # --- Safety warning ----------------------------------------------------------
 if [[ "$TARGET_TYPE" == "disk" ]]; then
@@ -57,22 +59,22 @@ ok "Mounted at $MOUNT"
 # --- Copy files --------------------------------------------------------------
 step "Copying kernel and grub.cfg..."
 mkdir -p "$MOUNT/boot/grub"
-cp build/elf/trunk.elf  "$MOUNT/boot/trunk.elf"
-cp src/trunk/mergedcomp/setup/grub/grub.cfg  "$MOUNT/boot/grub/grub.cfg"
+cp "$KERNEL_ELF"  "$MOUNT/boot/trunk.elf"
+cp "$GRUB_DIR/grub.cfg"  "$MOUNT/boot/grub/grub.cfg"
 ok "Files copied"
 
 # --- Install GRUB UEFI -------------------------------------------------------
 step "Installing GRUB (UEFI x86_64-efi)..."
-mkdir -p build/logs/build
+mkdir -p "$LOG_BUILD_DIR"
 grub-install \
     --target=x86_64-efi \
     --efi-directory="$MOUNT" \
     --boot-directory="$MOUNT/boot" \
     --removable \
     --no-nvram \
-    2>build/logs/build/grub_uefi.log \
+    2>"$LOG_BUILD_DIR/grub_uefi.log" \
     && ok "GRUB UEFI installed" \
-    || warn "GRUB UEFI failed — see build/logs/build/grub_uefi.log"
+    || warn "GRUB UEFI failed — see $LOG_BUILD_DIR/grub_uefi.log"
 
 # --- Install GRUB BIOS fallback ----------------------------------------------
 step "Installing GRUB (BIOS i386-pc fallback)..."
@@ -80,9 +82,9 @@ grub-install \
     --target=i386-pc \
     --boot-directory="$MOUNT/boot" \
     "${LOOP:-$TARGET}" \
-    2>build/logs/build/grub_bios.log \
+    2>"$LOG_BUILD_DIR/grub_bios.log" \
     && ok "GRUB BIOS fallback installed" \
-    || warn "GRUB BIOS failed — see build/logs/build/grub_bios.log"
+    || warn "GRUB BIOS failed — see $LOG_BUILD_DIR/grub_bios.log"
 
 ok "Installation complete: $TARGET"
 info "UEFI: primary boot method"
