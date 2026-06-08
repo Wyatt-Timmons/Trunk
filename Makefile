@@ -47,6 +47,8 @@ _iso   = @printf "  $(_B)[ ISO ]$(_RS)  %s\n"  "$1"
 _disk  = @printf "  $(_B)[ DISK ]$(_RS)  %s\n" "$1"
 _clean = @printf "  $(_R)[ CLEAN ]$(_RS)  %s\n" "$1"
 
+_info_cmd = @$1 | xargs -I{} printf "  $(_C)[ INFO ]$(_RS)  %-9s: {}\n" "$2"
+
 ifeq ($(MODE),DEBUG)
     BUILD_MODE := DEBUG
     OPT_FLAGS  := -O0 -g -ggdb
@@ -167,17 +169,17 @@ $(BOOT_ELF): $(BOOT_OBJS) $(BOOT_LD)
 	$(call _ld,trboot.elf)
 	@$(LD) $(BOOT_LDFLAGS) $(BOOT_OBJS) -o $@ 2>> $(LOG_BUILD_DIR)/link.log
 	$(call _ok,Boot linked → $(BOOT_ELF))
-	$(call _info,Entry : $(shell $(READELF) -h $@ 2>/dev/null | awk '/Entry point/{print $$4}'))
-	$(call _info,Size  : $(shell ls -lh $@ | awk '{print $$5}'))
+	$(call _info_cmd,$(READELF) -h $@ | awk '/Entry point/{print $$4}',Entry)
+	$(call _info_cmd,ls -lh $@ | awk '{print $$5}',Size)
 
 $(KERN_ELF): $(KERN_OBJS) $(TKLIB_A) $(KERN_LD)
 	$(call _ld,troskern.elf)
 	@$(LD) $(KERN_LDFLAGS) $(KERN_OBJS) $(TKLIB_A) -o $@ 2>> $(LOG_BUILD_DIR)/link.log
 	$(call _ok,Kernel linked → $(KERN_ELF))
-	$(call _info,Entry   : $(shell $(READELF) -h $@ 2>/dev/null | awk '/Entry point/{print $$4}'))
-	$(call _info,Symbols : $(shell $(NM) $@ 2>/dev/null | wc -l))
-	$(call _info,Size    : $(shell ls -lh $@ | awk '{print $$5}'))
-
+	$(call _info_cmd,$(READELF) -h $@ | awk '/Entry point/{print $$4}',Entry)
+	$(call _info_cmd,$(NM) $@ | wc -l,Symbols)
+	$(call _info_cmd,ls -lh $@ | awk '{print $$5}',Size)
+	
 $(ISO_IMAGE): $(BOOT_ELF) $(KERN_ELF)
 	$(call _iso,Building trunk.iso...)
 	@cp $(BOOT_ELF)          $(ISO_DIR)/boot/trboot.elf
@@ -185,7 +187,7 @@ $(ISO_IMAGE): $(BOOT_ELF) $(KERN_ELF)
 	@cp $(GRUB_DIR)/grub.cfg $(ISO_DIR)/boot/grub/grub.cfg
 	@$(GRUB_MKRESCUE) -o $@ $(ISO_DIR) 2>$(LOG_BUILD_DIR)/grub.log
 	$(call _ok,ISO ready → $(ISO_IMAGE))
-	$(call _info,Size : $(shell ls -lh $@ | awk '{print $$5}'))
+	$(call _info_cmd,ls -lh $@ | awk '{print $$5}',Size)
 
 .PHONY: disk
 disk: _dirs
