@@ -82,10 +82,7 @@ trampoline64:
     mov rax, [entry64_vaddr]  ; 64-bit immediate — no truncation issue
     jmp rax
 
-.hang:
-    cli
-    hlt
-    jmp .hang
+    jmp tr_early_fault_lockdown
 
 
 align 16
@@ -112,3 +109,17 @@ mb2_magic_store:
 
 mb2_info_store:
     dd 0
+
+; *******************************************************************************
+; *  AUTHOR  : Trollycat                                                        *
+; *  FUNC    : tr_early_fault_lockdown                                          *
+; *  DATE    : 2026                                                             *
+; *  PURPOSE : halt loop incase any assembly code fails                         *
+; *******************************************************************************
+global tr_early_fault_lockdown
+tr_early_fault_lockdown:
+    cli
+.lock_loop:
+    hlt
+    pause
+    jmp .lock_loop

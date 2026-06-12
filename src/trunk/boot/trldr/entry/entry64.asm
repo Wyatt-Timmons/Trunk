@@ -35,6 +35,8 @@ extern __init_array_end     ; linker script symbol
 extern mb2_magic_store      ; entry32.asm, MB2 magic value
 extern mb2_info_store       ; entry32.asm, MB2 info pointer
 
+extern tr_early_fault_lockdown ; entry32.asm, early fault lockdown
+
 global entry64
 
 section .text
@@ -117,7 +119,5 @@ entry64:
     mov edi, r12d
     mov esi, r13d
     call TrSystemStartup
-.hang:
-    cli
-    hlt
-    jmp .hang
+
+    jmp tr_early_fault_lockdown

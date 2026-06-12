@@ -23,7 +23,9 @@
 ; *******************************************************************************
 bits 64
 
-extern Trkload
+extern Trkload                 ; boot.cpp
+
+extern tr_early_fault_lockdown ; entry32.asm
 
 section .text
 
@@ -37,7 +39,4 @@ section .text
 global TrSystemStartup
 TrSystemStartup:
     call Trkload
-.hang:
-    cli
-    hlt
-    jmp .hang
+    jmp tr_early_fault_lockdown
