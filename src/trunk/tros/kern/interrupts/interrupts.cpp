@@ -25,6 +25,8 @@
 
 #include <trunk/drivers/serial/serial.h>
 
+#include <trunk/tros/kern/kabort.h>
+
 namespace trunk::interrupts
 {
     static InterruptHandler g_InterruptHandlers[256] = {nullptr};
@@ -56,11 +58,7 @@ namespace trunk::interrupts
         {
             if (vector < 32)
             {
-                drivers::serial::serial_puts("CRITICAL: Unhandled hardware exception trapped!\n");
-                while (true)
-                {
-                    asm volatile("cli; hlt");
-                }
+                kernel::kabort("Unhandled architectural processor exception trapped by dispatcher.");
             }
         }
     }

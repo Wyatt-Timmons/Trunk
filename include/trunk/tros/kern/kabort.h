@@ -17,57 +17,19 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Core kernel                                                        *
+ *  MODULE  : Kernel abortion                                                    *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (TrkStartup)                                    *
+ *  PURPOSE : Halts the kernel on a fatal state, equ to panic().                 *
  ********************************************************************************/
-
-#include <trunk/tros/kern/init/k_init.h>
-
-#include <trunk/tros/kern/gdt/gdt.h>
-#include <trunk/tros/kern/interrupts/idt/idt.h>
-
-#include <trunk/drivers/serial/serial.h>
-#include <trunk/asi/io.h>
-
-namespace serial = trunk::drivers::serial;
-
-#define STARTUP_FUNC_FLAGS extern "C" [[noreturn]] __attribute__((section(".text")))
+#pragma once
 
 namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkSetupSubsystems                                                 *
+     *  FUNC    : kabort                                                             *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
+     *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
-    void TrkSetupSubsystems() noexcept
-    {
-        serial::serial_init();
-        gdt::gdt_init();
-        interrupts::idt_init();
-    }
-
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup                                                         *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
-     ********************************************************************************/
-    STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
-    {
-        TrkSetupSubsystems();
-
-        serial::serial_puts("ALERT: TrkStartup() reached\n");
-
-        asi::sti();
-        serial::serial_puts("Interrupts enabled (STI)\n");
-
-        (void)info;
-        for (;;)
-        {
-            asm volatile("hlt");
-        }
-    }
+    [[noreturn]] void kabort(const char *message) noexcept;
 } // namespace trunk::kernel

@@ -17,57 +17,37 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Core kernel                                                        *
+ *  MODULE  : Kernel abortion                                                    *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (TrkStartup)                                    *
+ *  PURPOSE : Halts the kernel on a fatal state, equ to panic().                 *
  ********************************************************************************/
-
-#include <trunk/tros/kern/init/k_init.h>
-
-#include <trunk/tros/kern/gdt/gdt.h>
-#include <trunk/tros/kern/interrupts/idt/idt.h>
+#include <trunk/tros/kern/kabort.h>
 
 #include <trunk/drivers/serial/serial.h>
-#include <trunk/asi/io.h>
-
-namespace serial = trunk::drivers::serial;
-
-#define STARTUP_FUNC_FLAGS extern "C" [[noreturn]] __attribute__((section(".text")))
 
 namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkSetupSubsystems                                                 *
+     *  FUNC    : kabort                                                             *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
+     *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
-    void TrkSetupSubsystems() noexcept
+    [[noreturn]] void kabort(const char *message) noexcept
     {
-        serial::serial_init();
-        gdt::gdt_init();
-        interrupts::idt_init();
+        asm volatile("cli");
+
+        drivers::serial::serial_puts("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        drivers::serial::serial_puts("!!!                           KERNEL SYSTEM ABORT                           !!!\n");
+        drivers::serial::serial_puts("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        drivers::serial::serial_puts("STOP_REASON: ");
+        drivers::serial::serial_puts(message);
+        drivers::serial::serial_puts("\n\nSystem execution permanently halted to protect data integrity.\n");
+
+        asm volatile(
+            ".lockdown_loop:\n\t"
+            "hlt\n\t"
+            "jmp .lockdown_loop");
+        __builtin_unreachable();
     }
-
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup                                                         *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
-     ********************************************************************************/
-    STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
-    {
-        TrkSetupSubsystems();
-
-        serial::serial_puts("ALERT: TrkStartup() reached\n");
-
-        asi::sti();
-        serial::serial_puts("Interrupts enabled (STI)\n");
-
-        (void)info;
-        for (;;)
-        {
-            asm volatile("hlt");
-        }
-    }
-} // namespace trunk::kernel
+}
