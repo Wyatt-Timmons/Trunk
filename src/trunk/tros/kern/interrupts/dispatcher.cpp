@@ -22,18 +22,29 @@
  *  PURPOSE : Interrupt dispatcher                                               *
  ********************************************************************************/
 #include <trunk/tros/kern/interrupts/dispatcher.h>
+#include <trunk/tros/kern/interrupts/interrupts.h>
+
 #include <trunk/drivers/serial/serial.h>
+#include <trunk/drivers/hal/pic.h>
 
 namespace trunk::interrupts
 {
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : kinterrupt_dispatcher                                              *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Takes the interrupt from trap and dispatches It                    *
+     ********************************************************************************/
     extern "C" void kinterrupt_dispatcher(InterruptFrame *frame) noexcept
     {
-        drivers::serial::serial_puts("Interrupt dispatched\n");
+        const u8 vector = static_cast<u8>(frame->vector_number);
 
-        u64 vector = frame->vector_number;
-        while (true)
+        execute_interrupt_handler(vector, frame);
+
+        if (vector >= drivers::pic::PIC1_OFFSET && vector < (::trunk::drivers::pic::PIC1_OFFSET + 16))
         {
-            asm volatile("cli; hlt");
+            const u8 irq = vector - drivers::pic::PIC1_OFFSET;
+            drivers::pic::irq_ack(irq);
         }
     }
 } // namespace trunk::interrupts

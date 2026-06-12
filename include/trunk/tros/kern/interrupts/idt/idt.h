@@ -60,7 +60,7 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_init                                                           *
+     *  FUNC    : idt_init                                                           *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the interrupt descriptor table                          *
      ********************************************************************************/

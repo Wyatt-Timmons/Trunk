@@ -29,6 +29,12 @@ namespace trunk::interrupts
 {
     static IdtDescriptor g_IdtEntries[256] ALIGNED(16);
 
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : set_gate                                                           *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Sets a new IDT gate with parameters                                *
+     ********************************************************************************/
     void set_gate(u8 vector, u64 handler_address, u16 selector, u8 privilege, u8 ist) noexcept
     {
         g_IdtEntries[vector].offset_low = static_cast<u16>(handler_address & 0xFFFF);
@@ -45,6 +51,12 @@ namespace trunk::interrupts
         g_IdtEntries[vector].reserved_2 = 0;
     }
 
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : idt_init                                                           *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Initializes the interrupt descriptor table                         *
+     ********************************************************************************/
     void idt_init() noexcept
     {
         const u16 kernel_code_selector = 0x08;

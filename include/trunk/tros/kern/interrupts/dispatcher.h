@@ -46,6 +46,12 @@ namespace trunk::interrupts
 
     STATIC_ASSERT(sizeof(InterruptFrame) == 176, "InterruptFrame structural footprint must be exactly 176 bytes!");
 
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : kinterrupt_dispatcher                                              *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Takes the interrupt from trap and dispatches It                    *
+     ********************************************************************************/
     extern "C" void kinterrupt_dispatcher(InterruptFrame *frame) noexcept;
 
 } // namespace trunk::interrupts
