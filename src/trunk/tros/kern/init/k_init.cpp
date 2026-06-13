@@ -24,8 +24,8 @@
 
 #include <trunk/tros/kern/init/k_init.h>
 
-#include <trunk/tros/kern/gdt/gdt.h>
-#include <trunk/tros/kern/interrupts/idt/idt.h>
+#include <trunk/tros/interrupts/idt/idt.h>
+#include <trunk/tros/gdt/gdt.h>
 
 #include <trunk/drivers/serial/serial.h>
 #include <trunk/asi/io.h>
@@ -56,7 +56,8 @@ namespace trunk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
-    STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
+    STARTUP_FUNC_FLAGS void
+    TrkStartup(const boot::BootInfo &info) noexcept
     {
         serial::serial_puts("ALERT: TrkStartup() reached\n");
 
@@ -69,7 +70,7 @@ namespace trunk::kernel
         (void)info;
         for (;;)
         {
-            serial::serial_puts("ALERT: HALTING KERNEL");
+            serial::serial_puts("ALERT: HALTING KERNEL\n");
             asm volatile("hlt");
         }
     }

@@ -38,7 +38,7 @@
             }                                                                     \
         } while (false)
 #else
-    #define ASSERT(condition, message) do { (void)sizeof(condition); } while (false)
+    #define ASSERT(condition, message) do { (void)(condition); } while (false)
 #endif
 
 // clang-format on

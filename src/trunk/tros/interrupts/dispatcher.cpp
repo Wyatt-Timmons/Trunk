@@ -21,8 +21,8 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Interrupt dispatcher                                               *
  ********************************************************************************/
-#include <trunk/tros/kern/interrupts/dispatcher.h>
-#include <trunk/tros/kern/interrupts/interrupts.h>
+#include <trunk/tros/interrupts/dispatcher.h>
+#include <trunk/tros/interrupts/interrupts.h>
 
 #include <trunk/drivers/serial/serial.h>
 #include <trunk/drivers/hal/pic.h>

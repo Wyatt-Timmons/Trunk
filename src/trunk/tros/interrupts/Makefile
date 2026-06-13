@@ -1,7 +1,7 @@
-include src/trunk/tros/kern/interrupts/idt/Makefile
-include src/trunk/tros/kern/interrupts/isr/Makefile
+include src/trunk/tros/interrupts/idt/Makefile
+include src/trunk/tros/interrupts/isr/Makefile
 
-TROS_INTERRUPTS_DIR := $(SRC_DIR)/trunk/tros/kern/interrupts
+TROS_INTERRUPTS_DIR := $(SRC_DIR)/trunk/tros/interrupts
 
 TROS_INTERRUPTS_SRCS_NASM := $(wildcard $(TROS_INTERRUPTS_DIR)/*.asm)
 TROS_INTERRUPTS_SRCS_CXX  := $(wildcard $(TROS_INTERRUPTS_DIR)/*.cpp)

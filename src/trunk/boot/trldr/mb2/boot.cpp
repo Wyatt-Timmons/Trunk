@@ -67,8 +67,7 @@ namespace trunk::boot
      *            TrkStartup. Never returns.                                        *
      *                                                                              *
      * *****************************************************************************/
-    extern "C" [[noreturn]]
-    void Trkload(u32 mb2_magic, u32 mb2_phys) noexcept
+    extern "C" void Trkload(u32 mb2_magic, u32 mb2_phys) noexcept
     {
         drivers::serial::serial_init();
 

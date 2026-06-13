@@ -21,7 +21,7 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE :  Populates the 256 gates and executes physical lidt instruction    *
  ********************************************************************************/
-#include <trunk/tros/kern/interrupts/idt/idt.h>
+#include <trunk/tros/interrupts/idt/idt.h>
 
 extern "C" const u64 g_InterruptVectorTable[256];
 

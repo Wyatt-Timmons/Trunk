@@ -1,6 +1,4 @@
 include src/trunk/tros/kern/init/Makefile
-include src/trunk/tros/kern/gdt/Makefile
-include src/trunk/tros/kern/interrupts/Makefile
 
 TROS_KERN_DIR := $(SRC_DIR)/trunk/tros/kern
 
