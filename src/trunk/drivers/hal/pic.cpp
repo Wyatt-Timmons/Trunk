@@ -42,23 +42,18 @@ namespace trunk::drivers::pic
 
     void pic_init() noexcept
     {
-        // ICW1
         asi::outb(PIC1_COMMAND, ICW1_INIT);
         asi::outb(PIC2_COMMAND, ICW1_INIT);
 
-        // ICW2
         asi::outb(PIC1_DATA, PIC1_OFFSET);
         asi::outb(PIC2_DATA, PIC2_OFFSET);
 
-        // ICW3
         asi::outb(PIC1_DATA, 0x04);
         asi::outb(PIC2_DATA, 0x02);
 
-        // ICW4
         asi::outb(PIC1_DATA, ICW4_8086);
         asi::outb(PIC2_DATA, ICW4_8086);
 
-        // clear mask register
         asi::outb(PIC1_DATA, 0x00);
         asi::outb(PIC2_DATA, 0x00);
     }

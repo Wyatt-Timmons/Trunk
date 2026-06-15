@@ -15,16 +15,10 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Bootstrapping                                                     *
  *  DATE    : 2026                                                              *
- *  PURPOSE : Multiboot2 bridge. Validates the bootloader handoff, parses       *
- *            the MB2 info struct into a clean BootInfo, then calls             *
- *            TrkStartup. Single-ELF design, GRUB loads trunk.elf directly,     *
- *            no module loading or ELF parsing required.                        *
- *                                                                              *
- *                                                                              *
+ *  PURPOSE : First C++ Boot-level code to be called.                           *
  * *****************************************************************************/
 
 #include <trunk/boot/mb2/boot.h>
@@ -78,7 +72,7 @@ namespace trunk::boot
 
         TrkStartup(g_boot_info);
 
-        ASSERT(false, "Kernel execution unexpectedly dropped out of TrkStartup baseline.");
+        ASSERT(false, "TrkStartup() suddenly dropped: Trkload()");
     }
 
 } // namespace trunk::boot

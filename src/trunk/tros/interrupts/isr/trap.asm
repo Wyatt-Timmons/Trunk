@@ -19,7 +19,7 @@
 ; *  AUTHOR  : Trollycat                                                          *
 ; *  MODULE  : Interrupt subsystem                                                *
 ; *  DATE    : 2026                                                               *
-; *  PURPOSE : Assembly vector landing pad                                        *
+; *  PURPOSE : Traps interrupts, collects data, sends to dispatcher.              *
 ; ********************************************************************************/
 
 [bits 64]
@@ -91,26 +91,26 @@ vector_handler_%1:
     jmp common_interrupt_handler
 %endmacro
 
-ISR_NOERRCODE 0   ; #DE Divide-by-Zero
-ISR_NOERRCODE 1   ; #DB Debug
-ISR_NOERRCODE 2   ; NMI
-ISR_NOERRCODE 3   ; #BP Breakpoint
-ISR_NOERRCODE 4   ; #OF Overflow
-ISR_NOERRCODE 5   ; #BR BOUND Range
-ISR_NOERRCODE 6   ; #UD Invalid Opcode
-ISR_NOERRCODE 7   ; #NM Device Not Available
-ISR_ERRCODE   8   ; #DF Double Fault (Pushes Error Code!)
-ISR_NOERRCODE 9   ; Coprocessor Overrun
-ISR_ERRCODE   10  ; #TS Invalid TSS
-ISR_ERRCODE   11  ; #NP Segment Not Present
-ISR_ERRCODE   12  ; #SS Stack Fault
-ISR_ERRCODE   13  ; #GP General Protection Fault
-ISR_ERRCODE   14  ; #PF Page Fault
-ISR_NOERRCODE 15  ; Intel Reserved
-ISR_NOERRCODE 16  ; #MF x87 Math Error
-ISR_ERRCODE   17  ; #AC Alignment Check
-ISR_NOERRCODE 18  ; #MC Machine Check
-ISR_NOERRCODE 19  ; #XM SIMD Floating Point
+ISR_NOERRCODE 0
+ISR_NOERRCODE 1
+ISR_NOERRCODE 2
+ISR_NOERRCODE 3
+ISR_NOERRCODE 4
+ISR_NOERRCODE 5
+ISR_NOERRCODE 6
+ISR_NOERRCODE 7
+ISR_ERRCODE   8
+ISR_NOERRCODE 9
+ISR_ERRCODE   10
+ISR_ERRCODE   11
+ISR_ERRCODE   12
+ISR_ERRCODE   13
+ISR_ERRCODE   14
+ISR_NOERRCODE 15
+ISR_NOERRCODE 16
+ISR_ERRCODE   17
+ISR_NOERRCODE 18
+ISR_NOERRCODE 19
 
 %assign i 20
 %rep 12

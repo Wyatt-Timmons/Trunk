@@ -26,16 +26,16 @@ bits 64
 
 extern TrSystemStartup
 
-extern __bss_start          ; linker script symbol
-extern __bss_end            ; linker script symbol
-extern __stack_top          ; linker script symbol
-extern __init_array_start   ; linker script symbol
-extern __init_array_end     ; linker script symbol
+extern __bss_start
+extern __bss_end
+extern __stack_top
+extern __init_array_start
+extern __init_array_end
 
-extern mb2_magic_store      ; entry32.asm, MB2 magic value
-extern mb2_info_store       ; entry32.asm, MB2 info pointer
+extern mb2_magic_store
+extern mb2_info_store
 
-extern tr_early_fault_lockdown ; entry32.asm, early fault lockdown
+extern tr_early_fault_lockdown
 
 global entry64
 

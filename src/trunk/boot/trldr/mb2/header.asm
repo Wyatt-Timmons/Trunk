@@ -15,16 +15,11 @@
 ; *  limitations under the License.                                             *
 ; *                                                                             *
 ; *******************************************************************************
-; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : Bootstrapping                                                    *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : Multiboot2 magic header blob. Must be within the first 32KB      *
-; *            of the final binary. Isolated here so the linker script can      *
-; *            guarantee placement with KEEP(*(.multiboot2)) and nothing        *
-; *            else can accidentally push it out of range.                      *
+; *  PURPOSE : Multiboot2 magic header blob.                                    *
 ; *******************************************************************************
-
 bits 32
 
 MB2_MAGIC       equ 0xE85250D6
@@ -49,15 +44,15 @@ mb2_start:
     dd MB2_CHECKSUM
 
     align 8
-    dw 5            ; type   = framebuffer
-    dw 1            ; flags  = optional
-    dd 20           ; size   = 20 bytes
-    dd 0            ; width  — no preference
-    dd 0            ; height — no preference
-    dd 0            ; depth  — no preference
+    dw 5
+    dw 1
+    dd 20
+    dd 0
+    dd 0
+    dd 0
 
     align 8
-    dw 0            ; type  = end
-    dw 0            ; flags
-    dd 8            ; size
+    dw 0
+    dw 0
+    dd 8
 mb2_end:

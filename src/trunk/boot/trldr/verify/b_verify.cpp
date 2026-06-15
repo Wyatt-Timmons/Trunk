@@ -15,14 +15,10 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Bootstrapping                                                     *
  *  DATE    : 2026                                                              *
  *  PURPOSE : Boot-stage validation routines.                                   *
- *            All pre-kernel sanity checks live here. boot.cpp calls these      *
- *            and halts immediately on any failure.                             *
- *                                                                              *
  * *****************************************************************************/
 #include <trunk/boot/verify/b_verify.h>
 
@@ -34,12 +30,10 @@ namespace trunk::boot
     static constexpr u32 MB2_PTR_ALIGN = 8;
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : verify_mb2_magic                                                  *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Check the MB2 handoff magic value matches the spec.               *
-     *                                                                              *
      * *****************************************************************************/
     bool verify_mb2_magic(u32 magic) noexcept
     {
@@ -47,12 +41,10 @@ namespace trunk::boot
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : verify_mb2_ptr                                                    *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Sanity-check the MB2 info struct pointer before walking it.       *
-     *                                                                              *
      * *****************************************************************************/
     bool verify_mb2_ptr(u32 phys) noexcept
     {

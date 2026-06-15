@@ -46,7 +46,7 @@ namespace trunk::interrupts
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : execute_interrupt_handler                                          *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Invoked to route traffic or detect unhandled traps                 *
+     *  PURPOSE : called to route interrupts                                         *
      ********************************************************************************/
     void execute_interrupt_handler(u8 vector, InterruptFrame *frame) noexcept
     {
@@ -57,7 +57,7 @@ namespace trunk::interrupts
         else
         {
             if (vector < 32)
-                kernel::kabort("Unhandled architectural processor exception trapped by dispatcher.");
+                kernel::kabort("KERNEL PANIC!!! UNHANDLED EXCEPTION.");
         }
     }
 

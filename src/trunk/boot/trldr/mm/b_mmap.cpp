@@ -82,12 +82,10 @@ namespace trunk::boot
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : parse_mmap                                                        *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Walk MB2 memory map entries and copy them into BootInfo.          *
-     *                                                                              *
      * *****************************************************************************/
     static void parse_mmap(const MB2MmapTag *tag, BootInfo &info) noexcept
     {
@@ -126,13 +124,11 @@ namespace trunk::boot
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : parse_mb2                                                         *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Walk all MB2 tags and populate BootInfo with the memory map       *
      *            and bootloader name.                                              *
-     *                                                                              *
      * *****************************************************************************/
     void parse_mb2(uptr mb2_phys, BootInfo &info) noexcept
     {

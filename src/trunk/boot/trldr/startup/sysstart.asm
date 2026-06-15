@@ -23,9 +23,9 @@
 ; *******************************************************************************
 bits 64
 
-extern Trkload                 ; boot.cpp
+extern Trkload
 
-extern tr_early_fault_lockdown ; entry32.asm
+extern tr_early_fault_lockdown
 
 section .text
 

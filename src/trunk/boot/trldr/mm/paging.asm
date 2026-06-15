@@ -15,27 +15,19 @@
 ; *  limitations under the License.                                             *
 ; *                                                                             *
 ; *******************************************************************************
-; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : Bootstrapping                                                    *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : Builds the early boot page tables and enables 64-bit long mode.  *
-; *            Two mappings are created over the same first 1GB of physical     *
-; *            RAM: an identity map (virt == phys) so execution continues       *
-; *            after paging is switched on, and a higher-half map at            *
-; *            0xFFFFFFFF80000000 where the kernel actually lives.              *
-; *            Uses 2MB huge pages, no PT level needed, simpler and faster.     *
-; *                                                                             *
 ; *******************************************************************************
 
 bits 32
 
-PML4_ADDR       equ 0x1000      ; Page Map Level 4
-PDPT_ID         equ 0x2000      ; PDPT for identity map (PML4 entry 0)
-PDPT_HH         equ 0x3000      ; PDPT for higher-half  (PML4 entry 511)
-PD_ADDR         equ 0x4000      ; Page Directory shared by both PDPTs
+PML4_ADDR       equ 0x1000
+PDPT_ID         equ 0x2000
+PDPT_HH         equ 0x3000
+PD_ADDR         equ 0x4000
 
-; Page table flag bits.
 PTE_PRESENT     equ (1 << 0)
 PTE_WRITABLE    equ (1 << 1)
 PTE_HUGE        equ (1 << 7)
@@ -107,19 +99,15 @@ enable_long_mode:
     mov eax, PML4_ADDR
     mov cr3, eax
 
-    ; 2. Enable PAE (Physical Address Extension) — required for 64-bit paging.
     mov eax, cr4
     or  eax, (1 << 5)
     mov cr4, eax
 
-    ; 3. Set EFER.LME (Long Mode Enable) — signals intent, not yet active.
     mov ecx, 0xC0000080
     rdmsr
     or  eax, (1 << 8)
     wrmsr
 
-    ; 4. Enable paging (CR0.PG) — long mode activates here.
-    ;    CR0.PE is already set — GRUB guarantees protected mode on entry.
     mov eax, cr0
     or  eax, (1 << 31)
     mov cr0, eax

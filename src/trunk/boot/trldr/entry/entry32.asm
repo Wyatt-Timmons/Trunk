@@ -73,13 +73,10 @@ _start:
 ; *  FUNC    : trampoline64                                                     *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : Tiny 64-bit stub that lives in the physical boot region.         *
-; *            Loads the higher-half address of entry64 into rax and jumps.     *
-; *            Needed because a direct far-jmp to a 64-bit address is not       *
-; *            encodeable from 32-bit mode.                                     *
 ; *******************************************************************************
 bits 64
 trampoline64:
-    mov rax, [entry64_vaddr]  ; 64-bit immediate — no truncation issue
+    mov rax, [entry64_vaddr]
     jmp rax
 
     jmp tr_early_fault_lockdown
@@ -87,14 +84,12 @@ trampoline64:
 
 align 16
 gdt64:
-    dq 0                                                    ; null
-    dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53)      ; 64-bit code ring 0
-    dq (1 << 41) | (1 << 44) | (1 << 47)                   ; 64-bit data ring 0
+    dq 0
+    dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53)
+    dq (1 << 41) | (1 << 44) | (1 << 47)
 gdt64_ptr:
-    dw gdt64_ptr - gdt64 - 1   ; limit
-    dd gdt64                    ; base (32-bit physical — assembler resolves this,
-                                ;       no linker relocation involved)
-
+    dw gdt64_ptr - gdt64 - 1
+    dd gdt64
 extern entry64
 align 8
 entry64_vaddr:

@@ -22,16 +22,10 @@
  *  PURPOSE : Kernel entry point (TrkStartup)                                    *
  ********************************************************************************/
 #include <trunk/tros/kern/init/k_init.h>
-
 #include <trunk/asi/io.h>
-
-#include <trunk/drivers/serial/serial.h>
 #include <trunk/drivers/hal/pic.h>
-
 #include <trunk/tros/gdt/gdt.h>
 #include <trunk/tros/interrupts/idt/idt.h>
-
-namespace serial = trunk::drivers::serial;
 
 #define STARTUP_FUNC_FLAGS extern "C" [[noreturn]] __attribute__((section(".text")))
 
