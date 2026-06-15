@@ -25,7 +25,7 @@
 
 #include <types.h>
 
-namespace trunk::math
+namespace tklib::math
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

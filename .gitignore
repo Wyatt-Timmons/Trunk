@@ -1,4 +1,5 @@
 # Build outputs
+tests/build/
 build/
 iso/
 

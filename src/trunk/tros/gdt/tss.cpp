@@ -67,7 +67,7 @@ namespace trunk::gdt
     void tss_set_rsp0(u64 rsp) noexcept
     {
         ASSERT(rsp == reinterpret_cast<u64>(__stack_top), "RSP0 DOES NOT MATCH KERNEL STACK TOP");
-        ASSERT(math::is_aligned(rsp, 16), "RSP0 IS NOT 16-BYTE ALIGNED");
+        ASSERT(tklib::math::is_aligned(rsp, 16), "RSP0 IS NOT 16-BYTE ALIGNED");
         s_tss.rsp0 = rsp;
     }
 

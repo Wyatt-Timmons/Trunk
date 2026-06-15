@@ -39,34 +39,6 @@ namespace trunk::mem
         u64 size;
     };
 
-    namespace
-    {
-        /* *******************************************************************************
-         *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : insertion_sort_regions                                             *
-         *  DATE    : 2026                                                               *
-         *  PURPOSE : Sort regions by base address.                                      *
-         ********************************************************************************/
-        void insertion_sort_regions(MemoryRegion *regions, usize count) noexcept;
-
-        /* *******************************************************************************
-         *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : merge_reserved_regions                                             *
-         *  DATE    : 2026                                                               *
-         *  PURPOSE : Coalesce adjacent or overlapping reserved regions into one entry.  *
-         ********************************************************************************/
-        void merge_reserved_regions() noexcept;
-
-        /* *******************************************************************************
-         *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : carve_free_region                                                  *
-         *  DATE    : 2026                                                               *
-         *  PURPOSE : Remove [base, base + size) from the free list. Splits the          *
-         *            containing region into left/right remainders as needed.            *
-         ********************************************************************************/
-        bool carve_free_region(u64 base, u64 size) noexcept;
-    } // namespace
-
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : memblock_init                                                      *

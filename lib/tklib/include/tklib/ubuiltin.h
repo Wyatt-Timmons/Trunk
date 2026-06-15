@@ -25,7 +25,7 @@
 
 #include <types.h>
 
-namespace trunk
+namespace tklib
 {
     template <typename T>
     struct remove_reference

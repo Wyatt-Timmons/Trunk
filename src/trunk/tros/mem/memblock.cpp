@@ -199,14 +199,14 @@ namespace trunk::mem
         if (size == 0 || alignment == 0) [[unlikely]]
             return 0;
 
-        ASSERT(math::is_power_of_two(alignment), "memblock_alloc: alignment must be a power of two");
+        ASSERT(tklib::math::is_power_of_two(alignment), "memblock_alloc: alignment must be a power of two");
 
         for (usize i = 0; i < s_memory_count; ++i)
         {
             const u64 region_start = s_memory_regions[i].base;
             const u64 region_end = region_start + s_memory_regions[i].size;
 
-            u64 candidate = math::align_up(region_start, alignment);
+            u64 candidate = tklib::math::align_up(region_start, alignment);
 
             while (candidate + size <= region_end)
             {
@@ -223,7 +223,7 @@ namespace trunk::mem
                     if (candidate < res_end && (candidate + size) > res_start)
                     {
                         overlapped = true;
-                        candidate = math::align_up(res_end, alignment);
+                        candidate = tklib::math::align_up(res_end, alignment);
                         break;
                     }
                 }
@@ -251,7 +251,7 @@ namespace trunk::mem
         if (size == 0)
             return;
 
-        ASSERT(!math::add_would_overflow(base, size), "memblock_reserve: base + size overflows u64");
+        ASSERT(!tklib::math::add_would_overflow(base, size), "memblock_reserve: base + size overflows u64");
         ASSERT(s_reserved_count < MAX_MEMBLOCK_REGIONS,
                "Reserved region count exceeds MAX_MEMBLOCK_REGIONS");
 
