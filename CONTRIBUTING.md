@@ -9,7 +9,7 @@ However, there is some rules to follow
 3. Make sure when writing code, use modern C++ 23 style.
 4. Make sure that all of your .cpp or .h files follow our namespace structure, for tklib it's just tklib:: for all of them, however for trunk. it's trunk::subsystem, ex: trunk::gdt
    The only exception is Drivers, which are 3 layers. trunk::drivers::NAME, ex: trunk::drivers::serial
-5. Make sure to test your contributing throughly, test every feature, add debug messages, make sure it works 100%.
+5. Make sure to test your contribution throughly, test every feature, add debug messages, make sure it works 100%.
 6. Contributing mean's your code is passed under Apache 2.0 license.
 7. You also need to add your information to CREDITS.
 8. Only core setup functions shall be PascalCase, and others snake_case. For example, TrkStartup() is PascalCase because it's a core setup function, but gdt_init() is snake case.
