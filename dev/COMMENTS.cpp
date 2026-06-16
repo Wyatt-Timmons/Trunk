@@ -1,6 +1,3 @@
-#error THIS FILE SHOULD NOT BE INCLUDED: COMMENTS.cpp
-#error PLEASE SCAN SOURCE-TREE, REMOVE ALL INCLUDES OF COMMENTS.CPP
-
 // This is the Top of file comment.
 
 /* *******************************************************************************
