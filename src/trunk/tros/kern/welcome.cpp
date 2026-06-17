@@ -15,55 +15,34 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Core kernel                                                        *
+ *  MODULE  : User welcome                                                       *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (TrkStartup)                                    *
+ *  PURPOSE : Welcome information for the user                                   *
  ********************************************************************************/
-#include <trunk/tros/kern/init/kinit.h>
 #include <trunk/tros/kern/welcome.h>
+#include <trunk/drivers/serial/serial.h>
 
-#include <trunk/asi/io.h>
-#include <trunk/drivers/hal/pic.h>
-#include <trunk/tros/gdt/gdt.h>
-#include <trunk/tros/interrupts/idt/idt.h>
+#include <version.h>
 
-#define STARTUP_FUNC_FLAGS extern "C" [[noreturn]] __attribute__((section(".text")))
+namespace serial = trunk::drivers::serial;
 
 namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkSetupSubsystems                                                 *
+     *  FUNC    : welcome_user                                                       *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
+     *  PURPOSE : Welcomes the user to Trunk                                         *
      ********************************************************************************/
-    void TrkSetupSubsystems() noexcept
+    void welcome_user() noexcept
     {
-        gdt::gdt_init();
-        interrupts::idt_init();
-        drivers::pic::pic_init();
-    }
+        serial::serial_puts("Welcome to Trunk!\n");
+        serial::serial_puts("The Hobby C++ operating system.\n");
+        serial::serial_puts("Copyright (c) ALL CONTRIBUTERS TO TRUNK.\n");
+        serial::serial_puts("You are likely a developer, as you have built Trunk In DEBUG mode!\n");
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup                                                         *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
-     ********************************************************************************/
-    STARTUP_FUNC_FLAGS void
-    TrkStartup(const boot::BootInfo &info) noexcept
-    {
-        TrkSetupSubsystems();
-        asi::sti();
-
-        welcome_user();
-
-        (void)info;
-        for (;;)
-        {
-            asm volatile("sti; hlt");
-        }
+        serial::serial_puts("VERSION: ");
+        serial::serial_puts(get_version().build_string);
     }
 } // namespace trunk::kernel

@@ -29,6 +29,7 @@
 #include <trunk/drivers/serial/serial.h>
 #include <trunk/tros/kern/kabort.h>
 
+#include <version.h>
 #include <assert.h>
 
 namespace trunk::boot
@@ -87,7 +88,6 @@ namespace trunk::boot
             kernel::kabort("Fatal: Multiboot2 verification failed. Magic number or alignment mismatch.");
 
         parse_mb2(static_cast<uptr>(mb2_phys), g_boot_info);
-
         bdump(g_boot_info);
 
         TrkStartup(g_boot_info);

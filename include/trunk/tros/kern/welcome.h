@@ -15,55 +15,22 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Core kernel                                                        *
+ *  MODULE  : User welcome                                                       *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (TrkStartup)                                    *
+ *  PURPOSE : Welcome information for the user                                   *
  ********************************************************************************/
-#include <trunk/tros/kern/init/kinit.h>
-#include <trunk/tros/kern/welcome.h>
+#pragma once
 
-#include <trunk/asi/io.h>
-#include <trunk/drivers/hal/pic.h>
-#include <trunk/tros/gdt/gdt.h>
-#include <trunk/tros/interrupts/idt/idt.h>
-
-#define STARTUP_FUNC_FLAGS extern "C" [[noreturn]] __attribute__((section(".text")))
+#include <version.h>
 
 namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkSetupSubsystems                                                 *
+     *  FUNC    : welcome_user                                                       *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
+     *  PURPOSE : Welcomes the user to Trunk                                         *
      ********************************************************************************/
-    void TrkSetupSubsystems() noexcept
-    {
-        gdt::gdt_init();
-        interrupts::idt_init();
-        drivers::pic::pic_init();
-    }
-
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup                                                         *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
-     ********************************************************************************/
-    STARTUP_FUNC_FLAGS void
-    TrkStartup(const boot::BootInfo &info) noexcept
-    {
-        TrkSetupSubsystems();
-        asi::sti();
-
-        welcome_user();
-
-        (void)info;
-        for (;;)
-        {
-            asm volatile("sti; hlt");
-        }
-    }
+    void welcome_user() noexcept;
 } // namespace trunk::kernel

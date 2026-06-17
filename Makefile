@@ -16,6 +16,11 @@ endif
 
 MODE_DEFS += -DTRUNK_VERSION=\"$(VERSION)\" -DTRUNK_ARCH=\"$(ARCH)\"
 
+VERSION_DEFS += -DTRUNK_VERSION_MAJOR=$(VERSION_MAJOR) \
+            -DTRUNK_VERSION_MINOR=$(VERSION_MINOR) \
+            -DTRUNK_VERSION_PATCH=$(VERSION_PATCH) \
+            -DTRUNK_VERSION_STRING='"$(VERSION)\n"'
+
 INCLUDES := -I$(INCLUDE_DIR) -I$(TKLIB_INCLUDE_DIR)
 
 CXXFLAGS := \
@@ -42,6 +47,7 @@ CXXFLAGS := \
     -MMD -MP              \
     $(OPT_FLAGS)          \
     $(MODE_DEFS)          \
+	$(VERSION_DEFS)       \
     $(INCLUDES)
 
 ASFLAGS   := $(INCLUDES)
