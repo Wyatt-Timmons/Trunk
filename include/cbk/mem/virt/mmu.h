@@ -27,9 +27,8 @@
 
 #include <cbk/cpu/cpu_flags.h>
 
-#include <cbk/mem/page.h>
-
-#include <cbk/mem/aspace.h>
+#include <cbk/mem/arch/mmarch.h>
+#include <cbk/mem/virt/aspace.h>
 
 namespace trunk::mem
 {

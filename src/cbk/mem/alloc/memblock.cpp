@@ -20,7 +20,7 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Memory allocator for early boot stage.                             *
  ********************************************************************************/
-#include <cbk/mem/memblock.h>
+#include <cbk/mem/alloc/memblock.h>
 
 #include <assert.h>
 #include <kmlayout.h>

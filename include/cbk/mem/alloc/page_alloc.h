@@ -26,13 +26,13 @@
 #include <macros.h>
 #include <types.h>
 
-#include <cbk/mem/pfn.h>
+#include <cbk/mem/pfn/pfn.h>
 
 namespace trunk::mem
 {
     struct PfnAllocatorState
     {
-        Page *mm_pfn_database;
+        MMPFN *mm_pfn_database;
         SIZE_T max_frames;
         FreeAreaNode *free_lists[BUDDY_MAX_ORDER];
     };
@@ -45,7 +45,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PFN allocator(buddy)                                *
      ********************************************************************************/
-    VOID PfnAllocatorInit(Page *dbMemory, SIZE_T max) noexcept;
+    VOID PfnAllocatorInit(MMPFN *dbMemory, SIZE_T max) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -53,7 +53,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate pages                                                     *
      ********************************************************************************/
-    NO_DISCARD Page *PfnAllocPages(BYTE order) noexcept;
+    NO_DISCARD MMPFN *PfnAllocPages(BYTE order) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -61,5 +61,5 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Free pages                                                         *
      ********************************************************************************/
-    VOID PfnFreePages(Page *page, BYTE order) noexcept;
+    VOID PfnFreePages(MMPFN *page, BYTE order) noexcept;
 } // namespace trunk::mem

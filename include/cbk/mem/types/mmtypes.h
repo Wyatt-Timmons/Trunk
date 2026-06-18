@@ -16,52 +16,39 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Page frame number                                                  *
+ *  MODULE  : Memory types                                                       *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Assigns each page(4kb) a unique number for easy tracking.          *
+ *  PURPOSE : Stores common memory types and handlers                            *
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
 #include <types.h>
-
-#include <cbk/mem/page.h>
 
 namespace trunk::mem
 {
-    inline constexpr SIZE_T BUDDY_MAX_ORDER = 11;
+    enum class MM_PFN_STATE : BYTE
+    {
+        ZEROED_PAGE_LIST = 0,
+        FREE_PAGE_LIST   = 1,
+        ACTIVE_AND_VALID = 6
+    };
 
     struct FreeAreaNode
     {
         FreeAreaNode *next;
     };
 
-    struct Page
+    struct MmPfn
     {
         BYTE order;
-        BOOL is_free;
+        MM_PFN_STATE PageLocation;
         FreeAreaNode node;
     };
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : AddrToPfn                                                          *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Shift address to Page frame number                                 *
-     ********************************************************************************/
-    NO_DISCARD inline constexpr QWORD AddrToPfn(QWORD addr) noexcept
-    {
-        return addr >> PAGE_SHIFT;
-    }
+    using MMPFN   = MmPfn;
+    using PMMPFN  = MmPfn *;
+    using PPMMPFN = MmPfn **;
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PfnToAddr                                                          *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Shift Page frame number to address                                 *
-     ********************************************************************************/
-    NO_DISCARD inline constexpr QWORD PfnToAddr(QWORD pfn) noexcept
-    {
-        return pfn << PAGE_SHIFT;
-    }
+    using PFN_NUM = DWORD;
+
 } // namespace trunk::mem

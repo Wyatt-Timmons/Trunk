@@ -20,14 +20,15 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Paging, segments, and everything else related to mmu               *
  ********************************************************************************/
-#include <cbk/mem/mmu.h>
+#include <cbk/mem/virt/mmu.h>
 
-#include <cbk/mem/memblock.h>
-#include <cbk/mem/page_alloc.h>
-#include <cbk/mem/pfn.h>
+#include <cbk/mem/virt/aspace.h>
+
+#include <cbk/mem/alloc/memblock.h>
+#include <cbk/mem/alloc/page_alloc.h>
+#include <cbk/mem/pfn/pfn.h>
 
 #include <cbk/hal/io.h>
-#include <cbk/mem/aspace.h>
 
 #include <macros.h>
 
@@ -82,7 +83,7 @@ namespace trunk::mem
             if (s_early_mmu) {
                 phys = MemblockAlloc(PAGE_SIZE, PAGE_SIZE);
             } else {
-                Page *page = PfnAllocPages(0);
+                MMPFN *page = PfnAllocPages(0);
                 if (!page)
                     return 0;
                 phys = static_cast<QWORD>(page - g_PfnAllocator.mm_pfn_database) * PAGE_SIZE;
