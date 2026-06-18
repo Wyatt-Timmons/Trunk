@@ -34,7 +34,7 @@
 
 namespace trunk::boot
 {
-    extern "C" NO_RETURN void TrkStartup(const BootInfo &info) noexcept;
+    extern "C" NO_RETURN void CbkStartup(const BootInfo &info) noexcept;
 
     static BootInfo g_boot_info{};
 
@@ -73,11 +73,11 @@ namespace trunk::boot
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : Trkload                                                           *
+     *  FUNC    : CbkLoad                                                           *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Called from TrSystemStartup. Builds BootInfo struct               *
+     *  PURPOSE : Called from CbkSystemStartup. Builds BootInfo struct               *
      * *****************************************************************************/
-    extern "C" void Trkload(u32 mb2_magic, u32 mb2_phys) noexcept
+    extern "C" void CbkLoad(u32 mb2_magic, u32 mb2_phys) noexcept
     {
         // TODO: IM PLANNING ON WRITING A BASIC NO BUFFER UART DRIVER FOR BOOT STAGE
         // THIS IS THE ACTUAL DRIVER, THIS CALL WILL BE REMOVED AND REPLACED WITH THE NEW BOOT CODE
@@ -91,9 +91,9 @@ namespace trunk::boot
         parse_mb2(static_cast<uptr>(mb2_phys), g_boot_info);
         bdump(g_boot_info);
 
-        TrkStartup(g_boot_info);
+        CbkStartup(g_boot_info);
 
-        ASSERT(false, "TrkStartup() suddenly dropped: Trkload()");
+        ASSERT(false, "CbkStartup() suddenly dropped: CbkLoad()");
     }
 
 } // namespace trunk::boot

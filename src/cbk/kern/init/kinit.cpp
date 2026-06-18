@@ -15,11 +15,10 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Core kernel                                                        *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (TrkStartup)                                    *
+ *  PURPOSE : Kernel entry point (CbkStartup)                                    *
  ********************************************************************************/
 #include <cbk/kern/init/kinit.h>
 #include <cbk/kern/welcome.h>
@@ -35,11 +34,11 @@ namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkSetupSubsystems                                                 *
+     *  FUNC    : CbkSetupSubsystems                                                 *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
      ********************************************************************************/
-    void TrkSetupSubsystems() noexcept
+    void CbkSetupSubsystems() noexcept
     {
         gdt::gdt_init();
         interrupts::idt_init();
@@ -48,13 +47,13 @@ namespace trunk::kernel
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup                                                         *
+     *  FUNC    : CbkStartup                                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
-    STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
+    STARTUP_FUNC_FLAGS void CbkStartup(const boot::BootInfo &info) noexcept
     {
-        TrkSetupSubsystems();
+        CbkSetupSubsystems();
         hal::sti();
 
         welcome_user();

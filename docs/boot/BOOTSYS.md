@@ -33,11 +33,11 @@ entry32.asm -> builds page tables with paging.asm -> enables long mode with pagi
 
 entry64.asm -> Aligns stack to 16-bytes, calls C++ global constructors, loads MB2 from memory, calls sysstart.asm
 
-sysstart.asm -> This acts as a simple landing pad, right before the kernel Is loaded. This simply just calls Trkload()
+sysstart.asm -> This acts as a simple landing pad, right before the kernel Is loaded. This simply just calls CbkLoad()
 
-boot.cpp -> Fills, walks, and parses MB2, stores In a grand 'BootInfo' struct, sends off to Trkstartup() In Trkload()
+boot.cpp -> Fills, walks, and parses MB2, stores In a grand 'BootInfo' struct, sends off to CbkStartup() In CbkLoad()
 
-kinit.cpp -> Contains Trkload(), the final function for the kernel loading process. Initializes subsystems and set's up the actual kernel
+kinit.cpp -> Contains CbkLoad(), the final function for the kernel loading process. Initializes subsystems and set's up the actual kernel
 
 So that Is the boot order.
 Of course, there's many more steps to It, that's just a high level overview.

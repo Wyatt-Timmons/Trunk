@@ -22,7 +22,7 @@
 ; *******************************************************************************
 bits 64
 
-extern Trkload
+extern CbkLoad
 
 extern tr_early_fault_lockdown
 
@@ -30,12 +30,12 @@ section .text
 
 ; *******************************************************************************
 ; *  AUTHOR  : Trollycat                                                        *
-; *  FUNC    : TrSystemStartup                                                  *
+; *  FUNC    : CbkSystemStartup                                                  *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : Official System Startup. entry64.asm -> calls TrSystemStartup -> *
-; *                                     calls TrkLoad() -> calls Trkstartup()   *
+; *  PURPOSE : Official System Startup. entry64.asm -> calls CbkSystemStartup -> *
+; *                                     calls CbkLoad() -> calls CbkStartup()   *
 ; *******************************************************************************
-global TrSystemStartup
-TrSystemStartup:
-    call Trkload
+global CbkSystemStartup
+CbkSystemStartup:
+    call CbkLoad
     jmp tr_early_fault_lockdown

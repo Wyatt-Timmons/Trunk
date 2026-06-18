@@ -23,7 +23,7 @@
 
 bits 64
 
-extern TrSystemStartup
+extern CbkSystemStartup
 
 extern __bss_start
 extern __bss_end
@@ -119,6 +119,6 @@ entry64:
 .ctor_done:
     mov edi, r12d
     mov esi, r13d
-    call TrSystemStartup
+    call CbkSystemStartup
 
     jmp tr_early_fault_lockdown

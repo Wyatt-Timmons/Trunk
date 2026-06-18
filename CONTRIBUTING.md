@@ -23,7 +23,7 @@ So I've established a rule, It may not be the most consistent, but this Is a hob
 
 Everything will be snake_case, EXCEPT:
 
-1. Boot functions (specifically, TrSystemStartup, Trkload(), and TrkStartup())
+1. Boot functions (specifically, CbkSystemStartup, CbkLoad(), and CbkStartup())
 2. API functions (internal are snake_case, but api functions (like kmalloc()) shall be PascalCase preferably).
 
 A note on API functions:

@@ -19,7 +19,7 @@
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Core kernel                                                        *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point file, declares TrkStartup()                     *
+ *  PURPOSE : Kernel entry point file, declares CbkStartup()                     *
  *                                                                               *
  ********************************************************************************/
 
@@ -33,10 +33,10 @@ namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TrkStartup()                                                       *
+     *  FUNC    : CbkStartup()                                                       *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Main kernel function. Called by Trkload()                          *
+     *  PURPOSE : Main kernel function. Called by CbkLoad()                          *
      ********************************************************************************/
-    extern "C" NO_RETURN void TrkStartup(const boot::BootInfo &info) noexcept;
+    extern "C" NO_RETURN void CbkStartup(const boot::BootInfo &info) noexcept;
 
 } // namespace trunk::kernel
