@@ -41,7 +41,7 @@ namespace trunk::kernel
     void CbkSetupSubsystems() noexcept
     {
         gdt::GdtInit();
-        interrupts::idt_init();
+        interrupts::IdtInit();
         drivers::pic::pic_init();
     }
 
@@ -56,7 +56,7 @@ namespace trunk::kernel
         CbkSetupSubsystems();
         hal::Sti();
 
-        welcome_user();
+        MUWelcome();
 
         (void)info;
         for (;;) {

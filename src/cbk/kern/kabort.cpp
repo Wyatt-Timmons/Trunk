@@ -29,11 +29,11 @@ namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : kabort                                                             *
+     *  FUNC    : KAbort()                                                           *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
-    NO_RETURN void kabort(const char *message) noexcept
+    NO_RETURN void KAbort(const char *message) noexcept
     {
         asm volatile("cli");
 

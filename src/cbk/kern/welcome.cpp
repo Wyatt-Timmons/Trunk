@@ -31,11 +31,11 @@ namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : welcome_user                                                       *
+     *  FUNC    : MUWelcome                                                          *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Welcomes the user to Trunk                                         *
      ********************************************************************************/
-    void welcome_user() noexcept
+    void MUWelcome() noexcept
     {
         serial::serial_puts("Welcome to Trunk!\n");
         serial::serial_puts("The Hobby C++ operating system.\n");

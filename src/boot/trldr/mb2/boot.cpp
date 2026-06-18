@@ -85,7 +85,7 @@ namespace trunk::boot
         drivers::serial::serial_init();
 
         if (!VerifyMB2(mb2_magic, mb2_phys))
-            kernel::kabort(
+            kernel::KAbort(
                 "Fatal: Multiboot2 verification failed. Magic number or alignment mismatch.");
 
         ParseMb2(static_cast<uptr>(mb2_phys), g_boot_info);

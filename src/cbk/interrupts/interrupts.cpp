@@ -50,11 +50,11 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : execute_interrupt_handler                                          *
+     *  FUNC    : ExecuteInterruptHandler                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : called to route interrupts                                         *
      ********************************************************************************/
-    void execute_interrupt_handler(u8 vector, InterruptFrame *frame) noexcept
+    void ExecuteInterruptHandler(u8 vector, InterruptFrame *frame) noexcept
     {
         RegisteredHandler target = g_InterruptHandlers[vector];
 
@@ -62,7 +62,7 @@ namespace trunk::interrupts
             target.handler(frame, target.context);
         else {
             if (vector < 32)
-                kernel::kabort("KERNEL PANIC!!! UNHANDLED EXCEPTION.");
+                kernel::KAbort("KERNEL PANIC!!! UNHANDLED EXCEPTION.");
         }
     }
 

@@ -48,10 +48,10 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : execute_interrupt_handler                                          *
+     *  FUNC    : ExecuteInterruptHandler                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Invoked to route traffic or detect unhandled traps                 *
      ********************************************************************************/
-    void execute_interrupt_handler(u8 vector, InterruptFrame *frame) noexcept;
+    void ExecuteInterruptHandler(u8 vector, InterruptFrame *frame) noexcept;
 
 } // namespace trunk::interrupts

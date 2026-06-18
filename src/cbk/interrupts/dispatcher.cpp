@@ -30,11 +30,11 @@ namespace trunk::interrupts
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : kinterrupt_dispatcher                                              *
+     *  FUNC    : KInterruptDispatcher                                               *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Takes the interrupt from trap and dispatches It                    *
      ********************************************************************************/
-    extern "C" void kinterrupt_dispatcher(InterruptFrame *frame) noexcept
+    extern "C" void KInterruptDispatcher(InterruptFrame *frame) noexcept
     {
         const u8 vector = static_cast<u8>(frame->vector_number);
 
@@ -43,6 +43,6 @@ namespace trunk::interrupts
             drivers::pic::irq_ack(irq);
         }
 
-        execute_interrupt_handler(vector, frame);
+        ExecuteInterruptHandler(vector, frame);
     }
 } // namespace trunk::interrupts

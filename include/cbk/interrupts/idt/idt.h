@@ -36,10 +36,10 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : idt_init                                                           *
+     *  FUNC    : IdtInit                                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the interrupt descriptor table                          *
      ********************************************************************************/
-    void idt_init() noexcept;
+    void IdtInit() noexcept;
 
 } // namespace trunk::interrupts

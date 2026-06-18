@@ -23,7 +23,7 @@
 
 [bits 64]
 
-extern kinterrupt_dispatcher
+extern KInterruptDispatcher
 
 section .text
 
@@ -69,7 +69,7 @@ common_interrupt_handler:
     mov rdi, rsp
 
     cld
-    call kinterrupt_dispatcher
+    call KInterruptDispatcher
 
     popaq
     add rsp, 16

@@ -52,11 +52,11 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : idt_init                                                           *
+     *  FUNC    : IdtInit                                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the interrupt descriptor table                         *
      ********************************************************************************/
-    void idt_init() noexcept
+    void IdtInit() noexcept
     {
         const u16 kernel_code_selector = 0x08;
 

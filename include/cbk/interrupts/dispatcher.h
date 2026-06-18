@@ -22,9 +22,9 @@
  ********************************************************************************/
 #pragma once
 
-#include <types.h>
-#include <macros.h>
 #include <assert.h>
+#include <macros.h>
+#include <types.h>
 
 namespace trunk::interrupts
 {
@@ -43,14 +43,15 @@ namespace trunk::interrupts
         u64 ss;
     };
 
-    STATIC_ASSERT(sizeof(InterruptFrame) == 176, "InterruptFrame structural footprint must be exactly 176 bytes!");
+    STATIC_ASSERT(sizeof(InterruptFrame) == 176,
+                  "InterruptFrame structural footprint must be exactly 176 bytes!");
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : kinterrupt_dispatcher                                              *
+     *  FUNC    : KInterruptDispatcher                                              *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Takes the interrupt from trap and dispatches It                    *
      ********************************************************************************/
-    extern "C" void kinterrupt_dispatcher(InterruptFrame *frame) noexcept;
+    extern "C" void KInterruptDispatcher(InterruptFrame *frame) noexcept;
 
 } // namespace trunk::interrupts

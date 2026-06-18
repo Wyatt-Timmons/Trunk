@@ -29,6 +29,6 @@ Everything will be snake_case, EXCEPT:
 A note on API functions:
 It's only considered an 'API function' If it's a part of a system that developers will call a lot
 For example, RegisterInterruptHandler is an 'API function' because devs call it in normal code
-But, execute_interrupt_handler is not, because it's called internally.
+But, ExecuteInterruptHandler is not, because it's called internally.
 
 Loggers such as Serial are not included.

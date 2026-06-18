@@ -35,7 +35,7 @@
     #define ASSERT(condition, message)                                            \
         do {                                                                      \
             if (!(condition)) UNLIKELY {                                      \
-                ::trunk::kernel::kabort("ASSERTION FAILED: " message " (" #condition ")"); \
+                ::trunk::kernel::KAbort("ASSERTION FAILED: " message " (" #condition ")"); \
             }                                                                     \
         } while (false)
 #else

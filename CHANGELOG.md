@@ -86,18 +86,18 @@ Interrupts are 'trapped' and then 'dispatched' and then 'handled'
 
 This Is the standard order:
 
-trap.asm -> catches Interrupt -> collects-data -> sends off to kinterrupt_dispatcher()
-kinterrupt_dispatcher() -> collects Interrupt -> Fires It off to execute_interrupt_handler()
-execute_interrupt_handler() -> checks 2 things.
+trap.asm -> catches Interrupt -> collects-data -> sends off to KInterruptDispatcher()
+KInterruptDispatcher() -> collects Interrupt -> Fires It off to ExecuteInterruptHandler()
+ExecuteInterruptHandler() -> checks 2 things.
 
 1. If the interrupt Is mapped to a function, If so, calls that function
-2. If It is not mapped, It checks If the interrupt is an error, If so, -> kabort()
+2. If It is not mapped, It checks If the interrupt is an error, If so, -> KAbort()()
 
 So our Interrupt system allows you to map a function to a specific interrupt(), even If It's an error.
 So for example, let's say you want to map Interrupt 3 (BREAKPOINT) to a Kernel debugger
 
 You can do so! Make the function, make sure It matches the correct structure, then register It via the register_handler() function.
-Then, If the Interrupt Is fired, It will call that function Instead of kabort().
+Then, If the Interrupt Is fired, It will call that function Instead of KAbort()().
 
 You can test this!
 Perform:
@@ -106,16 +106,16 @@ asm volatile("int $3");
 
 This tells assembly to fire off interrupt 3 (which is BREAKPOINT).
 
-What Is 'kabort()'?
+What Is 'KAbort()()'?
 
-kabort() Is basically the panic() of Trunk.
+KAbort()() Is basically the panic() of Trunk.
 
-I wanted to be original, so I named It kabort()
+I wanted to be original, so I named It KAbort()()
 
 Ever seen a windows blue screen? Well.. That's a panic() call.
 If an error occurs, It Is called
 
-kabort() prints an error message, and completely shuts down the kernel.
+KAbort()() prints an error message, and completely shuts down the kernel.
 
 ENDING VERSION FOR TRUNK AS OF WEEK 1:
 0.9.9

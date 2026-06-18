@@ -28,9 +28,9 @@ namespace trunk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : welcome_user                                                       *
+     *  FUNC    : MUWelcome                                                          *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Welcomes the user to Trunk                                         *
      ********************************************************************************/
-    void welcome_user() noexcept;
+    void MUWelcome() noexcept;
 } // namespace trunk::kernel
