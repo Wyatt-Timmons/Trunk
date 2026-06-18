@@ -29,36 +29,36 @@
 
 namespace trunk::mem
 {
-    constexpr u64 KB = 1024ULL;
-    constexpr u64 MB = 1024ULL * KB;
-    constexpr u64 GB = 1024ULL * MB;
+    constexpr QWORD KB = 1024ULL;
+    constexpr QWORD MB = 1024ULL * KB;
+    constexpr QWORD GB = 1024ULL * MB;
 
-    constexpr u64 PAGE_SIZE  = 4096;
-    constexpr u64 PAGE_MASK  = ~(PAGE_SIZE - 1);
-    constexpr u64 PAGE_SHIFT = 12;
+    constexpr QWORD PAGE_SIZE  = 4096;
+    constexpr QWORD PAGE_MASK  = ~(PAGE_SIZE - 1);
+    constexpr QWORD PAGE_SHIFT = 12;
 
-    constexpr u64 HUGE_PAGE_SIZE = 2 * MB;
-    constexpr u64 HUGE_MASK      = HUGE_PAGE_SIZE - 1;
-    constexpr u64 PAGE_HUGE      = u64{1} << 7;
+    constexpr QWORD HUGE_PAGE_SIZE = 2 * MB;
+    constexpr QWORD HUGE_MASK      = HUGE_PAGE_SIZE - 1;
+    constexpr QWORD PAGE_HUGE      = QWORD{1} << 7;
 
-    constexpr u64 PAGE_WRITE_THROUGH = 1ULL << 3;
-    constexpr u64 PAGE_CACHE_DISABLE = 1ULL << 4;
-    constexpr u64 PAGE_PAT           = 1ULL << 7;
+    constexpr QWORD PAGE_WRITE_THROUGH = 1ULL << 3;
+    constexpr QWORD PAGE_CACHE_DISABLE = 1ULL << 4;
+    constexpr QWORD PAGE_PAT           = 1ULL << 7;
 
-    constexpr u64 PAGE_PRESENT  = (1ULL << 0);
-    constexpr u64 PAGE_WRITABLE = (1ULL << 1);
-    constexpr u64 PAGE_USER     = (1ULL << 2);
-    constexpr u64 PAGE_PWT      = (1ULL << 3);
-    constexpr u64 PAGE_PCD      = (1ULL << 4);
-    constexpr u64 PAGE_ACCESSED = (1ULL << 5);
-    constexpr u64 PAGE_DIRTY    = (1ULL << 6);
-    constexpr u64 PAGE_GLOBAL   = (1ULL << 8);
-    constexpr u64 PAGE_NX       = (1ULL << 63);
+    constexpr QWORD PAGE_PRESENT  = (1ULL << 0);
+    constexpr QWORD PAGE_WRITABLE = (1ULL << 1);
+    constexpr QWORD PAGE_USER     = (1ULL << 2);
+    constexpr QWORD PAGE_PWT      = (1ULL << 3);
+    constexpr QWORD PAGE_PCD      = (1ULL << 4);
+    constexpr QWORD PAGE_ACCESSED = (1ULL << 5);
+    constexpr QWORD PAGE_DIRTY    = (1ULL << 6);
+    constexpr QWORD PAGE_GLOBAL   = (1ULL << 8);
+    constexpr QWORD PAGE_NX       = (1ULL << 63);
 
-    constexpr u64 PTE_AVAIL = 0xE00;
-    constexpr u64 PTE_USER  = PTE_AVAIL | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
+    constexpr QWORD PTE_AVAIL = 0xE00;
+    constexpr QWORD PTE_USER  = PTE_AVAIL | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
 
-    constexpr u64 NO_OF_PT_ENTRIES = 512;
+    constexpr QWORD NO_OF_PT_ENTRIES = 512;
 
     /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
@@ -66,7 +66,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Gets physical page number from address                              *
      ********************************************************************************/
-    NO_DISCARD constexpr uptr PPN(uptr la) noexcept
+    NO_DISCARD constexpr ULONG_PTR PPN(ULONG_PTR la) noexcept
     {
         return la >> 12;
     }
@@ -77,7 +77,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Gets virtual page number from address                               *
      ********************************************************************************/
-    NO_DISCARD constexpr uptr VPN(uptr la) noexcept
+    NO_DISCARD constexpr ULONG_PTR VPN(ULONG_PTR la) noexcept
     {
         return PPN(la);
     }
@@ -88,7 +88,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the PML4 table index                                       *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 PML4X(uptr la) noexcept
+    NO_DISCARD constexpr QWORD PML4X(ULONG_PTR la) noexcept
     {
         return (la >> 39) & 0x1FF;
     }
@@ -99,7 +99,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the PDP table index                                        *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 PDPTX(uptr la) noexcept
+    NO_DISCARD constexpr QWORD PDPTX(ULONG_PTR la) noexcept
     {
         return (la >> 30) & 0x1FF;
     }
@@ -110,7 +110,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the page directory index                                   *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 PDX(uptr la) noexcept
+    NO_DISCARD constexpr QWORD PDX(ULONG_PTR la) noexcept
     {
         return (la >> 21) & 0x1FF;
     }
@@ -121,7 +121,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the page table index                                       *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 PTX(uptr la) noexcept
+    NO_DISCARD constexpr QWORD PTX(ULONG_PTR la) noexcept
     {
         return (la >> 12) & 0x1FF;
     }
@@ -132,7 +132,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the byte offset within a page                              *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 PGOFF(uptr la) noexcept
+    NO_DISCARD constexpr QWORD PGOFF(ULONG_PTR la) noexcept
     {
         return la & 0xFFF;
     }
@@ -143,7 +143,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Constructs a virtual address from indexes                           *
      ********************************************************************************/
-    NO_DISCARD constexpr uptr PGADDR(u64 m, u64 d, u64 p, u64 t, u64 o) noexcept
+    NO_DISCARD constexpr ULONG_PTR PGADDR(QWORD m, QWORD d, QWORD p, QWORD t, QWORD o) noexcept
     {
         return (m << 39) | (d << 30) | (p << 21) | (t << 12) | o;
     }
@@ -154,7 +154,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Extracts the physical address from an entry                         *
      ********************************************************************************/
-    NO_DISCARD constexpr uptr PTE_ADDR(uptr pte) noexcept
+    NO_DISCARD constexpr ULONG_PTR PTE_ADDR(ULONG_PTR pte) noexcept
     {
         return pte & 0x000FFFFFFFFFF000ULL;
     }
@@ -165,7 +165,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Aligns an address down to page boundary                             *
      ********************************************************************************/
-    NO_DISCARD static inline u64 PageAlignDown(u64 addr) noexcept
+    NO_DISCARD static inline QWORD PageAlignDown(QWORD addr) noexcept
     {
         return addr & PAGE_MASK;
     }
@@ -176,7 +176,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Aligns an address up to page boundary                               *
      ********************************************************************************/
-    NO_DISCARD static inline u64 PageAlignUp(u64 addr) noexcept
+    NO_DISCARD static inline QWORD PageAlignUp(QWORD addr) noexcept
     {
         return (addr + PAGE_SIZE - 1) & PAGE_MASK;
     }
@@ -187,7 +187,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if addr is 4KB aligned                                *
      ********************************************************************************/
-    NO_DISCARD static inline bool IsPageAligned(u64 addr) noexcept
+    NO_DISCARD static inline BOOL IsPageAligned(QWORD addr) noexcept
     {
         return (addr & (PAGE_SIZE - 1)) == 0;
     }
@@ -198,7 +198,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Converts a physical address to a virtual address                    *
      ********************************************************************************/
-    NO_DISCARD static inline void *PaddrToKvaddr(u64 paddr) noexcept
+    NO_DISCARD static inline void *PaddrToKvaddr(QWORD paddr) noexcept
     {
         return reinterpret_cast<void *>(paddr + 0xFFFFFFFF80000000ULL);
     }
@@ -209,7 +209,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Converts a virtual address to a physical adddress                   *
      ********************************************************************************/
-    NO_DISCARD static inline void *KvaddrToPaddr(u64 kvaddr) noexcept
+    NO_DISCARD static inline void *KvaddrToPaddr(QWORD kvaddr) noexcept
     {
         return reinterpret_cast<void *>(kvaddr - 0xFFFFFFFF80000000ULL);
     }
@@ -220,7 +220,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Flush the TLB entry for a single virtual address on this CPU       *
      ********************************************************************************/
-    static inline void TlbFlushPage(u64 va) noexcept
+    static inline void TlbFlushPage(QWORD va) noexcept
     {
         hal::InvLpg(va);
     }
@@ -233,7 +233,7 @@ namespace trunk::mem
      ********************************************************************************/
     static inline void TlbFlushAll() noexcept
     {
-        u64 cr3 = hal::ReadCr3();
+        QWORD cr3 = hal::ReadCr3();
         hal::WriteCr3(cr3);
     }
 } // namespace trunk::mem

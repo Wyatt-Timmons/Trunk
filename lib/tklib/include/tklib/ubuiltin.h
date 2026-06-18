@@ -105,85 +105,85 @@ namespace tklib
 
     template <typename A, typename B> struct is_same
     {
-        static constexpr bool value = false;
+        static constexpr BOOL value = false;
     };
     template <typename A> struct is_same<A, A>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
 
-    template <typename A, typename B> inline constexpr bool is_same_v = is_same<A, B>::value;
+    template <typename A, typename B> inline constexpr BOOL is_same_v = is_same<A, B>::value;
 
     template <typename T> struct is_integral
     {
-        static constexpr bool value = false;
+        static constexpr BOOL value = false;
     };
-    template <> struct is_integral<u8>
+    template <> struct is_integral<BYTE>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<u16>
+    template <> struct is_integral<WORD>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<u32>
+    template <> struct is_integral<DWORD>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<u64>
+    template <> struct is_integral<QWORD>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<i8>
+    template <> struct is_integral<CHAR>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<i16>
+    template <> struct is_integral<SHORT>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<i32>
+    template <> struct is_integral<LONG>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<i64>
+    template <> struct is_integral<LONGLONG>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
-    template <> struct is_integral<bool>
+    template <> struct is_integral<BOOL>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
 
-    template <typename T> inline constexpr bool is_integral_v = is_integral<T>::value;
+    template <typename T> inline constexpr BOOL is_integral_v = is_integral<T>::value;
 
     template <typename T> struct is_pointer
     {
-        static constexpr bool value = false;
+        static constexpr BOOL value = false;
     };
     template <typename T> struct is_pointer<T *>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
     template <typename T> struct is_pointer<T *const>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
 
-    template <typename T> inline constexpr bool is_pointer_v = is_pointer<T>::value;
+    template <typename T> inline constexpr BOOL is_pointer_v = is_pointer<T>::value;
 
     template <typename T> struct is_const
     {
-        static constexpr bool value = false;
+        static constexpr BOOL value = false;
     };
     template <typename T> struct is_const<const T>
     {
-        static constexpr bool value = true;
+        static constexpr BOOL value = true;
     };
 
-    template <typename T> inline constexpr bool is_const_v = is_const<T>::value;
+    template <typename T> inline constexpr BOOL is_const_v = is_const<T>::value;
 
-    template <bool Cond, typename A, typename B> struct conditional
+    template <BOOL Cond, typename A, typename B> struct conditional
     {
         using type = A;
     };
@@ -192,10 +192,10 @@ namespace tklib
         using type = B;
     };
 
-    template <bool Cond, typename A, typename B>
+    template <BOOL Cond, typename A, typename B>
     using conditional_t = typename conditional<Cond, A, B>::type;
 
-    template <bool Cond, typename T = void> struct enable_if
+    template <BOOL Cond, typename T = void> struct enable_if
     {
     };
     template <typename T> struct enable_if<true, T>
@@ -203,5 +203,5 @@ namespace tklib
         using type = T;
     };
 
-    template <bool Cond, typename T = void> using enable_if_t = typename enable_if<Cond, T>::type;
+    template <BOOL Cond, typename T = void> using enable_if_t = typename enable_if<Cond, T>::type;
 } // namespace tklib

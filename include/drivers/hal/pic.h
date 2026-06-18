@@ -28,21 +28,21 @@ namespace trunk::drivers::pic
 {
 
     // clang-format off
-    inline constexpr static u8 PIC1         = 0x20;
-    inline constexpr static u8 PIC2         = 0xA0;
+    inline constexpr static BYTE PIC1         = 0x20;
+    inline constexpr static BYTE PIC2         = 0xA0;
 
-    inline constexpr static u8 PIC1_COMMAND = PIC1;
-    inline constexpr static u8 PIC1_DATA    = PIC1 + 1;
-    inline constexpr static u8 PIC2_COMMAND = PIC2;
-    inline constexpr static u8 PIC2_DATA    = PIC2 + 1;
+    inline constexpr static BYTE PIC1_COMMAND = PIC1;
+    inline constexpr static BYTE PIC1_DATA    = PIC1 + 1;
+    inline constexpr static BYTE PIC2_COMMAND = PIC2;
+    inline constexpr static BYTE PIC2_DATA    = PIC2 + 1;
     
-    inline constexpr static u8 PIC_EOI      = 0x20;
+    inline constexpr static BYTE PIC_EOI      = 0x20;
 
-    inline constexpr static u8 PIC1_OFFSET  = 0x20;
-    inline constexpr static u8 PIC2_OFFSET  = 0x28;
+    inline constexpr static BYTE PIC1_OFFSET  = 0x20;
+    inline constexpr static BYTE PIC2_OFFSET  = 0x28;
 
-    inline constexpr static u8 ICW1_INIT    = 0x11;
-    inline constexpr static u8 ICW4_8086    = 0x01;
+    inline constexpr static BYTE ICW1_INIT    = 0x11;
+    inline constexpr static BYTE ICW4_8086    = 0x01;
 
     // clang-format on
 
@@ -60,7 +60,7 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Signals that an interrupt is being processed                       *
      ********************************************************************************/
-    void IrqAck(u8 irq) noexcept;
+    void IrqAck(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -68,7 +68,7 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Mask an IRQ (interrupt request)                                    *
      ********************************************************************************/
-    void PicMask(u8 irq) noexcept;
+    void PicMask(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -76,7 +76,7 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmask an IRQ (interrupt request)                                  *
      ********************************************************************************/
-    void PicUnmask(u8 irq) noexcept;
+    void PicUnmask(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

@@ -64,7 +64,7 @@ namespace trunk::boot
      *  PURPOSE : Wrapper for verify_mb2_(NAME)                                     *
      *                                                                              *
      * *****************************************************************************/
-    NO_DISCARD bool VerifyMB2(u32 mb2_m, u32 mb2_ph) noexcept
+    NO_DISCARD BOOL VerifyMB2(DWORD mb2_m, DWORD mb2_ph) noexcept
     {
         if (!VerifyMb2Magic(mb2_m) || !VerifyMb2Pointer(mb2_ph))
             return false;
@@ -77,7 +77,7 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Called from CbkSystemStartup. Builds BootInfo struct              *
      * *****************************************************************************/
-    extern "C" void CbkLoad(u32 mb2_magic, u32 mb2_phys) noexcept
+    extern "C" void CbkLoad(DWORD mb2_magic, DWORD mb2_phys) noexcept
     {
         // TODO: IM PLANNING ON WRITING A BASIC NO BUFFER UART DRIVER FOR BOOT STAGE
         // THIS IS THE ACTUAL DRIVER, THIS CALL WILL BE REMOVED AND REPLACED WITH THE NEW BOOT CODE
@@ -88,7 +88,7 @@ namespace trunk::boot
             kernel::KAbort(
                 "Fatal: Multiboot2 verification failed. Magic number or alignment mismatch.");
 
-        ParseMb2(static_cast<uptr>(mb2_phys), g_boot_info);
+        ParseMb2(static_cast<ULONG_PTR>(mb2_phys), g_boot_info);
         BDump(g_boot_info);
 
         CbkStartup(g_boot_info);

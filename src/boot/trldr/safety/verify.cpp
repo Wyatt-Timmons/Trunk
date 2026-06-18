@@ -30,7 +30,7 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Check the MB2 handoff magic value matches the spec                *
      * *****************************************************************************/
-    bool VerifyMb2Magic(u32 magic) noexcept
+    BOOL VerifyMb2Magic(DWORD magic) noexcept
     {
         return magic == MB2_MAGIC;
     }
@@ -41,7 +41,7 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Check the MB2 info struct pointer before walking it               *
      * *****************************************************************************/
-    bool VerifyMb2Pointer(u32 phys) noexcept
+    BOOL VerifyMb2Pointer(DWORD phys) noexcept
     {
         if (phys < MB2_PTR_MIN)
             return false;

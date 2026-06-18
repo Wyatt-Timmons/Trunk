@@ -34,7 +34,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a byte to an I/O port.                                       *
      ********************************************************************************/
-    inline void OutB(u16 port, u8 value) noexcept
+    inline void OutB(WORD port, BYTE value) noexcept
     {
         asm volatile("outb %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -45,7 +45,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a word (2 bytes) to an I/O port.                             *
      ********************************************************************************/
-    inline void OutW(u16 port, u16 value) noexcept
+    inline void OutW(WORD port, WORD value) noexcept
     {
         asm volatile("outw %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -56,7 +56,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a dword (4 bytes) to an I/O port.                            *
      ********************************************************************************/
-    inline void OutL(u16 port, u32 value) noexcept
+    inline void OutL(WORD port, DWORD value) noexcept
     {
         asm volatile("outl %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -68,9 +68,9 @@ namespace trunk::hal
      *  PURPOSE : Read a byte from an I/O port.                                      *
      ********************************************************************************/
     NO_DISCARD
-    inline u8 InB(u16 port) noexcept
+    inline BYTE InB(WORD port) noexcept
     {
-        u8 value;
+        BYTE value;
         asm volatile("inb %1, %0" : "=a"(value) : "Nd"(port) : "memory");
         return value;
     }
@@ -82,9 +82,9 @@ namespace trunk::hal
      *  PURPOSE : Read a word (2 bytes) from an I/O port.                            *
      ********************************************************************************/
     NO_DISCARD
-    inline u16 InW(u16 port) noexcept
+    inline WORD InW(WORD port) noexcept
     {
-        u16 value;
+        WORD value;
         asm volatile("inw %1, %0" : "=a"(value) : "Nd"(port) : "memory");
         return value;
     }
@@ -96,9 +96,9 @@ namespace trunk::hal
      *  PURPOSE : Read a dword (4 bytes) from an I/O port.                           *
      ********************************************************************************/
     NO_DISCARD
-    inline u32 InL(u16 port) noexcept
+    inline DWORD InL(WORD port) noexcept
     {
-        u32 value;
+        DWORD value;
         asm volatile("inl %1, %0" : "=a"(value) : "Nd"(port) : "memory");
         return value;
     }
@@ -121,11 +121,11 @@ namespace trunk::hal
      *  PURPOSE : Read a Model Specific Register.                                    *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 RdMsr(u32 msr) noexcept
+    inline QWORD RdMsr(DWORD msr) noexcept
     {
-        u32 low, high;
+        DWORD low, high;
         asm volatile("rdmsr" : "=a"(low), "=d"(high) : "c"(msr));
-        return (static_cast<u64>(high) << 32) | low;
+        return (static_cast<QWORD>(high) << 32) | low;
     }
 
     /* *******************************************************************************
@@ -134,10 +134,10 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a Model Specific Register.                                   *
      ********************************************************************************/
-    inline void WrMsr(u32 msr, u64 value) noexcept
+    inline void WrMsr(DWORD msr, QWORD value) noexcept
     {
-        u32 low  = static_cast<u32>(value);
-        u32 high = static_cast<u32>(value >> 32);
+        DWORD low  = static_cast<DWORD>(value);
+        DWORD high = static_cast<DWORD>(value >> 32);
         asm volatile("wrmsr" : : "c"(msr), "a"(low), "d"(high));
     }
 
@@ -148,9 +148,9 @@ namespace trunk::hal
      *  PURPOSE : Read control register CR0.                                         *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 ReadCr0() noexcept
+    inline QWORD ReadCr0() noexcept
     {
-        u64 value;
+        QWORD value;
         asm volatile("mov %%cr0, %0" : "=r"(value));
         return value;
     }
@@ -161,7 +161,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR0.                                        *
      ********************************************************************************/
-    inline void WriteCr0(u64 value) noexcept
+    inline void WriteCr0(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr0" : : "r"(value) : "memory");
     }
@@ -173,9 +173,9 @@ namespace trunk::hal
      *  PURPOSE : Read control register CR2.                                         *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 ReadCr2() noexcept
+    inline QWORD ReadCr2() noexcept
     {
-        u64 value;
+        QWORD value;
         asm volatile("mov %%cr2, %0" : "=r"(value));
         return value;
     }
@@ -187,9 +187,9 @@ namespace trunk::hal
      *  PURPOSE : Read control register CR3.                                         *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 ReadCr3() noexcept
+    inline QWORD ReadCr3() noexcept
     {
-        u64 value;
+        QWORD value;
         asm volatile("mov %%cr3, %0" : "=r"(value));
         return value;
     }
@@ -200,7 +200,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR3.                                        *
      ********************************************************************************/
-    inline void WriteCr3(u64 value) noexcept
+    inline void WriteCr3(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr3" : : "r"(value) : "memory");
     }
@@ -212,9 +212,9 @@ namespace trunk::hal
      *  PURPOSE : Read control register CR4.                                         *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 ReadCr4() noexcept
+    inline QWORD ReadCr4() noexcept
     {
-        u64 value;
+        QWORD value;
         asm volatile("mov %%cr4, %0" : "=r"(value));
         return value;
     }
@@ -225,7 +225,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR4.                                        *
      ********************************************************************************/
-    inline void WriteCr4(u64 value) noexcept
+    inline void WriteCr4(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr4" : : "r"(value) : "memory");
     }
@@ -236,7 +236,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Invalidate a single TLB entry for the given virtual address.       *
      ********************************************************************************/
-    inline void InvLpg(uptr vaddr) noexcept
+    inline void InvLpg(ULONG_PTR vaddr) noexcept
     {
         asm volatile("invlpg (%0)" : : "r"(vaddr) : "memory");
     }
@@ -291,7 +291,7 @@ namespace trunk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Execute Cpuid instruction.                                         *
      ********************************************************************************/
-    inline void Cpuid(u32 leaf, u32 &eax, u32 &ebx, u32 &ecx, u32 &edx) noexcept
+    inline void Cpuid(DWORD leaf, DWORD &eax, DWORD &ebx, DWORD &ecx, DWORD &edx) noexcept
     {
         asm volatile("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(leaf), "c"(0));
     }
@@ -303,11 +303,11 @@ namespace trunk::hal
      *  PURPOSE : Read the Time Stamp Counter.                                       *
      ********************************************************************************/
     NO_DISCARD
-    inline u64 RdtSc() noexcept
+    inline QWORD RdtSc() noexcept
     {
-        u32 low, high;
+        DWORD low, high;
         asm volatile("rdtsc" : "=a"(low), "=d"(high));
-        return (static_cast<u64>(high) << 32) | low;
+        return (static_cast<QWORD>(high) << 32) | low;
     }
 
 } // namespace trunk::hal

@@ -34,14 +34,14 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the number of set bits in value.                           *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 popcount(u32 value) noexcept
+    NO_DISCARD constexpr DWORD popcount(DWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_popcount(value));
+        return static_cast<DWORD>(__builtin_popcount(value));
     }
 
-    NO_DISCARD constexpr u32 popcount(u64 value) noexcept
+    NO_DISCARD constexpr DWORD popcount(QWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_popcountll(value));
+        return static_cast<DWORD>(__builtin_popcountll(value));
     }
 
     /* *******************************************************************************
@@ -50,14 +50,14 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Count leading zero bits.                                           *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 clz(u32 value) noexcept
+    NO_DISCARD constexpr DWORD clz(DWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_clz(value));
+        return static_cast<DWORD>(__builtin_clz(value));
     }
 
-    NO_DISCARD constexpr u32 clz(u64 value) noexcept
+    NO_DISCARD constexpr DWORD clz(QWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_clzll(value));
+        return static_cast<DWORD>(__builtin_clzll(value));
     }
 
     /* *******************************************************************************
@@ -66,14 +66,14 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Count trailing zero bits.                                          *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 ctz(u32 value) noexcept
+    NO_DISCARD constexpr DWORD ctz(DWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_ctz(value));
+        return static_cast<DWORD>(__builtin_ctz(value));
     }
 
-    NO_DISCARD constexpr u32 ctz(u64 value) noexcept
+    NO_DISCARD constexpr DWORD ctz(QWORD value) noexcept
     {
-        return static_cast<u32>(__builtin_ctzll(value));
+        return static_cast<DWORD>(__builtin_ctzll(value));
     }
 
     /* *******************************************************************************
@@ -82,12 +82,12 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the number of bits needed to represent value.              *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 bit_width(u32 value) noexcept
+    NO_DISCARD constexpr DWORD bit_width(DWORD value) noexcept
     {
         return value == 0 ? 0u : 32u - clz(value);
     }
 
-    NO_DISCARD constexpr u32 bit_width(u64 value) noexcept
+    NO_DISCARD constexpr DWORD bit_width(QWORD value) noexcept
     {
         return value == 0 ? 0u : 64u - clz(value);
     }
@@ -98,12 +98,12 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the largest power of two not greater than value.           *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 bit_floor(u32 value) noexcept
+    NO_DISCARD constexpr DWORD bit_floor(DWORD value) noexcept
     {
         return value == 0 ? 0u : 1u << (bit_width(value) - 1u);
     }
 
-    NO_DISCARD constexpr u64 bit_floor(u64 value) noexcept
+    NO_DISCARD constexpr QWORD bit_floor(QWORD value) noexcept
     {
         return value == 0 ? 0ull : 1ull << (bit_width(value) - 1u);
     }
@@ -114,14 +114,14 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the smallest power of two not less than value.             *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 bit_ceil(u32 value) noexcept
+    NO_DISCARD constexpr DWORD bit_ceil(DWORD value) noexcept
     {
         if (value <= 1)
             return 1u;
         return 1u << bit_width(value - 1u);
     }
 
-    NO_DISCARD constexpr u64 bit_ceil(u64 value) noexcept
+    NO_DISCARD constexpr QWORD bit_ceil(QWORD value) noexcept
     {
         if (value <= 1)
             return 1ull;
@@ -134,7 +134,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if value is a non-zero power of two.                  *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr bool has_single_bit(T value) noexcept
+    template <typename T> NO_DISCARD constexpr BOOL has_single_bit(T value) noexcept
     {
         return value != 0 && (value & (value - 1)) == 0;
     }
@@ -145,7 +145,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if bit at position pos is set in value.               *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr bool test_bit(T value, u32 pos) noexcept
+    template <typename T> NO_DISCARD constexpr BOOL test_bit(T value, DWORD pos) noexcept
     {
         return (value >> pos) & T{1};
     }
@@ -156,7 +156,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos set.                        *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T set_bit(T value, u32 pos) noexcept
+    template <typename T> NO_DISCARD constexpr T set_bit(T value, DWORD pos) noexcept
     {
         return value | (T{1} << pos);
     }
@@ -167,7 +167,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos cleared.                    *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T clear_bit(T value, u32 pos) noexcept
+    template <typename T> NO_DISCARD constexpr T clear_bit(T value, DWORD pos) noexcept
     {
         return value & ~(T{1} << pos);
     }
@@ -178,7 +178,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos toggled.                    *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T toggle_bit(T value, u32 pos) noexcept
+    template <typename T> NO_DISCARD constexpr T toggle_bit(T value, DWORD pos) noexcept
     {
         return value ^ (T{1} << pos);
     }
@@ -189,13 +189,13 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Rotate value left by shift bits.                                   *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 rotl(u32 value, u32 shift) noexcept
+    NO_DISCARD constexpr DWORD rotl(DWORD value, DWORD shift) noexcept
     {
         shift &= 31u;
         return (value << shift) | (value >> (32u - shift));
     }
 
-    NO_DISCARD constexpr u64 rotl(u64 value, u32 shift) noexcept
+    NO_DISCARD constexpr QWORD rotl(QWORD value, DWORD shift) noexcept
     {
         shift &= 63u;
         return (value << shift) | (value >> (64u - shift));
@@ -207,13 +207,13 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Rotate value right by shift bits.                                  *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 rotr(u32 value, u32 shift) noexcept
+    NO_DISCARD constexpr DWORD rotr(DWORD value, DWORD shift) noexcept
     {
         shift &= 31u;
         return (value >> shift) | (value << (32u - shift));
     }
 
-    NO_DISCARD constexpr u64 rotr(u64 value, u32 shift) noexcept
+    NO_DISCARD constexpr QWORD rotr(QWORD value, DWORD shift) noexcept
     {
         shift &= 63u;
         return (value >> shift) | (value << (64u - shift));
@@ -225,17 +225,17 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Reverse the byte order of value.                                   *
      ********************************************************************************/
-    NO_DISCARD constexpr u16 byteswap(u16 value) noexcept
+    NO_DISCARD constexpr WORD byteswap(WORD value) noexcept
     {
-        return static_cast<u16>(__builtin_bswap16(value));
+        return static_cast<WORD>(__builtin_bswap16(value));
     }
 
-    NO_DISCARD constexpr u32 byteswap(u32 value) noexcept
+    NO_DISCARD constexpr DWORD byteswap(DWORD value) noexcept
     {
         return __builtin_bswap32(value);
     }
 
-    NO_DISCARD constexpr u64 byteswap(u64 value) noexcept
+    NO_DISCARD constexpr QWORD byteswap(QWORD value) noexcept
     {
         return __builtin_bswap64(value);
     }
@@ -244,11 +244,11 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : mask                                                               *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Returns a u64 mask with the lowest n bits set.                     *
+     *  PURPOSE : Returns a QWORD mask with the lowest n bits set.                     *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 mask(u32 n) noexcept
+    NO_DISCARD constexpr QWORD mask(DWORD n) noexcept
     {
-        return n >= 64 ? ~u64{0} : (u64{1} << n) - 1;
+        return n >= 64 ? ~QWORD{0} : (QWORD{1} << n) - 1;
     }
 
     /* *******************************************************************************
@@ -257,7 +257,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Extract a field of width bits starting at bit position pos.        *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 extract_bits(u64 value, u32 pos, u32 width) noexcept
+    NO_DISCARD constexpr QWORD extract_bits(QWORD value, DWORD pos, DWORD width) noexcept
     {
         return (value >> pos) & mask(width);
     }
@@ -268,9 +268,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Insert field into value at bit position pos with given width.      *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 insert_bits(u64 value, u64 field, u32 pos, u32 width) noexcept
+    NO_DISCARD constexpr QWORD insert_bits(QWORD value, QWORD field, DWORD pos,
+                                           DWORD width) noexcept
     {
-        const u64 m = mask(width);
+        const QWORD m = mask(width);
         return (value & ~(m << pos)) | ((field & m) << pos);
     }
 

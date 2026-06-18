@@ -32,11 +32,11 @@ namespace trunk::mem
     static MemoryRegion s_memory_regions[MAX_MEMBLOCK_REGIONS];
     static MemoryRegion s_reserved_regions[MAX_MEMBLOCK_REGIONS];
 
-    static usize s_memory_count   = 0;
-    static usize s_reserved_count = 0;
+    static SIZE_T s_memory_count   = 0;
+    static SIZE_T s_reserved_count = 0;
 
-    static u64 s_total_free     = 0;
-    static u64 s_total_reserved = 0;
+    static QWORD s_total_free     = 0;
+    static QWORD s_total_reserved = 0;
 
     namespace
     {
@@ -46,12 +46,12 @@ namespace trunk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Sort regions by base address                                       *
          ********************************************************************************/
-        void InsertionSortRegions(MemoryRegion *regions, usize count) noexcept
+        void InsertionSortRegions(MemoryRegion *regions, SIZE_T count) noexcept
         {
-            for (usize i = 1; i < count; ++i) {
+            for (SIZE_T i = 1; i < count; ++i) {
                 MemoryRegion key = regions[i];
 
-                isize j = static_cast<isize>(i) - 1;
+                LONG_PTR j = static_cast<LONG_PTR>(i) - 1;
 
                 while (j >= 0 && regions[j].base > key.base) {
                     regions[j + 1] = regions[j];
@@ -73,11 +73,12 @@ namespace trunk::mem
             if (s_reserved_count < 2)
                 return;
 
-            usize write = 0;
-            for (usize read = 1; read < s_reserved_count; ++read) {
-                const u64 cur_end = s_reserved_regions[write].base + s_reserved_regions[write].size;
-                const u64 next_start = s_reserved_regions[read].base;
-                const u64 next_end   = next_start + s_reserved_regions[read].size;
+            SIZE_T write = 0;
+            for (SIZE_T read = 1; read < s_reserved_count; ++read) {
+                const QWORD cur_end =
+                    s_reserved_regions[write].base + s_reserved_regions[write].size;
+                const QWORD next_start = s_reserved_regions[read].base;
+                const QWORD next_end   = next_start + s_reserved_regions[read].size;
 
                 if (next_start <= cur_end) {
                     if (next_end > cur_end)
@@ -96,19 +97,19 @@ namespace trunk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Remove [base, base + size) from the free list.                     *
          ********************************************************************************/
-        bool CarveFreeRegion(u64 base, u64 size) noexcept
+        BOOL CarveFreeRegion(QWORD base, QWORD size) noexcept
         {
-            const u64 end = base + size;
+            const QWORD end = base + size;
 
-            for (usize i = 0; i < s_memory_count; ++i) {
-                const u64 region_start = s_memory_regions[i].base;
-                const u64 region_end   = region_start + s_memory_regions[i].size;
+            for (SIZE_T i = 0; i < s_memory_count; ++i) {
+                const QWORD region_start = s_memory_regions[i].base;
+                const QWORD region_end   = region_start + s_memory_regions[i].size;
 
                 if (base < region_start || end > region_end)
                     continue;
 
-                const u64 left_size  = base - region_start;
-                const u64 right_size = region_end - end;
+                const QWORD left_size  = base - region_start;
+                const QWORD right_size = region_end - end;
 
                 if (left_size > 0 && right_size > 0) {
                     s_memory_regions[i].size = left_size;
@@ -146,7 +147,7 @@ namespace trunk::mem
         s_total_free     = 0;
         s_total_reserved = 0;
 
-        for (usize i = 0; i < boot_info.mmap_count; ++i) {
+        for (SIZE_T i = 0; i < boot_info.mmap_count; ++i) {
             const auto &entry = boot_info.mmap[i];
 
             if (entry.Available()) {
@@ -160,8 +161,8 @@ namespace trunk::mem
             }
         }
 
-        u64 k_start = reinterpret_cast<u64>(__kernel_phys_start);
-        u64 k_end   = reinterpret_cast<u64>(__kernel_phys_end);
+        QWORD k_start = reinterpret_cast<QWORD>(__kernel_phys_start);
+        QWORD k_end   = reinterpret_cast<QWORD>(__kernel_phys_end);
         MemblockReserve(k_start, k_end - k_start);
 
         InsertionSortRegions(s_memory_regions, s_memory_count);
@@ -176,7 +177,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate a new chunk inside the memblock region                    *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockAlloc(u64 size, u64 alignment) noexcept
+    NO_DISCARD QWORD MemblockAlloc(QWORD size, QWORD alignment) noexcept
     {
         if (size == 0 || alignment == 0) UNLIKELY {
             return 0;
@@ -185,18 +186,18 @@ namespace trunk::mem
         ASSERT(tklib::math::is_power_of_two(alignment),
                "MemblockAlloc: alignment must be a power of two");
 
-        for (usize i = 0; i < s_memory_count; ++i) {
-            const u64 region_start = s_memory_regions[i].base;
-            const u64 region_end   = region_start + s_memory_regions[i].size;
+        for (SIZE_T i = 0; i < s_memory_count; ++i) {
+            const QWORD region_start = s_memory_regions[i].base;
+            const QWORD region_end   = region_start + s_memory_regions[i].size;
 
-            u64 candidate = tklib::math::align_up(region_start, alignment);
+            QWORD candidate = tklib::math::align_up(region_start, alignment);
 
             while (candidate + size <= region_end) {
-                bool overlapped = false;
+                BOOL overlapped = false;
 
-                for (usize j = 0; j < s_reserved_count; ++j) {
-                    const u64 res_start = s_reserved_regions[j].base;
-                    const u64 res_end   = res_start + s_reserved_regions[j].size;
+                for (SIZE_T j = 0; j < s_reserved_count; ++j) {
+                    const QWORD res_start = s_reserved_regions[j].base;
+                    const QWORD res_end   = res_start + s_reserved_regions[j].size;
 
                     if (res_start >= candidate + size)
                         break;
@@ -225,13 +226,13 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Reserve a region inside the memblock                               *
      ********************************************************************************/
-    void MemblockReserve(u64 base, u64 size) noexcept
+    void MemblockReserve(QWORD base, QWORD size) noexcept
     {
         if (size == 0)
             return;
 
         ASSERT(!tklib::math::add_would_overflow(base, size),
-               "MemblockReserve: base + size overflows u64");
+               "MemblockReserve: base + size overflows QWORD");
         ASSERT(s_reserved_count < MAX_MEMBLOCK_REGIONS,
                "Reserved region count exceeds MAX_MEMBLOCK_REGIONS");
 
@@ -248,16 +249,16 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if any byte in [base, base + size) is reserved.       *
      ********************************************************************************/
-    NO_DISCARD bool MemblockIsReserved(u64 base, u64 size) noexcept
+    NO_DISCARD BOOL MemblockIsReserved(QWORD base, QWORD size) noexcept
     {
         if (size == 0)
             return false;
 
-        const u64 end = base + size;
+        const QWORD end = base + size;
 
-        for (usize i = 0; i < s_reserved_count; ++i) {
-            const u64 res_start = s_reserved_regions[i].base;
-            const u64 res_end   = res_start + s_reserved_regions[i].size;
+        for (SIZE_T i = 0; i < s_reserved_count; ++i) {
+            const QWORD res_start = s_reserved_regions[i].base;
+            const QWORD res_end   = res_start + s_reserved_regions[i].size;
 
             if (res_start >= end)
                 break;
@@ -275,7 +276,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns total free bytes remaining in the memory pool.             *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockTotalFree() noexcept
+    NO_DISCARD QWORD MemblockTotalFree() noexcept
     {
         return s_total_free;
     }
@@ -286,7 +287,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns total reserved bytes across all reserved regions.          *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockTotalReserved() noexcept
+    NO_DISCARD QWORD MemblockTotalReserved() noexcept
     {
         return s_total_reserved;
     }
@@ -297,7 +298,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current region count.                                      *
      ********************************************************************************/
-    NO_DISCARD usize MemblockGetRegionCount() noexcept
+    NO_DISCARD SIZE_T MemblockGetRegionCount() noexcept
     {
         return s_memory_count;
     }
@@ -308,7 +309,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get a region at the passed in index.                               *
      ********************************************************************************/
-    NO_DISCARD MemoryRegion MemblockGetRegion(usize index) noexcept
+    NO_DISCARD MemoryRegion MemblockGetRegion(SIZE_T index) noexcept
     {
         ASSERT(index < s_memory_count, "INDEX IN MemblockGetRegion EXCEEDS MEMORY COUNT.");
         return s_memory_regions[index];

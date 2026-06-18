@@ -43,7 +43,7 @@ namespace trunk::interrupts
      *  DATE    : 2026                                                               *
      *  PURPOSE : Assigns a custom C++ driver function to an IDT slot                *
      ********************************************************************************/
-    void RegisterInterruptHandler(u8 vector, InterruptHandler handler,
+    void RegisterInterruptHandler(BYTE vector, InterruptHandler handler,
                                   void *context = nullptr) noexcept;
 
     /* *******************************************************************************
@@ -52,6 +52,6 @@ namespace trunk::interrupts
      *  DATE    : 2026                                                               *
      *  PURPOSE : Invoked to route traffic or detect unhandled traps                 *
      ********************************************************************************/
-    void ExecuteInterruptHandler(u8 vector, InterruptFrame *frame) noexcept;
+    void ExecuteInterruptHandler(BYTE vector, InterruptFrame *frame) noexcept;
 
 } // namespace trunk::interrupts

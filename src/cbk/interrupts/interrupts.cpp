@@ -37,7 +37,7 @@ namespace trunk::interrupts
      *  DATE    : 2026                                                               *
      *  PURPOSE : Assigns a custom C++ driver function to an IDT slot                *
      ********************************************************************************/
-    void RegisterInterruptHandler(u8 vector, InterruptHandler handler, void *context) noexcept
+    void RegisterInterruptHandler(BYTE vector, InterruptHandler handler, void *context) noexcept
     {
         ASSERT(vector < 256, "VECTOR OUT OF BOUNDS IN REGISTER_INTERRUPT_HANDLER");
 
@@ -54,7 +54,7 @@ namespace trunk::interrupts
      *  DATE    : 2026                                                               *
      *  PURPOSE : called to route interrupts                                         *
      ********************************************************************************/
-    void ExecuteInterruptHandler(u8 vector, InterruptFrame *frame) noexcept
+    void ExecuteInterruptHandler(BYTE vector, InterruptFrame *frame) noexcept
     {
         RegisteredHandler target = g_InterruptHandlers[vector];
 

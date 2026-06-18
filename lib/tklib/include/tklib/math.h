@@ -33,7 +33,7 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if value is a non-zero power of two.                  *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr bool is_power_of_two(T value) noexcept
+    template <typename T> NO_DISCARD constexpr BOOL is_power_of_two(T value) noexcept
     {
         return value != 0 && (value & (value - 1)) == 0;
     }
@@ -68,7 +68,7 @@ namespace tklib::math
      *  PURPOSE : Round value up to the next power of two greater than or equal      *
      *            to value.                                                          *
      ********************************************************************************/
-    NO_DISCARD constexpr u64 align_up_pow2(u64 value) noexcept
+    NO_DISCARD constexpr QWORD align_up_pow2(QWORD value) noexcept
     {
         if (value == 0)
             return 1;
@@ -89,7 +89,7 @@ namespace tklib::math
      *  PURPOSE : Returns true if value is aligned to alignment.                     *
      ********************************************************************************/
     template <typename T, typename U>
-    NO_DISCARD constexpr bool is_aligned(T value, U alignment) noexcept
+    NO_DISCARD constexpr BOOL is_aligned(T value, U alignment) noexcept
     {
         return (value & (static_cast<T>(alignment) - 1)) == 0;
     }
@@ -100,22 +100,22 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if a + b would overflow T.                            *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr bool add_would_overflow(T a, T b) noexcept
+    template <typename T> NO_DISCARD constexpr BOOL add_would_overflow(T a, T b) noexcept
     {
-        return b > 0 && a > limits::u64_max - b;
+        return b > 0 && a > limits::QWORD_max - b;
     }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : mul_would_overflow                                                 *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Returns true if a * b would overflow u64.                          *
+     *  PURPOSE : Returns true if a * b would overflow QWORD.                          *
      ********************************************************************************/
-    NO_DISCARD constexpr bool mul_would_overflow(u64 a, u64 b) noexcept
+    NO_DISCARD constexpr BOOL mul_would_overflow(QWORD a, QWORD b) noexcept
     {
         if (a == 0 || b == 0)
             return false;
-        return a > limits::u64_max / b;
+        return a > limits::QWORD_max / b;
     }
 
     /* *******************************************************************************
@@ -212,7 +212,7 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Computes base raised to the power of exp. Integer only.            *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T pow(T base, u32 exp) noexcept
+    template <typename T> NO_DISCARD constexpr T pow(T base, DWORD exp) noexcept
     {
         T result = 1;
         while (exp > 0) {
@@ -230,9 +230,9 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns floor(log2(value)).                                        *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 log2_floor(u64 value) noexcept
+    NO_DISCARD constexpr DWORD log2_floor(QWORD value) noexcept
     {
-        u32 result = 0;
+        DWORD result = 0;
         while (value >>= 1)
             ++result;
         return result;
@@ -244,7 +244,7 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns ceil(log2(value)).                                         *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 log2_ceil(u64 value) noexcept
+    NO_DISCARD constexpr DWORD log2_ceil(QWORD value) noexcept
     {
         if (value <= 1)
             return 0;
@@ -257,9 +257,9 @@ namespace tklib::math
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns floor(log10(value)).                                       *
      ********************************************************************************/
-    NO_DISCARD constexpr u32 log10_floor(u64 value) noexcept
+    NO_DISCARD constexpr DWORD log10_floor(QWORD value) noexcept
     {
-        u32 result = 0;
+        DWORD result = 0;
         while (value >= 10) {
             value /= 10;
             ++result;

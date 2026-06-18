@@ -28,9 +28,9 @@
 
 namespace trunk::boot
 {
-    inline constexpr u32 MB2_MAGIC     = 0x36d76289;
-    inline constexpr u32 MB2_PTR_MIN   = 0x1000;
-    inline constexpr u32 MB2_PTR_ALIGN = 8;
+    inline constexpr DWORD MB2_MAGIC     = 0x36d76289;
+    inline constexpr DWORD MB2_PTR_MIN   = 0x1000;
+    inline constexpr DWORD MB2_PTR_ALIGN = 8;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -38,7 +38,7 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Confirm the MB2 magic value left in EAX by GRUB is correct.       *
      * *****************************************************************************/
-    NO_DISCARD bool VerifyMb2Magic(u32 magic) noexcept;
+    NO_DISCARD BOOL VerifyMb2Magic(DWORD magic) noexcept;
 
     /* ******************************************************************************
      *                                                                              *
@@ -48,6 +48,6 @@ namespace trunk::boot
      *  PURPOSE : Confirm the MB2 info pointer is non-null, above the first page,   *
      *            and 8-byte aligned                                                *
      * *****************************************************************************/
-    NO_DISCARD bool VerifyMb2Pointer(u32 phys) noexcept;
+    NO_DISCARD BOOL VerifyMb2Pointer(DWORD phys) noexcept;
 
 } // namespace trunk::boot

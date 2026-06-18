@@ -30,24 +30,24 @@ namespace trunk::boot
 {
     struct GNU_PACKED MB2Tag
     {
-        u32 type;
-        u32 size;
+        DWORD type;
+        DWORD size;
     };
 
     struct GNU_PACKED MB2MmapEntry
     {
-        u64 base;
-        u64 length;
-        u32 type;
-        u32 reserved;
+        QWORD base;
+        QWORD length;
+        DWORD type;
+        DWORD reserved;
     };
 
     struct GNU_PACKED MB2MmapTag
     {
-        u32 type;
-        u32 size;
-        u32 entry_size;
-        u32 entry_version;
+        DWORD type;
+        DWORD size;
+        DWORD entry_size;
+        DWORD entry_version;
         MB2MmapEntry entries[1];
     };
 
@@ -62,8 +62,8 @@ namespace trunk::boot
         NO_DISCARD
         static const MB2Tag *NextTag(const MB2Tag *tag) noexcept
         {
-            uptr addr = reinterpret_cast<uptr>(tag) + tag->size;
-            addr      = (addr + 7) & ~uptr{7};
+            ULONG_PTR addr = reinterpret_cast<ULONG_PTR>(tag) + tag->size;
+            addr           = (addr + 7) & ~ULONG_PTR{7};
             return reinterpret_cast<const MB2Tag *>(addr);
         }
 
@@ -75,10 +75,10 @@ namespace trunk::boot
          * *****************************************************************************/
         static void ParseMmap(const MB2MmapTag *tag, BootInfo &info) noexcept
         {
-            const uptr end    = reinterpret_cast<uptr>(tag) + tag->size;
-            const auto *entry = tag->entries;
+            const ULONG_PTR end = reinterpret_cast<ULONG_PTR>(tag) + tag->size;
+            const auto *entry   = tag->entries;
 
-            while (reinterpret_cast<uptr>(entry) < end &&
+            while (reinterpret_cast<ULONG_PTR>(entry) < end &&
                    info.mmap_count < BootInfo::MAX_MMAP_ENTRIES) {
                 auto &out  = info.mmap[info.mmap_count++];
                 out.base   = entry->base;
@@ -102,7 +102,7 @@ namespace trunk::boot
                     break;
                 }
 
-                entry = reinterpret_cast<const MB2MmapEntry *>(reinterpret_cast<uptr>(entry) +
+                entry = reinterpret_cast<const MB2MmapEntry *>(reinterpret_cast<ULONG_PTR>(entry) +
                                                                tag->entry_size);
             }
         }
@@ -114,19 +114,20 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Walk all MB2 tags and populate BootInfo with the memory map       *
      * *****************************************************************************/
-    void ParseMb2(uptr mb2_phys, BootInfo &info) noexcept
+    void ParseMb2(ULONG_PTR mb2_phys, BootInfo &info) noexcept
     {
-        const uptr end  = mb2_phys + *reinterpret_cast<const u32 *>(mb2_phys);
-        const auto *tag = reinterpret_cast<const MB2Tag *>(mb2_phys + 8);
+        const ULONG_PTR end = mb2_phys + *reinterpret_cast<const DWORD *>(mb2_phys);
+        const auto *tag     = reinterpret_cast<const MB2Tag *>(mb2_phys + 8);
 
-        while (reinterpret_cast<uptr>(tag) < end && tag->type != TAG_END) {
+        while (reinterpret_cast<ULONG_PTR>(tag) < end && tag->type != TAG_END) {
             switch (tag->type) {
             case TAG_MMAP:
                 ParseMmap(reinterpret_cast<const MB2MmapTag *>(tag), info);
                 break;
 
             case TAG_BOOTLOADER: {
-                const char *src = reinterpret_cast<const char *>(reinterpret_cast<uptr>(tag) + 8);
+                const char *src =
+                    reinterpret_cast<const char *>(reinterpret_cast<ULONG_PTR>(tag) + 8);
                 tklib::strlcpy(info.bootloader_name, src, BootInfo::BOOTLOADER_NAME_MAX);
                 break;
             }

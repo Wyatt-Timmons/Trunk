@@ -37,20 +37,20 @@ TEST(Ubuiltin, Move)
 
 TEST(Ubuiltin, Exchange)
 {
-    int a = 1;
+    int a   = 1;
     int old = tklib::exchange(a, 2);
     EXPECT_EQ(old, 1);
     EXPECT_EQ(a, 2);
 
     int x = 99;
-    old = tklib::exchange(x, 0);
+    old   = tklib::exchange(x, 0);
     EXPECT_EQ(old, 99);
     EXPECT_EQ(x, 0);
 }
 
 TEST(Ubuiltin, Addressof)
 {
-    int x = 42;
+    int x  = 42;
     char c = 'A';
     EXPECT_EQ(tklib::addressof(x), &x);
     EXPECT_EQ(tklib::addressof(c), &c);
@@ -59,23 +59,23 @@ TEST(Ubuiltin, Addressof)
 TEST(Ubuiltin, IsSame)
 {
     EXPECT_TRUE((tklib::is_same_v<int, int>));
-    EXPECT_TRUE((tklib::is_same_v<u32, u32>));
+    EXPECT_TRUE((tklib::is_same_v<DWORD, DWORD>));
     EXPECT_FALSE((tklib::is_same_v<int, float>));
-    EXPECT_FALSE((tklib::is_same_v<u32, u64>));
+    EXPECT_FALSE((tklib::is_same_v<DWORD, QWORD>));
     EXPECT_FALSE((tklib::is_same_v<int, const int>));
 }
 
 TEST(Ubuiltin, IsIntegral)
 {
-    EXPECT_TRUE(tklib::is_integral_v<u8>);
-    EXPECT_TRUE(tklib::is_integral_v<u16>);
-    EXPECT_TRUE(tklib::is_integral_v<u32>);
-    EXPECT_TRUE(tklib::is_integral_v<u64>);
-    EXPECT_TRUE(tklib::is_integral_v<i8>);
-    EXPECT_TRUE(tklib::is_integral_v<i16>);
-    EXPECT_TRUE(tklib::is_integral_v<i32>);
-    EXPECT_TRUE(tklib::is_integral_v<i64>);
-    EXPECT_TRUE(tklib::is_integral_v<bool>);
+    EXPECT_TRUE(tklib::is_integral_v<BYTE>);
+    EXPECT_TRUE(tklib::is_integral_v<WORD>);
+    EXPECT_TRUE(tklib::is_integral_v<DWORD>);
+    EXPECT_TRUE(tklib::is_integral_v<QWORD>);
+    EXPECT_TRUE(tklib::is_integral_v<CHAR>);
+    EXPECT_TRUE(tklib::is_integral_v<SHORT>);
+    EXPECT_TRUE(tklib::is_integral_v<LONG>);
+    EXPECT_TRUE(tklib::is_integral_v<LONGLONG>);
+    EXPECT_TRUE(tklib::is_integral_v<BOOL>);
     EXPECT_FALSE(tklib::is_integral_v<float>);
     EXPECT_FALSE(tklib::is_integral_v<double>);
     EXPECT_FALSE(tklib::is_integral_v<void *>);
@@ -93,9 +93,9 @@ TEST(Ubuiltin, IsPointer)
 TEST(Ubuiltin, IsConst)
 {
     EXPECT_TRUE(tklib::is_const_v<const int>);
-    EXPECT_TRUE(tklib::is_const_v<const u64>);
+    EXPECT_TRUE(tklib::is_const_v<const QWORD>);
     EXPECT_FALSE(tklib::is_const_v<int>);
-    EXPECT_FALSE(tklib::is_const_v<u64>);
+    EXPECT_FALSE(tklib::is_const_v<QWORD>);
 }
 
 TEST(Ubuiltin, Conditional)

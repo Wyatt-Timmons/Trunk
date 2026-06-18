@@ -28,7 +28,7 @@
 
 namespace trunk::boot
 {
-    enum class MemoryType : u32
+    enum class MemoryType : DWORD
     {
         Available       = 0,
         Reserved        = 1,
@@ -39,15 +39,15 @@ namespace trunk::boot
 
     struct MemoryRegion
     {
-        u64 base;
-        u64 length;
+        QWORD base;
+        QWORD length;
         MemoryType type;
 
-        NO_DISCARD constexpr u64 End() const noexcept
+        NO_DISCARD constexpr QWORD End() const noexcept
         {
             return base + length;
         }
-        NO_DISCARD constexpr bool Available() const noexcept
+        NO_DISCARD constexpr BOOL Available() const noexcept
         {
             return type == MemoryType::Available;
         }
@@ -55,11 +55,11 @@ namespace trunk::boot
 
     struct BootInfo
     {
-        static constexpr usize BOOTLOADER_NAME_MAX = 64;
-        static constexpr usize MAX_MMAP_ENTRIES    = 64;
+        static constexpr SIZE_T BOOTLOADER_NAME_MAX = 64;
+        static constexpr SIZE_T MAX_MMAP_ENTRIES    = 64;
 
         MemoryRegion mmap[MAX_MMAP_ENTRIES]       = {};
-        usize mmap_count                          = 0;
+        SIZE_T mmap_count                         = 0;
         char bootloader_name[BOOTLOADER_NAME_MAX] = {};
 
         /* ***************************************************************************
@@ -69,10 +69,10 @@ namespace trunk::boot
          *  PURPOSE : Sum of all Available region lengths. Used by the PMM.          *
          ****************************************************************************/
         NO_DISCARD
-        u64 TotalAvailableBytes() const noexcept
+        QWORD TotalAvailableBytes() const noexcept
         {
-            u64 total = 0;
-            for (usize i = 0; i < mmap_count; ++i)
+            QWORD total = 0;
+            for (SIZE_T i = 0; i < mmap_count; ++i)
                 if (mmap[i].Available())
                     total += mmap[i].length;
             return total;

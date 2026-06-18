@@ -31,12 +31,12 @@
 
 namespace trunk::mem
 {
-    inline constexpr usize MAX_MEMBLOCK_REGIONS = 128;
+    inline constexpr SIZE_T MAX_MEMBLOCK_REGIONS = 128;
 
     struct GNU_PACKED MemoryRegion
     {
-        u64 base;
-        u64 size;
+        QWORD base;
+        QWORD size;
     };
 
     /* *******************************************************************************
@@ -53,7 +53,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate a new chunk inside the memblock region                    *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockAlloc(u64 size, u64 alignment) noexcept;
+    NO_DISCARD QWORD MemblockAlloc(QWORD size, QWORD alignment) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -61,7 +61,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Reserve a region inside the memblock                               *
      ********************************************************************************/
-    void MemblockReserve(u64 base, u64 size) noexcept;
+    void MemblockReserve(QWORD base, QWORD size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -69,7 +69,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if any byte in [base, base + size) is reserved.       *
      ********************************************************************************/
-    NO_DISCARD bool MemblockIsReserved(u64 base, u64 size) noexcept;
+    NO_DISCARD BOOL MemblockIsReserved(QWORD base, QWORD size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -77,7 +77,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns total free bytes remaining in the memory pool.             *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockTotalFree() noexcept;
+    NO_DISCARD QWORD MemblockTotalFree() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -85,7 +85,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns total reserved bytes across all reserved regions.          *
      ********************************************************************************/
-    NO_DISCARD u64 MemblockTotalReserved() noexcept;
+    NO_DISCARD QWORD MemblockTotalReserved() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -93,7 +93,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current region count.                                      *
      ********************************************************************************/
-    NO_DISCARD usize MemblockGetRegionCount() noexcept;
+    NO_DISCARD SIZE_T MemblockGetRegionCount() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -101,6 +101,6 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get a region at the passed in index.                               *
      ********************************************************************************/
-    NO_DISCARD MemoryRegion MemblockGetRegion(usize index) noexcept;
+    NO_DISCARD MemoryRegion MemblockGetRegion(SIZE_T index) noexcept;
 
 } // namespace trunk::mem

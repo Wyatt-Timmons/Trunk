@@ -29,7 +29,7 @@
 
 namespace trunk::mem
 {
-    inline constexpr usize BUDDY_MAX_ORDER = 11;
+    inline constexpr SIZE_T BUDDY_MAX_ORDER = 11;
 
     struct FreeAreaNode
     {
@@ -38,8 +38,8 @@ namespace trunk::mem
 
     struct Page
     {
-        u8 order;
-        bool is_free;
+        BYTE order;
+        BOOL is_free;
         FreeAreaNode node;
     };
 
@@ -49,7 +49,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Shift address to Page frame number                                 *
      ********************************************************************************/
-    NO_DISCARD inline constexpr u64 AddrToPfn(u64 addr) noexcept
+    NO_DISCARD inline constexpr QWORD AddrToPfn(QWORD addr) noexcept
     {
         return addr >> PAGE_SHIFT;
     }
@@ -60,7 +60,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Shift Page frame number to address                                 *
      ********************************************************************************/
-    NO_DISCARD inline constexpr u64 PfnToAddr(u64 pfn) noexcept
+    NO_DISCARD inline constexpr QWORD PfnToAddr(QWORD pfn) noexcept
     {
         return pfn << PAGE_SHIFT;
     }

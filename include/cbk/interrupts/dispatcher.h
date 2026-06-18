@@ -30,17 +30,17 @@ namespace trunk::interrupts
 {
     struct GNU_PACKED InterruptFrame
     {
-        u64 r15, r14, r13, r12, r11, r10, r9, r8;
-        u64 rbp, rdi, rsi, rdx, rcx, rbx, rax;
+        QWORD r15, r14, r13, r12, r11, r10, r9, r8;
+        QWORD rbp, rdi, rsi, rdx, rcx, rbx, rax;
 
-        u64 vector_number;
-        u64 error_code;
+        QWORD vector_number;
+        QWORD error_code;
 
-        u64 rip;
-        u64 cs;
-        u64 rflags;
-        u64 rsp;
-        u64 ss;
+        QWORD rip;
+        QWORD cs;
+        QWORD rflags;
+        QWORD rsp;
+        QWORD ss;
     };
 
     STATIC_ASSERT(sizeof(InterruptFrame) == 176,

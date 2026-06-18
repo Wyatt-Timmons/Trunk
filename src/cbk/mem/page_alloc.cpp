@@ -35,7 +35,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PFN allocator(buddy)                                *
      ********************************************************************************/
-    void PfnAllocatorInit(Page *dbMemory, usize max) noexcept
+    void PfnAllocatorInit(Page *dbMemory, SIZE_T max) noexcept
     {
         ASSERT(dbMemory != nullptr, "PfnAllocatorInit: NULL DATABASE");
         ASSERT(max > 0, "PfnAllocatorInit: ZERO MAX_FRAMES");
@@ -43,10 +43,10 @@ namespace trunk::mem
         g_PfnAllocator.mm_pfn_database = dbMemory;
         g_PfnAllocator.max_frames      = max;
 
-        for (u8 i = 0; i < BUDDY_MAX_ORDER; ++i)
+        for (BYTE i = 0; i < BUDDY_MAX_ORDER; ++i)
             g_PfnAllocator.free_lists[i] = nullptr;
 
-        for (usize i = 0; i < max; ++i) {
+        for (SIZE_T i = 0; i < max; ++i) {
             g_PfnAllocator.mm_pfn_database[i].order     = 0;
             g_PfnAllocator.mm_pfn_database[i].is_free   = false;
             g_PfnAllocator.mm_pfn_database[i].node.next = nullptr;
@@ -59,25 +59,25 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate pages                                                     *
      ********************************************************************************/
-    NO_DISCARD Page *PfnAllocPages(u8 order) noexcept
+    NO_DISCARD Page *PfnAllocPages(BYTE order) noexcept
     {
         ASSERT(order < BUDDY_MAX_ORDER, "PfnAllocPages: ORDER EXCEEDS BUDDY_MAX_ORDER");
 
-        for (usize i = order; i < BUDDY_MAX_ORDER; ++i)
+        for (SIZE_T i = order; i < BUDDY_MAX_ORDER; ++i)
             if (g_PfnAllocator.free_lists[i] != nullptr) {
                 FreeAreaNode *allocated_node = g_PfnAllocator.free_lists[i];
                 g_PfnAllocator.free_lists[i] = allocated_node->next;
 
-                Page *page = reinterpret_cast<Page *>(reinterpret_cast<uptr>(allocated_node) -
+                Page *page = reinterpret_cast<Page *>(reinterpret_cast<ULONG_PTR>(allocated_node) -
                                                       OFFSET_OF(Page, node));
 
-                usize current_order = i;
+                SIZE_T current_order = i;
 
                 while (current_order > order) {
                     --current_order;
 
-                    usize buddy_pfn =
-                        (page - g_PfnAllocator.mm_pfn_database) + (usize{1} << current_order);
+                    SIZE_T buddy_pfn =
+                        (page - g_PfnAllocator.mm_pfn_database) + (SIZE_T{1} << current_order);
 
                     if (buddy_pfn >= g_PfnAllocator.max_frames)
                         continue;
@@ -107,18 +107,18 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Free pages                                                         *
      ********************************************************************************/
-    void PfnFreePages(Page *page, u8 order) noexcept
+    void PfnFreePages(Page *page, BYTE order) noexcept
     {
         ASSERT(page != nullptr, "PfnFreePages: NULL PAGE");
         ASSERT(order < BUDDY_MAX_ORDER, "PfnFreePages: ORDER EXCEEDS BUDDY_MAX_ORDER");
 
-        usize pfn = page - g_PfnAllocator.mm_pfn_database;
+        SIZE_T pfn = page - g_PfnAllocator.mm_pfn_database;
 
         ASSERT(pfn < g_PfnAllocator.max_frames, "PfnFreePages: PFN OUT OF BOUNDS");
         ASSERT(!page->is_free, "PfnFreePages: DOUBLE FREE DETECTED");
 
         while (order < BUDDY_MAX_ORDER - 1) {
-            usize buddy_pfn = pfn ^ (usize{1} << order);
+            SIZE_T buddy_pfn = pfn ^ (SIZE_T{1} << order);
 
             if (buddy_pfn >= g_PfnAllocator.max_frames)
                 break;

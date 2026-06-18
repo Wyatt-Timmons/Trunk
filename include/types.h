@@ -22,58 +22,58 @@
  * *****************************************************************************/
 #pragma once
 
+#include <stddef.h>
+#include <stdint.h>
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 
-using u8 = unsigned char;
-using u16 = unsigned short;
-using u32 = unsigned int;
-using u64 = unsigned long long;
-using u128 = unsigned __int128;
+using BYTE  = uint8_t;
+using WORD  = uint16_t;
+using DWORD = uint32_t;
+using QWORD = uint64_t;
 
-using i8 = signed char;
-using i16 = signed short;
-using i32 = signed int;
-using i64 = signed long long;
-using i128 = __int128;
+using CHAR      = int8_t;
+using UCHAR     = uint8_t;
+using SHORT     = int16_t;
+using USHORT    = uint16_t;
+using LONG      = int32_t;
+using ULONG     = uint32_t;
+using LONGLONG  = int64_t;
+using ULONGLONG = uint64_t;
 
-using usize = unsigned long;
-using isize = long;
-using uptr = unsigned long;
+using SIZE_T    = size_t;
+using ULONG_PTR = uintptr_t;
+using LONG_PTR  = intptr_t;
+using BOOL      = bool;
 
-using f32 = float;
-using f64 = double;
-
-using b8 = bool;
-
-using nullptr_t = decltype(nullptr);
-
-enum class byte : unsigned char
-{
-};
+using PVOID  = void *;
+using HANDLE = void *;
+using PBYTE  = BYTE *;
+using PDWORD = DWORD *;
+using PULONG = ULONG *;
 
 namespace limits
 {
-    inline constexpr u8 u8_min = 0;
-    inline constexpr u8 u8_max = 0xFF;
-    inline constexpr u16 u16_min = 0;
-    inline constexpr u16 u16_max = 0xFFFF;
-    inline constexpr u32 u32_min = 0;
-    inline constexpr u32 u32_max = 0xFFFF'FFFFu;
-    inline constexpr u64 u64_min = 0;
-    inline constexpr u64 u64_max = 0xFFFF'FFFF'FFFF'FFFFull;
+    inline constexpr BYTE BYTE_min   = 0;
+    inline constexpr BYTE BYTE_max   = UINT8_MAX;
+    inline constexpr WORD WORD_min   = 0;
+    inline constexpr WORD WORD_max   = UINT16_MAX;
+    inline constexpr DWORD DWORD_max = UINT32_MAX;
+    inline constexpr QWORD QWORD_max = UINT64_MAX;
 
-    inline constexpr i8 i8_min = -128;
-    inline constexpr i8 i8_max = 127;
-    inline constexpr i16 i16_min = -32768;
-    inline constexpr i16 i16_max = 32767;
-    inline constexpr i32 i32_min = -2147483648;
-    inline constexpr i32 i32_max = 2147483647;
-    inline constexpr i64 i64_min = -9223372036854775807LL - 1;
-    inline constexpr i64 i64_max = 9223372036854775807LL;
+    inline constexpr CHAR CHAR_min         = INT8_MIN;
+    inline constexpr CHAR CHAR_max         = INT8_MAX;
+    inline constexpr SHORT SHORT_min       = INT16_MIN;
+    inline constexpr SHORT SHORT_max       = INT16_MAX;
+    inline constexpr LONG LONG_min         = INT32_MIN;
+    inline constexpr LONG LONG_max         = INT32_MAX;
+    inline constexpr LONGLONG LONGLONG_min = INT64_MIN;
+    inline constexpr LONGLONG LONGLONG_max = INT64_MAX;
 
-    inline constexpr usize usize_max = ~usize{0};
-    inline constexpr uptr uptr_max = ~uptr{0};
+    inline constexpr SIZE_T SIZE_T_max       = SIZE_MAX;
+    inline constexpr ULONG_PTR ULONG_PTR_max = UINTPTR_MAX;
 } // namespace limits
 
+#pragma GCC diagnostic pop
 #pragma GCC diagnostic pop

@@ -24,11 +24,10 @@
 
 #include <types.h>
 
-extern "C"
-{
-    extern char __kernel_phys_start[];
-    extern char __kernel_phys_end[];
+extern "C" {
+extern char __kernel_phys_start[];
+extern char __kernel_phys_end[];
 
-    extern u8 __stack_bottom[];
-    extern u8 __stack_top[];
+extern BYTE __stack_bottom[];
+extern BYTE __stack_top[];
 }

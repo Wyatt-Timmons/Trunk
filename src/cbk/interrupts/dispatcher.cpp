@@ -36,10 +36,10 @@ namespace trunk::interrupts
      ********************************************************************************/
     extern "C" void KInterruptDispatcher(InterruptFrame *frame) noexcept
     {
-        const u8 vector = static_cast<u8>(frame->vector_number);
+        const BYTE vector = static_cast<BYTE>(frame->vector_number);
 
         if (vector >= drivers::pic::PIC1_OFFSET && vector < (drivers::pic::PIC1_OFFSET + 16)) {
-            const u8 irq = vector - drivers::pic::PIC1_OFFSET;
+            const BYTE irq = vector - drivers::pic::PIC1_OFFSET;
             drivers::pic::IrqAck(irq);
         }
 

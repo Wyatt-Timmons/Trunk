@@ -35,9 +35,9 @@ namespace trunk::mem
 {
     struct MapRange
     {
-        u64 start_vaddr;
-        u64 start_paddr;
-        u64 size;
+        QWORD start_vaddr;
+        QWORD start_paddr;
+        QWORD size;
     };
 
     /* *******************************************************************************
@@ -78,7 +78,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a page In the MMU                                             *
      ********************************************************************************/
-    NO_DISCARD bool MmuMapPage(ArchAspace *space, u64 va, u64 pa, u64 flags) noexcept;
+    NO_DISCARD BOOL MmuMapPage(ArchAspace *space, QWORD va, QWORD pa, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -86,7 +86,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a 2MB huge page in the MMU                                    *
      ********************************************************************************/
-    NO_DISCARD bool MmuMapPageHuge(ArchAspace *space, u64 va, u64 pa, u64 flags) noexcept;
+    NO_DISCARD BOOL MmuMapPageHuge(ArchAspace *space, QWORD va, QWORD pa, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -94,7 +94,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a memory-mapped I/O region with cache-disable flags           *
      ********************************************************************************/
-    NO_DISCARD bool MmuMapMmio(ArchAspace *space, u64 va, u64 pa, usize size) noexcept;
+    NO_DISCARD BOOL MmuMapMmio(ArchAspace *space, QWORD va, QWORD pa, SIZE_T size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -102,7 +102,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a range In the MMU                                            *
      ********************************************************************************/
-    NO_DISCARD bool MmuMapRange(ArchAspace *space, MapRange range, u64 flags) noexcept;
+    NO_DISCARD BOOL MmuMapRange(ArchAspace *space, MapRange range, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -110,7 +110,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmaps a page In the MMU                                           *
      ********************************************************************************/
-    NO_DISCARD bool MmuUnmapPage(ArchAspace *space, u64 va) noexcept;
+    NO_DISCARD BOOL MmuUnmapPage(ArchAspace *space, QWORD va) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -118,7 +118,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns true if va is mapped and present in the given space.       *
      ********************************************************************************/
-    NO_DISCARD bool MmuIsMapped(ArchAspace *space, u64 va) noexcept;
+    NO_DISCARD BOOL MmuIsMapped(ArchAspace *space, QWORD va) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -126,7 +126,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Update the flags on an existing page mapping                       *
      ********************************************************************************/
-    NO_DISCARD bool MmuProtect(ArchAspace *space, u64 va, u64 new_flags) noexcept;
+    NO_DISCARD BOOL MmuProtect(ArchAspace *space, QWORD va, QWORD new_flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -134,7 +134,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Clear the accessed bit on a mapped page                            *
      ********************************************************************************/
-    NO_DISCARD bool MmuClearAccessed(ArchAspace *space, u64 va) noexcept;
+    NO_DISCARD BOOL MmuClearAccessed(ArchAspace *space, QWORD va) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -142,7 +142,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Translates a page in the mmu                                       *
      ********************************************************************************/
-    NO_DISCARD u64 MmuTranslate(ArchAspace *space, u64 va) noexcept;
+    NO_DISCARD QWORD MmuTranslate(ArchAspace *space, QWORD va) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -150,6 +150,6 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Return the raw PTE value for va                                    *
      ********************************************************************************/
-    NO_DISCARD u64 MmuQuery(ArchAspace *space, u64 va) noexcept;
+    NO_DISCARD QWORD MmuQuery(ArchAspace *space, QWORD va) noexcept;
 
 } // namespace trunk::mem

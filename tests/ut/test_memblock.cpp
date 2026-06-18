@@ -62,23 +62,23 @@ TEST_F(MemblockTest, InitSetsCounters)
 
 TEST_F(MemblockTest, AllocBasic)
 {
-    u64 a = trunk::mem::MemblockAlloc(0x1000, 0x1000);
+    QWORD a = trunk::mem::MemblockAlloc(0x1000, 0x1000);
     EXPECT_NE(a, 0ull);
 
-    u64 b = trunk::mem::MemblockAlloc(0x1000, 0x1000);
+    QWORD b = trunk::mem::MemblockAlloc(0x1000, 0x1000);
     EXPECT_NE(b, 0ull);
     EXPECT_NE(a, b);
 }
 
 TEST_F(MemblockTest, AllocAlignment)
 {
-    u64 a = trunk::mem::MemblockAlloc(0x100, 0x1000);
+    QWORD a = trunk::mem::MemblockAlloc(0x100, 0x1000);
     EXPECT_EQ(a % 0x1000, 0ull);
 
-    u64 b = trunk::mem::MemblockAlloc(0x100, 0x200);
+    QWORD b = trunk::mem::MemblockAlloc(0x100, 0x200);
     EXPECT_EQ(b % 0x200, 0ull);
 
-    u64 c = trunk::mem::MemblockAlloc(0x100, 0x10);
+    QWORD c = trunk::mem::MemblockAlloc(0x100, 0x10);
     EXPECT_EQ(c % 0x10, 0ull);
 }
 
@@ -100,24 +100,24 @@ TEST_F(MemblockTest, AllocSkipsReserved)
 {
     trunk::mem::MemblockReserve(0x100000, 0x200000);
 
-    u64 a = trunk::mem::MemblockAlloc(0x1000, 0x1000);
+    QWORD a = trunk::mem::MemblockAlloc(0x1000, 0x1000);
     EXPECT_NE(a, 0ull);
     EXPECT_FALSE(trunk::mem::MemblockIsReserved(a, 0x1000) && a < 0x300000);
 }
 
 TEST_F(MemblockTest, AllocDecreasesTotalFree)
 {
-    u64 free_before = trunk::mem::MemblockTotalFree();
+    QWORD free_before = trunk::mem::MemblockTotalFree();
     trunk::mem::MemblockAlloc(0x1000, 0x1000);
-    u64 free_after = trunk::mem::MemblockTotalFree();
+    QWORD free_after = trunk::mem::MemblockTotalFree();
     EXPECT_LT(free_after, free_before);
 }
 
 TEST_F(MemblockTest, AllocNonOverlapping)
 {
-    u64 a = trunk::mem::MemblockAlloc(0x2000, 0x1000);
-    u64 b = trunk::mem::MemblockAlloc(0x2000, 0x1000);
-    u64 c = trunk::mem::MemblockAlloc(0x2000, 0x1000);
+    QWORD a = trunk::mem::MemblockAlloc(0x2000, 0x1000);
+    QWORD b = trunk::mem::MemblockAlloc(0x2000, 0x1000);
+    QWORD c = trunk::mem::MemblockAlloc(0x2000, 0x1000);
 
     EXPECT_NE(a, 0ull);
     EXPECT_NE(b, 0ull);

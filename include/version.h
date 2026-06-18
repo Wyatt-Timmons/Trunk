@@ -43,9 +43,9 @@
 
 struct KernelVersion
 {
-    u16 major;
-    u16 minor;
-    u16 patch;
+    WORD major;
+    WORD minor;
+    WORD patch;
     const char *build_string;
 };
 

@@ -28,7 +28,7 @@ namespace trunk::drivers::pic
 {
     namespace
     {
-        static void GetPicLineProperties(u8 &irq, u16 &out_port) noexcept
+        static void GetPicLineProperties(BYTE &irq, WORD &out_port) noexcept
         {
             if (irq < 8)
                 out_port = PIC1_DATA;
@@ -69,7 +69,7 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Signals that an interrupt is being processed                       *
      ********************************************************************************/
-    void IrqAck(u8 irq) noexcept
+    void IrqAck(BYTE irq) noexcept
     {
         if (irq >= 8)
             hal::OutB(PIC2_COMMAND, PIC_EOI);
@@ -82,11 +82,11 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Mask an IRQ (interrupt request)                                    *
      ********************************************************************************/
-    void PicMask(u8 irq) noexcept
+    void PicMask(BYTE irq) noexcept
     {
-        u16 port = 0;
+        WORD port = 0;
         GetPicLineProperties(irq, port);
-        u8 value = hal::InB(port) | (1 << irq);
+        BYTE value = hal::InB(port) | (1 << irq);
         hal::OutB(port, value);
     }
 
@@ -96,11 +96,11 @@ namespace trunk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmask an IRQ (interrupt request)                                  *
      ********************************************************************************/
-    void PicUnmask(u8 irq) noexcept
+    void PicUnmask(BYTE irq) noexcept
     {
-        u16 port = 0;
+        WORD port = 0;
         GetPicLineProperties(irq, port);
-        u8 value = hal::InB(port) & ~(1 << irq);
+        BYTE value = hal::InB(port) & ~(1 << irq);
         hal::OutB(port, value);
     }
 

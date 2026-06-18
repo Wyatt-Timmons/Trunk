@@ -29,13 +29,13 @@
 
 namespace trunk::boot
 {
-    inline constexpr u32 TAG_END        = 0;
-    inline constexpr u32 TAG_BOOTLOADER = 2;
-    inline constexpr u32 TAG_MMAP       = 6;
-    inline constexpr u32 MMAP_AVAILABLE = 1;
-    inline constexpr u32 MMAP_ACPI      = 3;
-    inline constexpr u32 MMAP_NVS       = 4;
-    inline constexpr u32 MMAP_BADRAM    = 5;
+    inline constexpr DWORD TAG_END        = 0;
+    inline constexpr DWORD TAG_BOOTLOADER = 2;
+    inline constexpr DWORD TAG_MMAP       = 6;
+    inline constexpr DWORD MMAP_AVAILABLE = 1;
+    inline constexpr DWORD MMAP_ACPI      = 3;
+    inline constexpr DWORD MMAP_NVS       = 4;
+    inline constexpr DWORD MMAP_BADRAM    = 5;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -43,6 +43,6 @@ namespace trunk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Walk all MB2 tags from mb2_phys                                   *
      * *****************************************************************************/
-    void ParseMb2(uptr mb2_phys, BootInfo &info) noexcept;
+    void ParseMb2(ULONG_PTR mb2_phys, BootInfo &info) noexcept;
 
 } // namespace trunk::boot

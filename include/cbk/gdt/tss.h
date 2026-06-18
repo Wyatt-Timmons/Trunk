@@ -29,7 +29,7 @@
 
 namespace trunk::gdt
 {
-    inline constexpr u32 IST_STACK_SIZE = 4096;
+    inline constexpr DWORD IST_STACK_SIZE = 4096;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -45,7 +45,7 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Set the RSP0 field for ring mode                                   *
      ********************************************************************************/
-    void TssSetRsp0(u64 rsp) noexcept;
+    void TssSetRsp0(QWORD rsp) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

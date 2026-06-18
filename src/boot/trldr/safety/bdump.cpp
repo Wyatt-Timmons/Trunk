@@ -50,7 +50,7 @@ namespace trunk::boot
         serial::SerialPuts(s_buf);
         serial::SerialPuts(" entries):\n");
 
-        for (usize i = 0; i < info.mmap_count; ++i) {
+        for (SIZE_T i = 0; i < info.mmap_count; ++i) {
             const auto &region = info.mmap[i];
 
             serial::SerialPuts("  ");

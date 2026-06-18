@@ -29,13 +29,13 @@
 
 namespace trunk::gdt
 {
-    inline constexpr u8 GDT_PRESENT    = 0x80;
-    inline constexpr u8 GDT_RING0      = 0x00;
-    inline constexpr u8 GDT_RING3      = 0x60;
-    inline constexpr u8 GDT_SYSTEM     = 0x10;
-    inline constexpr u8 GDT_EXECUTABLE = 0x08;
-    inline constexpr u8 GDT_READ_WRITE = 0x02;
-    inline constexpr u8 GDT_LONG_MODE  = 0x20;
+    inline constexpr BYTE GDT_PRESENT    = 0x80;
+    inline constexpr BYTE GDT_RING0      = 0x00;
+    inline constexpr BYTE GDT_RING3      = 0x60;
+    inline constexpr BYTE GDT_SYSTEM     = 0x10;
+    inline constexpr BYTE GDT_EXECUTABLE = 0x08;
+    inline constexpr BYTE GDT_READ_WRITE = 0x02;
+    inline constexpr BYTE GDT_LONG_MODE  = 0x20;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -51,7 +51,7 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Flushes/Reloads the global descriptor table (external assembly)    *
      ********************************************************************************/
-    extern "C" void GdtFlush(uptr gdt_ptr_addr) noexcept;
+    extern "C" void GdtFlush(ULONG_PTR gdt_ptr_addr) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -59,6 +59,6 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD u16 GdtInstallTss(const Tss *tss_ptr) noexcept;
+    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept;
 
 } // namespace trunk::gdt

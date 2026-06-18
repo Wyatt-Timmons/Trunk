@@ -37,7 +37,7 @@ namespace trunk::drivers::serial
          *  DATE    : 2026                                                              *
          *  PURPOSE : Return true if the transmit buffer is empty.                      *
          * *****************************************************************************/
-        NO_DISCARD bool serial_is_transmit_ready() noexcept
+        NO_DISCARD BOOL serial_is_transmit_ready() noexcept
         {
             return (hal::InB(SERIAL_REG_LINE_STATUS) & SERIAL_LSR_TX_EMPTY) != 0;
         }
@@ -52,7 +52,7 @@ namespace trunk::drivers::serial
                                     MAYBE_UNUSED void *context) noexcept
         {
             while (hal::InB(SERIAL_REG_LINE_STATUS) & 0x01) {
-                u8 incoming_byte = hal::InB(SERIAL_REG_DATA);
+                BYTE incoming_byte = hal::InB(SERIAL_REG_DATA);
                 SerialPutChar(static_cast<char>(incoming_byte));
             }
         }
@@ -99,7 +99,7 @@ namespace trunk::drivers::serial
 
         // clang-format off
         #ifdef TRUNK_DEBUG
-                hal::OutB(SERIAL_REG_DATA, static_cast<u8>(c));
+                hal::OutB(SERIAL_REG_DATA, static_cast<BYTE>(c));
         #else
                 (void)c;
         #endif

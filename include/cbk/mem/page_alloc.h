@@ -33,7 +33,7 @@ namespace trunk::mem
     struct PfnAllocatorState
     {
         Page *mm_pfn_database;
-        usize max_frames;
+        SIZE_T max_frames;
         FreeAreaNode *free_lists[BUDDY_MAX_ORDER];
     };
 
@@ -45,7 +45,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PFN allocator(buddy)                                *
      ********************************************************************************/
-    void PfnAllocatorInit(Page *dbMemory, usize max) noexcept;
+    void PfnAllocatorInit(Page *dbMemory, SIZE_T max) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -53,7 +53,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate pages                                                     *
      ********************************************************************************/
-    NO_DISCARD Page *PfnAllocPages(u8 order) noexcept;
+    NO_DISCARD Page *PfnAllocPages(BYTE order) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -61,5 +61,5 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Free pages                                                         *
      ********************************************************************************/
-    void PfnFreePages(Page *page, u8 order) noexcept;
+    void PfnFreePages(Page *page, BYTE order) noexcept;
 } // namespace trunk::mem

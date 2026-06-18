@@ -29,7 +29,7 @@
 TEST(String, Memcpy)
 {
     char dst[16] = {};
-    char src[] = "hello";
+    char src[]   = "hello";
     tklib::memcpy(dst, src, 6);
     EXPECT_STREQ(dst, "hello");
 }
@@ -107,7 +107,7 @@ TEST(String, Strcpy)
 TEST(String, Strlcpy)
 {
     char dst[4] = {};
-    usize ret = tklib::strlcpy(dst, "hello", 4u);
+    SIZE_T ret  = tklib::strlcpy(dst, "hello", 4u);
     EXPECT_STREQ(dst, "hel");
     EXPECT_EQ(ret, 5u);
 }
@@ -122,7 +122,7 @@ TEST(String, Strcat)
 TEST(String, Strlcat)
 {
     char dst[8] = "hi";
-    usize ret = tklib::strlcat(dst, " world", 8u);
+    SIZE_T ret  = tklib::strlcat(dst, " world", 8u);
     EXPECT_STREQ(dst, "hi worl");
     EXPECT_EQ(ret, 8u);
 }

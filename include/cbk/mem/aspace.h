@@ -28,9 +28,9 @@ namespace trunk
 {
     struct ArchAspace
     {
-        u64 *pml4_virt;
-        u64 pml4_phys;
-        u64 base;
-        usize size;
+        QWORD *pml4_virt;
+        QWORD pml4_phys;
+        QWORD base;
+        SIZE_T size;
     };
 } // namespace trunk

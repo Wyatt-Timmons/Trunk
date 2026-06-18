@@ -38,8 +38,8 @@ namespace trunk::gdt
          *  DATE    : 2026                                                               *
          *  PURPOSE : Utility to write a GDT segment                                     *
          ********************************************************************************/
-        static void write_segment(GdtEntry *entry, u16 limit, u32 base, u8 access,
-                                  u8 flags) noexcept
+        static void write_segment(GdtEntry *entry, WORD limit, DWORD base, BYTE access,
+                                  BYTE flags) noexcept
         {
             entry->limit_low        = limit & 0xFFFF;
             entry->base_low         = base & 0xFFFF;
@@ -78,10 +78,10 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD u16 GdtInstallTss(const Tss *tss_ptr) noexcept
+    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept
     {
-        u64 base  = reinterpret_cast<u64>(tss_ptr);
-        u16 limit = sizeof(Tss) - 1;
+        QWORD base = reinterpret_cast<QWORD>(tss_ptr);
+        WORD limit = sizeof(Tss) - 1;
 
         TssDescriptor *desc = &gdt.tss_desc;
 
@@ -118,12 +118,12 @@ namespace trunk::gdt
         gdt_create_entries();
         TssInit();
 
-        u16 tss_selector = GdtInstallTss(&TssGet());
+        WORD tss_selector = GdtInstallTss(&TssGet());
 
         gdt_pointer.limit = sizeof(GdtLayout) - 1;
-        gdt_pointer.base  = reinterpret_cast<uptr>(&gdt);
+        gdt_pointer.base  = reinterpret_cast<ULONG_PTR>(&gdt);
 
-        GdtFlush(reinterpret_cast<uptr>(&gdt_pointer));
+        GdtFlush(reinterpret_cast<ULONG_PTR>(&gdt_pointer));
 
         asm volatile("ltr %0" ::"r"(tss_selector));
     }

@@ -33,30 +33,30 @@ namespace trunk::interrupts
 
     struct TrapFrame
     {
-        u64 r15;
-        u64 r14;
-        u64 r13;
-        u64 r12;
-        u64 r11;
-        u64 r10;
-        u64 r9;
-        u64 r8;
-        u64 rbp;
-        u64 rdi;
-        u64 rsi;
-        u64 rdx;
-        u64 rcx;
-        u64 rbx;
-        u64 rax;
+        QWORD r15;
+        QWORD r14;
+        QWORD r13;
+        QWORD r12;
+        QWORD r11;
+        QWORD r10;
+        QWORD r9;
+        QWORD r8;
+        QWORD rbp;
+        QWORD rdi;
+        QWORD rsi;
+        QWORD rdx;
+        QWORD rcx;
+        QWORD rbx;
+        QWORD rax;
 
-        u64 vector_number;
-        u64 error_code;
+        QWORD vector_number;
+        QWORD error_code;
 
-        u64 rip;
-        u64 cs;
-        u64 rflags;
-        u64 rsp;
-        u64 ss;
+        QWORD rip;
+        QWORD cs;
+        QWORD rflags;
+        QWORD rsp;
+        QWORD ss;
     };
 
     #pragma pack(pop)
