@@ -53,7 +53,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate a new chunk inside the memblock region                    *
      ********************************************************************************/
-    u64 memblock_alloc(u64 size, u64 alignment) noexcept;
+    NO_DISCARD u64 memblock_alloc(u64 size, u64 alignment) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

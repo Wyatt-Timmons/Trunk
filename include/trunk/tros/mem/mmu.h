@@ -26,17 +26,13 @@
 #include <types.h>
 
 #include <trunk/tros/cpu/cpu_flags.h>
+
 #include <trunk/tros/mem/page.h>
+
+#include <trunk/tros/aspace.h>
 
 namespace trunk::mem
 {
-    constexpr usize MAX_ENTRIES = 512;
-
-    struct PageTable
-    {
-        u64 entries[MAX_ENTRIES];
-    } ALIGNED(4096);
-
     struct MapRange
     {
         u64 start_vaddr;
@@ -70,11 +66,35 @@ namespace trunk::mem
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_load_cr3                                                       *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Load a new address space into CR3                                  *
+     ********************************************************************************/
+    void mmu_load_cr3(const ArchAspace *space) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : mmu_map_page                                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a page In the MMU                                             *
      ********************************************************************************/
-    NO_DISCARD bool mmu_map_page(PageTable *pml4, u64 va, u64 pa, u64 flags) noexcept;
+    NO_DISCARD bool mmu_map_page(ArchAspace *space, u64 va, u64 pa, u64 flags) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_map_page_huge                                                  *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Maps a 2MB huge page in the MMU                                    *
+     ********************************************************************************/
+    NO_DISCARD bool mmu_map_page_huge(ArchAspace *space, u64 va, u64 pa, u64 flags) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_map_mmio                                                       *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Maps a memory-mapped I/O region with cache-disable flags           *
+     ********************************************************************************/
+    NO_DISCARD bool mmu_map_mmio(ArchAspace *space, u64 va, u64 pa, usize size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -82,7 +102,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Maps a range In the MMU                                            *
      ********************************************************************************/
-    NO_DISCARD bool mmu_map_range(PageTable *pml4, MapRange range, u64 flags) noexcept;
+    NO_DISCARD bool mmu_map_range(ArchAspace *space, MapRange range, u64 flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -90,7 +110,31 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmaps a page In the MMU                                           *
      ********************************************************************************/
-    NO_DISCARD bool mmu_unmap_page(PageTable *pml4, u64 va) noexcept;
+    NO_DISCARD bool mmu_unmap_page(ArchAspace *space, u64 va) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_is_mapped                                                      *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Returns true if va is mapped and present in the given space.       *
+     ********************************************************************************/
+    NO_DISCARD bool mmu_is_mapped(ArchAspace *space, u64 va) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_protect                                                        *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Update the flags on an existing page mapping                       *
+     ********************************************************************************/
+    NO_DISCARD bool mmu_protect(ArchAspace *space, u64 va, u64 new_flags) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_clear_accessed                                                 *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Clear the accessed bit on a mapped page                            *
+     ********************************************************************************/
+    NO_DISCARD bool mmu_clear_accessed(ArchAspace *space, u64 va) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -98,5 +142,14 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Translates a page in the mmu                                       *
      ********************************************************************************/
-    NO_DISCARD u64 mmu_translate(PageTable *pml4, u64 va) noexcept;
+    NO_DISCARD u64 mmu_translate(ArchAspace *space, u64 va) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : mmu_query                                                          *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Return the raw PTE value for va                                    *
+     ********************************************************************************/
+    NO_DISCARD u64 mmu_query(ArchAspace *space, u64 va) noexcept;
+
 } // namespace trunk::mem

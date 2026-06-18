@@ -16,31 +16,21 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Global definitions                                                 *
+ *  MODULE  : Architecture address space                                         *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Global-level macros for everything                                 *
+ *  PURPOSE : Holds ArchAspace                                                   *
  ********************************************************************************/
 #pragma once
 
-// clang-format off
-#if defined(__GNUC__) || defined(__clang__)
-    #define GNU_PACKED [[gnu::packed]]
-    #define NO_DISCARD [[nodiscard]]
-    #define NO_RETURN  [[noreturn]]
-    #define UNLIKELY   [[unlikely]]
-    #define MAYBE_UNUSED [[maybe_unused]]
-    #define ALIGNED(x) __attribute__((aligned(x)))
-    #define IS_ALIGNED(addr, alignment) (((addr) & ((alignment) - 1)) == 0)
-    #define OFFSET_OF(type, member) reinterpret_cast<usize>(&(reinterpret_cast<type*>(0)->member))
-#else
-    #define GNU_PACKED
-    #define NO_DISCARD
-    #define NO_RETURN
-    #define UNLIKELY
-    #define MAYBE_UNUSED
-    #define ALIGNED
-    #define IS_ALIGNED
-    #define OFFSET_OF
-#endif
+#include <types.h>
 
-// clang-format on
+namespace trunk
+{
+    struct ArchAspace
+    {
+        u64 *pml4_virt;
+        u64 pml4_phys;
+        u64 base;
+        usize size;
+    };
+} // namespace trunk

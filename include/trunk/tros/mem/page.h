@@ -25,11 +25,21 @@
 #include <macros.h>
 #include <types.h>
 
+#include <trunk/asi/io.h>
+
 namespace trunk::mem
 {
+    constexpr u64 KB = 1024ULL;
+    constexpr u64 MB = 1024ULL * KB;
+    constexpr u64 GB = 1024ULL * MB;
+
     constexpr u64 PAGE_SIZE  = 4096;
     constexpr u64 PAGE_MASK  = ~(PAGE_SIZE - 1);
     constexpr u64 PAGE_SHIFT = 12;
+
+    constexpr u64 HUGE_PAGE_SIZE = 2 * MB;
+    constexpr u64 HUGE_MASK      = HUGE_PAGE_SIZE - 1;
+    constexpr u64 PAGE_HUGE      = u64{1} << 7;
 
     constexpr u64 PAGE_WRITE_THROUGH = 1ULL << 3;
     constexpr u64 PAGE_CACHE_DISABLE = 1ULL << 4;
@@ -47,6 +57,8 @@ namespace trunk::mem
 
     constexpr u64 PTE_AVAIL = 0xE00;
     constexpr u64 PTE_USER  = PTE_AVAIL | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
+
+    constexpr u64 NO_OF_PT_ENTRIES = 512;
 
     /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
@@ -153,7 +165,7 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Aligns an address down to page boundary                             *
      ********************************************************************************/
-    NO_DISCARD inline u64 page_align_down(u64 addr) noexcept
+    NO_DISCARD static inline u64 page_align_down(u64 addr) noexcept
     {
         return addr & PAGE_MASK;
     }
@@ -164,8 +176,64 @@ namespace trunk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Aligns an address up to page boundary                               *
      ********************************************************************************/
-    NO_DISCARD inline u64 page_align_up(u64 addr) noexcept
+    NO_DISCARD static inline u64 page_align_up(u64 addr) noexcept
     {
         return (addr + PAGE_SIZE - 1) & PAGE_MASK;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : is_page_aligned                                                    *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Returns true if addr is 4KB aligned                                *
+     ********************************************************************************/
+    NO_DISCARD static inline bool is_page_aligned(u64 addr) noexcept
+    {
+        return (addr & (PAGE_SIZE - 1)) == 0;
+    }
+
+    /* *******************************************************************************
+     * AUTHOR  : Trollycat                                                           *
+     * FUNC    : paddr_to_kvaddr                                                     *
+     * DATE    : 2026                                                                *
+     * PURPOSE : Converts a physical address to a virtual address                    *
+     ********************************************************************************/
+    NO_DISCARD static inline void *paddr_to_kvaddr(u64 paddr) noexcept
+    {
+        return reinterpret_cast<void *>(paddr + 0xFFFFFFFF80000000ULL);
+    }
+
+    /* *******************************************************************************
+     * AUTHOR  : Trollycat                                                           *
+     * FUNC    : kvaddr_to_paddr                                                     *
+     * DATE    : 2026                                                                *
+     * PURPOSE : Converts a virtual address to a physical adddress                   *
+     ********************************************************************************/
+    NO_DISCARD static inline void *kvaddr_to_paddr(u64 kvaddr) noexcept
+    {
+        return reinterpret_cast<void *>(kvaddr - 0xFFFFFFFF80000000ULL);
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : tlb_flush_page                                                     *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Flush the TLB entry for a single virtual address on this CPU       *
+     ********************************************************************************/
+    static inline void tlb_flush_page(u64 va) noexcept
+    {
+        asm volatile("invlpg (%0)" ::"r"(va) : "memory");
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : tlb_flush_all                                                      *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Flush the entire TLB by reloading CR3                              *
+     ********************************************************************************/
+    static inline void tlb_flush_all() noexcept
+    {
+        u64 cr3 = asi::read_cr3();
+        asi::write_cr3(cr3);
     }
 } // namespace trunk::mem
