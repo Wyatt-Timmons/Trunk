@@ -20,9 +20,21 @@ Make sure when writing code, use modern C++ 23 style.
 
 Make sure that all of your .cpp or .h files follow our namespace structure, for tklib it's just tklib:: for all of them, however for trunk. it's trunk::subsystem, ex: trunk::gdt
 
-The only exception is Drivers, which are 3 layers. trunk::drivers::NAME, ex: trunk::drivers::serial 5. Make sure to test your contribution throughly, test every feature, add debug messages, make sure it works 100%. 6. Contributing mean's your code is passed under Apache 2.0 license. 7. You also need to add your information to CREDITS.
+The only exception is Drivers, which are 3 layers. trunk::drivers::NAME, ex: trunk::drivers::serial
 
 # 5.
+
+Make sure to test your contribution throughly, test every feature, add debug messages, make sure it works 100%.
+
+# 6.
+
+Contributing mean's your code is passed under Apache 2.0 license.
+
+# 7.
+
+You also need to add your information to CREDITS.
+
+# 8.
 
 Naming convention
 
