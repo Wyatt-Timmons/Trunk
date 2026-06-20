@@ -30,7 +30,7 @@
 namespace trunk::mem
 {
     constexpr LONG STATUS_SUCCESS          = 0x00000000L;
-    constexpr LONG STATUS_ACCESS_VIOLATION = 0xC0000005L;
+    constexpr LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

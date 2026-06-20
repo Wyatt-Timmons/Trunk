@@ -110,6 +110,41 @@ namespace trunk::mem
             }
         }
 
+        /* *******************************************************************************
+         * AUTHOR  : Trollycat                                                           *
+         * FUNC    : CreateVadDescriptor                                                 *
+         * DATE    : 2026                                                                *
+         * PURPOSE : Allocates and initializes a fresh tracking node descriptor          *
+         ********************************************************************************/
+        NO_DISCARD PMMVAD CreateVadDescriptor(QWORD base, SIZE_T size, ULONG protect,
+                                              ULONG state) noexcept
+        {
+            QWORD vad_phys = MemblockAlloc(sizeof(MmVad), alignof(MmVad));
+            if (!vad_phys)
+                return nullptr;
+
+            PMMVAD vad            = reinterpret_cast<PMMVAD>(PaddrToKvaddr(vad_phys));
+            vad->starting_address = base;
+            vad->size             = size;
+            vad->state            = state;
+            vad->protect          = protect;
+            return vad;
+        }
+
+        /* *******************************************************************************
+         * AUTHOR  : Trollycat                                                           *
+         * FUNC    : ReleaseVadNode                                                      *
+         * DATE    : 2026                                                                *
+         * PURPOSE : Safely unlinks a node and returns its descriptor back to the block  *
+         ********************************************************************************/
+        VOID ReleaseVadNode(ArchAspace *space, PMMVAD vad) noexcept
+        {
+            VadRemove(space, vad);
+            PVOID free_paddr = KvaddrToPaddr(reinterpret_cast<QWORD>(vad));
+            ASSERT(free_paddr != nullptr, "VMM: Node track physical address resolved to null");
+            MemblockFree(reinterpret_cast<QWORD>(free_paddr), sizeof(MmVad));
+        }
+
     } // namespace
 
     /* *******************************************************************************
@@ -173,7 +208,6 @@ namespace trunk::mem
     {
         ASSERT(space != nullptr, "VadRemove: space is null");
         ASSERT(vad != nullptr, "VadRemove: vad is null");
-
         RemoveEntryList(&vad->entry);
     }
 
@@ -187,10 +221,10 @@ namespace trunk::mem
                                           PSIZE_T region_size, ULONG allocation_type,
                                           ULONG protect) noexcept
     {
-        ASSERT(space != nullptr, "AllocateVirtualMemory: space is null");
-        ASSERT(base_address != nullptr, "AllocateVirtualMemory: base_address is null");
-        ASSERT(region_size != nullptr, "AllocateVirtualMemory: region_size is null");
-        ASSERT(*region_size > 0, "AllocateVirtualMemory: region_size is zero");
+        ASSERT(space != nullptr, "AllocateVirtualMemory: space context is null");
+        ASSERT(base_address != nullptr && region_size != nullptr,
+               "AllocateVirtualMemory: Arguments cannot be null");
+        ASSERT(*region_size > 0, "AllocateVirtualMemory: Request sizes must be greater than zero");
 
         if (tklib::math::add_would_overflow(*region_size, PAGE_SIZE - 1)) UNLIKELY
             return false;
@@ -216,9 +250,7 @@ namespace trunk::mem
         SIZE_T mapped   = 0;
 
         while (mapped < size) {
-
             PFN_NUM pfn = MmAllocPage(static_cast<ULONG>(MC_TYPE::USER));
-
             if (pfn == 0) {
                 UnmapAndFreeRange(space, base, mapped);
                 return false;
@@ -230,29 +262,19 @@ namespace trunk::mem
                 UnmapAndFreeRange(space, base, mapped);
                 return false;
             }
-
             curr_va += PAGE_SIZE;
             mapped  += PAGE_SIZE;
         }
 
-        QWORD vad_phys = MemblockAlloc(sizeof(MmVad), alignof(MmVad));
-        if (!vad_phys) {
+        PMMVAD vad = CreateVadDescriptor(base, size, protect, VAD_STATE_COMMITTED);
+        if (!vad) {
             UnmapAndFreeRange(space, base, size);
             return false;
         }
 
-        PMMVAD vad = reinterpret_cast<PMMVAD>(PaddrToKvaddr(vad_phys));
-
-        vad->starting_address = base;
-        vad->size             = size;
-        vad->state            = VAD_STATE_COMMITTED;
-        vad->protect          = protect;
-
         VadInsert(space, vad);
-
         *base_address = reinterpret_cast<PVOID>(base);
         *region_size  = size;
-
         return true;
     }
 
@@ -265,14 +287,16 @@ namespace trunk::mem
     NO_DISCARD BOOL FreeVirtualMemory(ArchAspace *space, PVOID *base_address,
                                       PSIZE_T region_size) noexcept
     {
-        ASSERT(space != nullptr, "FreeVirtualMemory: space is null");
-        ASSERT(base_address != nullptr, "FreeVirtualMemory: base_address is null");
-        ASSERT(region_size != nullptr, "FreeVirtualMemory: region_size is null");
+        ASSERT(space != nullptr, "FreeVirtualMemory: space context is null");
+        ASSERT(base_address != nullptr && region_size != nullptr,
+               "FreeVirtualMemory: Arguments cannot be null");
 
         QWORD base  = reinterpret_cast<QWORD>(*base_address) & ~(PAGE_SIZE - 1);
         SIZE_T size = (*region_size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
-
         if (size == 0)
+            return false;
+
+        if (tklib::math::add_would_overflow(base, size)) UNLIKELY
             return false;
 
         PMMVAD vad = VadFind(space, base);
@@ -286,14 +310,7 @@ namespace trunk::mem
 
         if (base == vad->starting_address && size == vad->size) {
             UnmapAndFreeRange(space, base, size);
-            VadRemove(space, vad);
-
-            PVOID free_paddr = KvaddrToPaddr(reinterpret_cast<QWORD>(vad));
-            ASSERT(free_paddr != nullptr, "FreeVirtualMemory: KvaddrToPaddr mapping returned null");
-
-            QWORD paddr = reinterpret_cast<QWORD>(free_paddr);
-            MemblockFree(paddr, sizeof(MmVad));
-
+            ReleaseVadNode(space, vad);
         } else if (base == vad->starting_address) {
             UnmapAndFreeRange(space, base, size);
             vad->starting_address += size;
@@ -304,32 +321,24 @@ namespace trunk::mem
         } else {
             QWORD right_base  = requested_end;
             SIZE_T right_size = vad_end - requested_end;
+            PMMVAD new_vad = CreateVadDescriptor(right_base, right_size, vad->protect, vad->state);
 
-            QWORD new_vad_phys = MemblockAlloc(sizeof(MmVad), alignof(MmVad));
-            if (!new_vad_phys) {
-                ASSERT(false,
-                       "FreeVirtualMemory: Out of memory while trying to split VAD descriptor");
+            if (!new_vad) {
+                ASSERT(false, "FreeVirtualMemory: Out of memory descriptor structural creation "
+                              "fault during split context");
                 return false;
             }
 
             UnmapAndFreeRange(space, base, size);
-
             vad->size = base - vad->starting_address;
-
-            PMMVAD new_vad            = reinterpret_cast<PMMVAD>(PaddrToKvaddr(new_vad_phys));
-            new_vad->starting_address = right_base;
-            new_vad->size             = right_size;
-            new_vad->state            = vad->state;
-            new_vad->protect          = vad->protect;
-
             VadInsert(space, new_vad);
         }
 
         *base_address = reinterpret_cast<PVOID>(base);
         *region_size  = size;
-
         return true;
     }
+
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : ProtectVirtualMemory                                               *
@@ -340,11 +349,9 @@ namespace trunk::mem
                                          PSIZE_T number_of_bytes, ULONG new_protect,
                                          PULONG old_protect) noexcept
     {
-        ASSERT(space != nullptr, "ProtectVirtualMemory: space is null");
-        ASSERT(base_address != nullptr, "ProtectVirtualMemory: base_address is null");
-        ASSERT(number_of_bytes != nullptr, "ProtectVirtualMemory: number_of_bytes is null");
-        ASSERT(*number_of_bytes > 0, "ProtectVirtualMemory: number_of_bytes is zero");
-        ASSERT(old_protect != nullptr, "ProtectVirtualMemory: old_protect is null");
+        ASSERT(space != nullptr, "ProtectVirtualMemory: space context is null");
+        ASSERT(base_address != nullptr && number_of_bytes != nullptr && old_protect != nullptr,
+               "ProtectVirtualMemory: Arguments cannot be null");
 
         if (tklib::math::add_would_overflow(*number_of_bytes, PAGE_SIZE - 1)) UNLIKELY
             return false;
@@ -352,16 +359,14 @@ namespace trunk::mem
         QWORD base  = reinterpret_cast<QWORD>(*base_address) & ~(PAGE_SIZE - 1);
         SIZE_T size = (*number_of_bytes + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
+        if (tklib::math::add_would_overflow(base, size)) UNLIKELY
+            return false;
+
         PMMVAD vad = VadFind(space, base);
-        if (!vad)
+        if (!vad || ((base + size) > (vad->starting_address + vad->size)))
             return false;
 
-        if ((base + size) > (vad->starting_address + vad->size))
-            return false;
-
-        if (old_protect)
-            *old_protect = vad->protect;
-
+        *old_protect    = vad->protect;
         QWORD mmu_flags = ProtectionToMmuFlags(new_protect);
         QWORD va        = base;
         QWORD end       = base + size;
@@ -373,7 +378,6 @@ namespace trunk::mem
         }
 
         vad->protect = new_protect;
-
         return true;
     }
 
@@ -438,28 +442,21 @@ namespace trunk::mem
      ********************************************************************************/
     VOID DeleteVirtualAddresses(QWORD va, QWORD ending_address, ArchAspace *space) noexcept
     {
-        ASSERT(space != nullptr, "DeleteVirtualAddresses: space is null");
-        ASSERT(ending_address > va, "DeleteVirtualAddresses: empty range");
+        ASSERT(space != nullptr, "DeleteVirtualAddresses: space context is null");
+        ASSERT(ending_address > va,
+               "DeleteVirtualAddresses: Range limit bound structure validation error");
 
         while (va < ending_address) {
             PMMVAD vad = VadFind(space, va);
-
             if (vad) {
                 UnmapAndFreeRange(space, vad->starting_address, vad->size);
                 QWORD next_va = vad->starting_address + vad->size;
-                VadRemove(space, vad);
-
-                PVOID free_paddr = KvaddrToPaddr(reinterpret_cast<QWORD>(vad));
-                ASSERT(free_paddr != nullptr,
-                       "DeleteVirtualAddresses: KvaddrToPaddr returned null");
-
-                QWORD paddr = reinterpret_cast<QWORD>(free_paddr);
-                MemblockFree(paddr, sizeof(MmVad));
-
+                ReleaseVadNode(space, vad);
                 va = next_va;
             } else {
                 va += PAGE_SIZE;
             }
         }
     }
+
 } // namespace trunk::mem

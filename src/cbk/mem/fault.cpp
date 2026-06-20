@@ -54,9 +54,9 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address, interrupts::TrapFrame *frame) noexcept
     {
-        BOOL is_present = (frame->error_code & 1) != 0;
-        BOOL is_write   = (frame->error_code & 2) != 0;
-        BOOL is_user    = (frame->error_code & 4) != 0;
+        MAYBE_UNUSED bool is_present = (frame->error_code & 1) != 0;
+        MAYBE_UNUSED BOOL is_write   = (frame->error_code & 2) != 0;
+        MAYBE_UNUSED BOOL is_user    = (frame->error_code & 4) != 0;
 
         if (!is_user && faulting_address < 0x0000800000000000ULL)
             return STATUS_ACCESS_VIOLATION;

@@ -59,10 +59,8 @@ namespace trunk::mem
             return 0;
 
         PLIST_ENTRY first_node = mm_active_user_list.flink;
-
-        PMMPFN pfn = CONTAINING_RECORD(first_node, MMPFN, list_entry);
-
-        PFN_NUM page = GetPfnEntryIndex(pfn);
+        PMMPFN pfn             = CONTAINING_RECORD(first_node, MMPFN, list_entry);
+        PFN_NUM page           = GetPfnEntryIndex(pfn);
 
         MmReferencePage(page);
 
@@ -100,7 +98,6 @@ namespace trunk::mem
 
         if (pfn->list_entry.flink != nullptr && pfn->list_entry.blink != nullptr) {
             RemoveEntryList(&pfn->list_entry);
-
             pfn->list_entry.flink = nullptr;
             pfn->list_entry.blink = nullptr;
         }
@@ -175,9 +172,8 @@ namespace trunk::mem
         PMMPFN pfn1 = GetPfnEntry(pfn);
         ASSERT(pfn1 != nullptr, "MmSetRmapListHeadPage: PFN entry pointer is null");
 
-        if (list_head != nullptr) {
+        if (list_head != nullptr)
             ASSERT(IsPfnInUse(pfn1), "MmSetRmapListHeadPage: PFN must be active to assign RMAP");
-        }
 
         pfn1->rmap_list_head = list_head;
     }
@@ -192,12 +188,9 @@ namespace trunk::mem
     NO_DISCARD PMM_RMAP_ENTRY MmGetRmapListHeadPage(PFN_NUM pfn) noexcept
     {
         ASSERT_IS_CBK_PFN(pfn);
-
         PMMPFN pfn1 = GetPfnEntry(pfn);
         ASSERT(pfn1 != nullptr, "MmGetRmapListHeadPage: PFN entry pointer is null");
-
         ASSERT(IsPfnInUse(pfn1), "MmGetRmapListHeadPage: PFN must be active to have RMAP");
-
         return pfn1->rmap_list_head;
     }
 
@@ -210,12 +203,9 @@ namespace trunk::mem
     VOID MmReferencePage(PFN_NUM pfn) noexcept
     {
         ASSERT_IS_CBK_PFN(pfn);
-
         PMMPFN pfn1 = GetPfnEntry(pfn);
         ASSERT(pfn1 != nullptr, "MmReferencePage: PFN entry pointer is null");
-
         ASSERT(!IsPfnFree(pfn1), "MmReferencePage: Cannot reference a completely freed page");
-
         pfn1->reference_count++;
     }
 
@@ -229,10 +219,8 @@ namespace trunk::mem
     NO_DISCARD ULONG MmGetReferenceCountPage(PFN_NUM pfn) noexcept
     {
         ASSERT_IS_CBK_PFN(pfn);
-
         PMMPFN pfn1 = GetPfnEntry(pfn);
         ASSERT(pfn1 != nullptr, "MmGetReferenceCountPage: PFN entry pointer is null");
-
         return pfn1->reference_count;
     }
 
@@ -269,13 +257,9 @@ namespace trunk::mem
 
         if (pfn1->reference_count == 0) {
             MmRemoveLRUUserPage(pfn);
-
             pfn1->page_location = MM_PFN_STATE::FREE_PAGE_LIST;
-
-            SIZE_T list_index = static_cast<SIZE_T>(MM_PFN_STATE::FREE_PAGE_LIST);
-
+            SIZE_T list_index   = static_cast<SIZE_T>(MM_PFN_STATE::FREE_PAGE_LIST);
             InsertTailList(&mm_page_location_list_head[list_index], &pfn1->list_entry);
-
             mm_available_pages++;
         }
     }
@@ -295,9 +279,8 @@ namespace trunk::mem
 
         if (IsListEmpty(list_head)) {
             list_head = &mm_page_location_list_head[zeroed_index];
-            if (IsListEmpty(list_head)) {
+            if (IsListEmpty(list_head))
                 return 0;
-            }
         }
 
         PLIST_ENTRY node = list_head->flink;
@@ -313,9 +296,8 @@ namespace trunk::mem
         pfn1->list_entry.flink = nullptr;
         pfn1->list_entry.blink = nullptr;
 
-        if (type == static_cast<ULONG>(MC_TYPE::USER)) {
+        if (type == static_cast<ULONG>(MC_TYPE::USER))
             MmInsertLRULastUserPage(pfn_offset);
-        }
 
         if (mm_available_pages > 0)
             mm_available_pages--;

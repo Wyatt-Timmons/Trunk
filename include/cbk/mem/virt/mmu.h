@@ -156,4 +156,12 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD QWORD MmuQuery(ArchAspace *space, QWORD va) noexcept;
 
+    /* *******************************************************************************
+     * AUTHOR  : Trollycat                                                           *
+     * FUNC    : MmuValidateVirtualRange                                             *
+     * DATE    : 2026                                                                *
+     * PURPOSE : Shared defensive assertions for address spaces and sizing bounds    *
+     ********************************************************************************/
+    VOID MmuValidateVirtualRange(const ArchAspace *space, QWORD va, SIZE_T size) noexcept;
+
 } // namespace trunk::mem
