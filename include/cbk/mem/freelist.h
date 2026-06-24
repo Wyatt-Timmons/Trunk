@@ -18,7 +18,7 @@
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Freelist allocator                                                 *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Alloc layer between MMU and Physical allocators                    *
+ *  PURPOSE : High-speed allocation engine                                       *
  ********************************************************************************/
 #pragma once
 
@@ -26,6 +26,17 @@
 
 #include <macros.h>
 #include <types.h>
+
+// The Freelist is a high-speed allocation engine,
+// Instead of scanning a massive array or tracking allocations with a  bitmap,
+// We use a page routing engine.
+
+// Rather than using a flat global pool, page frames are segmented by lifecycle
+// and multiplexed via 'mm_page_location_list_head[]'. Page frame allocation and
+// deallocation resolve in O(1) time by pushing and popping
+// records directly from their state lanes.
+
+// This design mirrors NT and ReactOS, all credits go to them
 
 namespace cbk::mem
 {
