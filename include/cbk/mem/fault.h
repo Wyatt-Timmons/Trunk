@@ -22,6 +22,7 @@
  ********************************************************************************/
 #pragma once
 
+#include <cbk/interrupts/interrupts.h>
 #include <cbk/interrupts/trap_frame.h>
 
 #include <macros.h>
@@ -29,8 +30,8 @@
 
 namespace trunk::mem
 {
-    constexpr LONG STATUS_SUCCESS          = 0x00000000L;
-    constexpr LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
+    CONSTEXPR LONG STATUS_SUCCESS          = 0x00000000L;
+    CONSTEXPR LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -38,7 +39,7 @@ namespace trunk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Raw ISR entry hook for Vector 14 (#PF)                             *
      ********************************************************************************/
-    VOID HandlePageFault(interrupts::TrapFrame *frame) noexcept;
+    VOID HandlePageFault(interrupts::InterruptFrame *frame, MAYBE_UNUSED PVOID context) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -47,6 +48,6 @@ namespace trunk::mem
      *  PURPOSE : Evaluates why the CPU faulted                                      *
      ********************************************************************************/
     NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address,
-                                  interrupts::TrapFrame *frame) noexcept;
+                                  interrupts::InterruptFrame *frame) noexcept;
 
 } // namespace trunk::mem

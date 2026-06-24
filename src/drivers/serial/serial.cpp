@@ -35,7 +35,7 @@ namespace trunk::drivers::serial
          *  AUTHOR  : Trollycat                                                         *
          *  FUNC    : SerialIsTransmitReady                                             *
          *  DATE    : 2026                                                              *
-         *  PURPOSE : Return true if the transmit buffer is empty.                      *
+         *  PURPOSE : Return TRUE if the transmit buffer is empty.                      *
          * *****************************************************************************/
         NO_DISCARD BOOL SerialIsTransmitReady() noexcept
         {
@@ -53,7 +53,7 @@ namespace trunk::drivers::serial
         {
             while (hal::InB(SERIAL_REG_LINE_STATUS) & 0x01) {
                 BYTE incoming_byte = hal::InB(SERIAL_REG_DATA);
-                SerialPutChar(static_cast<char>(incoming_byte));
+                SerialPutChar(static_cast<CHAR>(incoming_byte));
             }
         }
     } // namespace
@@ -89,7 +89,7 @@ namespace trunk::drivers::serial
      *  DATE    : 2026                                                              *
      *  PURPOSE : Write one character to COM1.                                      *
      * *****************************************************************************/
-    VOID SerialPutChar(char c) noexcept
+    VOID SerialPutChar(CHAR c) noexcept
     {
         if (c == '\n')
             SerialPutChar('\r');
@@ -112,7 +112,7 @@ namespace trunk::drivers::serial
      *  DATE    : 2026                                                              *
      *  PURPOSE : Write a null-terminated string to COM1.                           *
      * *****************************************************************************/
-    VOID SerialPuts(const char *s) noexcept
+    VOID SerialPuts(PCSTR s) noexcept
     {
         while (*s)
             SerialPutChar(*s++);

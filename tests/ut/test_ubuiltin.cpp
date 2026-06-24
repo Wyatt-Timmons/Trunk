@@ -51,7 +51,7 @@ TEST(Ubuiltin, Exchange)
 TEST(Ubuiltin, Addressof)
 {
     int x  = 42;
-    char c = 'A';
+    CHAR c = 'A';
     EXPECT_EQ(tklib::addressof(x), &x);
     EXPECT_EQ(tklib::addressof(c), &c);
 }
@@ -62,7 +62,7 @@ TEST(Ubuiltin, IsSame)
     EXPECT_TRUE((tklib::is_same_v<DWORD, DWORD>));
     EXPECT_FALSE((tklib::is_same_v<int, float>));
     EXPECT_FALSE((tklib::is_same_v<DWORD, QWORD>));
-    EXPECT_FALSE((tklib::is_same_v<int, const int>));
+    EXPECT_FALSE((tklib::is_same_v<int, CONST int>));
 }
 
 TEST(Ubuiltin, IsIntegral)
@@ -84,7 +84,7 @@ TEST(Ubuiltin, IsIntegral)
 TEST(Ubuiltin, IsPointer)
 {
     EXPECT_TRUE(tklib::is_pointer_v<int *>);
-    EXPECT_TRUE(tklib::is_pointer_v<const int *>);
+    EXPECT_TRUE(tklib::is_pointer_v<CONST int *>);
     EXPECT_TRUE(tklib::is_pointer_v<PVOID>);
     EXPECT_FALSE(tklib::is_pointer_v<int>);
     EXPECT_FALSE(tklib::is_pointer_v<int &>);
@@ -92,19 +92,19 @@ TEST(Ubuiltin, IsPointer)
 
 TEST(Ubuiltin, IsConst)
 {
-    EXPECT_TRUE(tklib::is_const_v<const int>);
-    EXPECT_TRUE(tklib::is_const_v<const QWORD>);
+    EXPECT_TRUE(tklib::is_const_v<CONST int>);
+    EXPECT_TRUE(tklib::is_const_v<CONST QWORD>);
     EXPECT_FALSE(tklib::is_const_v<int>);
     EXPECT_FALSE(tklib::is_const_v<QWORD>);
 }
 
 TEST(Ubuiltin, Conditional)
 {
-    EXPECT_TRUE((tklib::is_same_v<tklib::conditional_t<true, int, float>, int>));
-    EXPECT_TRUE((tklib::is_same_v<tklib::conditional_t<false, int, float>, float>));
+    EXPECT_TRUE((tklib::is_same_v<tklib::conditional_t<TRUE, int, float>, int>));
+    EXPECT_TRUE((tklib::is_same_v<tklib::conditional_t<FALSE, int, float>, float>));
 }
 
 TEST(Ubuiltin, EnableIf)
 {
-    EXPECT_TRUE((tklib::is_same_v<tklib::enable_if_t<true, int>, int>));
+    EXPECT_TRUE((tklib::is_same_v<tklib::enable_if_t<TRUE, int>, int>));
 }

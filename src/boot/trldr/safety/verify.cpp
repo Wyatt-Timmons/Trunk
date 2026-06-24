@@ -44,10 +44,10 @@ namespace trunk::boot
     BOOL VerifyMb2Pointer(DWORD phys) noexcept
     {
         if (phys < MB2_PTR_MIN)
-            return false;
+            return FALSE;
         if ((phys & (MB2_PTR_ALIGN - 1)) != 0)
-            return false;
-        return true;
+            return FALSE;
+        return TRUE;
     }
 
 } // namespace trunk::boot

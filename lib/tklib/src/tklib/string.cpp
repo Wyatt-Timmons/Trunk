@@ -35,7 +35,7 @@ namespace tklib
     PVOID memcpy(PVOID dst, LPCVOID src, SIZE_T n) noexcept
     {
         auto *d       = static_cast<BYTE *>(dst);
-        const auto *s = static_cast<const BYTE *>(src);
+        CONST auto *s = static_cast<CONST BYTE *>(src);
         for (SIZE_T i = 0; i < n; ++i)
             d[i] = s[i];
         return dst;
@@ -64,7 +64,7 @@ namespace tklib
     PVOID memmove(PVOID dst, LPCVOID src, SIZE_T n) noexcept
     {
         auto *d       = static_cast<BYTE *>(dst);
-        const auto *s = static_cast<const BYTE *>(src);
+        CONST auto *s = static_cast<CONST BYTE *>(src);
 
         if (d < s) {
             for (SIZE_T i = 0; i < n; ++i)
@@ -84,8 +84,8 @@ namespace tklib
      * *****************************************************************************/
     LONG memcmp(LPCVOID a, LPCVOID b, SIZE_T n) noexcept
     {
-        const auto *pa = static_cast<const BYTE *>(a);
-        const auto *pb = static_cast<const BYTE *>(b);
+        CONST auto *pa = static_cast<CONST BYTE *>(a);
+        CONST auto *pb = static_cast<CONST BYTE *>(b);
         for (SIZE_T i = 0; i < n; ++i) {
             if (pa[i] != pb[i])
                 return static_cast<LONG>(pa[i]) - static_cast<LONG>(pb[i]);
@@ -101,7 +101,7 @@ namespace tklib
      * *****************************************************************************/
     LPCVOID memchr(LPCVOID ptr, BYTE value, SIZE_T n) noexcept
     {
-        const auto *p = static_cast<const BYTE *>(ptr);
+        CONST auto *p = static_cast<CONST BYTE *>(ptr);
         for (SIZE_T i = 0; i < n; ++i)
             if (p[i] == value)
                 return &p[i];
@@ -115,9 +115,9 @@ namespace tklib
      *  PURPOSE : Return the length of a null-terminated string, not including      *
      *            the null terminator.                                              *
      * *****************************************************************************/
-    SIZE_T strlen(const char *s) noexcept
+    SIZE_T strlen(PCSTR s) noexcept
     {
-        const char *p = s;
+        PCSTR p = s;
         while (*p)
             ++p;
         return static_cast<SIZE_T>(p - s);
@@ -129,7 +129,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return the length of s, stopping at max.                          *
      * *****************************************************************************/
-    SIZE_T strnlen(const char *s, SIZE_T max) noexcept
+    SIZE_T strnlen(PCSTR s, SIZE_T max) noexcept
     {
         SIZE_T n = 0;
         while (n < max && s[n])
@@ -143,7 +143,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare two null-terminated strings.                              *
      * *****************************************************************************/
-    LONG strcmp(const char *a, const char *b) noexcept
+    LONG strcmp(PCSTR a, PCSTR b) noexcept
     {
         while (*a && *a == *b) {
             ++a;
@@ -158,7 +158,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare up to n characters of two strings.                        *
      * *****************************************************************************/
-    LONG strncmp(const char *a, const char *b, SIZE_T n) noexcept
+    LONG strncmp(PCSTR a, PCSTR b, SIZE_T n) noexcept
     {
         for (SIZE_T i = 0; i < n; ++i) {
             if (a[i] != b[i])
@@ -176,7 +176,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of two null-terminated strings.       *
      * *****************************************************************************/
-    LONG strcasecmp(const char *a, const char *b) noexcept
+    LONG strcasecmp(PCSTR a, PCSTR b) noexcept
     {
         while (*a && to_lower(*a) == to_lower(*b)) {
             ++a;
@@ -192,11 +192,11 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of up to n characters.                *
      * *****************************************************************************/
-    LONG strncasecmp(const char *a, const char *b, SIZE_T n) noexcept
+    LONG strncasecmp(PCSTR a, PCSTR b, SIZE_T n) noexcept
     {
         for (SIZE_T i = 0; i < n; ++i) {
-            char ca = to_lower(a[i]);
-            char cb = to_lower(b[i]);
+            CHAR ca = to_lower(a[i]);
+            CHAR cb = to_lower(b[i]);
             if (ca != cb)
                 return static_cast<LONG>(static_cast<BYTE>(ca)) -
                        static_cast<LONG>(static_cast<BYTE>(cb));
@@ -212,9 +212,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy src into dst including null terminator. Prefer strlcpy.      *
      * *****************************************************************************/
-    char *strcpy(char *dst, const char *src) noexcept
+    PCHAR strcpy(PCHAR dst, PCSTR src) noexcept
     {
-        char *d = dst;
+        PCHAR d = dst;
         while ((*d++ = *src++)) {
         }
         return dst;
@@ -226,7 +226,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy at most n bytes of src into dst. Pads with null bytes.       *
      * *****************************************************************************/
-    char *strncpy(char *dst, const char *src, SIZE_T n) noexcept
+    PCHAR strncpy(PCHAR dst, PCSTR src, SIZE_T n) noexcept
     {
         SIZE_T i = 0;
         for (; i < n && src[i]; ++i)
@@ -242,7 +242,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy src into dst writing at most (size - 1) chars.               *
      * *****************************************************************************/
-    SIZE_T strlcpy(char *dst, const char *src, SIZE_T size) noexcept
+    SIZE_T strlcpy(PCHAR dst, PCSTR src, SIZE_T size) noexcept
     {
         SIZE_T src_len = strlen(src);
         if (size == 0)
@@ -260,9 +260,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst. dst must have enough space. Prefer strlcat.    *
      * *****************************************************************************/
-    char *strcat(char *dst, const char *src) noexcept
+    PCHAR strcat(PCHAR dst, PCSTR src) noexcept
     {
-        char *d = dst + strlen(dst);
+        PCHAR d = dst + strlen(dst);
         while ((*d++ = *src++)) {
         }
         return dst;
@@ -274,9 +274,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append at most n characters of src to dst.                        *
      * *****************************************************************************/
-    char *strncat(char *dst, const char *src, SIZE_T n) noexcept
+    PCHAR strncat(PCHAR dst, PCSTR src, SIZE_T n) noexcept
     {
-        char *d  = dst + strlen(dst);
+        PCHAR d  = dst + strlen(dst);
         SIZE_T i = 0;
         for (; i < n && src[i]; ++i)
             d[i] = src[i];
@@ -290,7 +290,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst writing at most (size - strlen(dst) - 1) chars. *
      * *****************************************************************************/
-    SIZE_T strlcat(char *dst, const char *src, SIZE_T size) noexcept
+    SIZE_T strlcat(PCHAR dst, PCSTR src, SIZE_T size) noexcept
     {
         SIZE_T dst_len = strnlen(dst, size);
         SIZE_T src_len = strlen(src);
@@ -310,7 +310,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of c in s.                                  *
      * *****************************************************************************/
-    const char *strchr(const char *s, char c) noexcept
+    PCSTR strchr(PCSTR s, CHAR c) noexcept
     {
         for (; *s; ++s)
             if (*s == c)
@@ -324,9 +324,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find last occurrence of c in s.                                   *
      * *****************************************************************************/
-    const char *strrchr(const char *s, char c) noexcept
+    PCSTR strrchr(PCSTR s, CHAR c) noexcept
     {
-        const char *last = nullptr;
+        PCSTR last = nullptr;
         for (; *s; ++s)
             if (*s == c)
                 last = s;
@@ -339,13 +339,13 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in haystack.                      *
      * *****************************************************************************/
-    const char *strstr(const char *haystack, const char *needle) noexcept
+    PCSTR strstr(PCSTR haystack, PCSTR needle) noexcept
     {
         if (!*needle)
             return haystack;
         for (; *haystack; ++haystack) {
-            const char *h = haystack;
-            const char *n = needle;
+            PCSTR h = haystack;
+            PCSTR n = needle;
             while (*h && *n && *h == *n) {
                 ++h;
                 ++n;
@@ -362,7 +362,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in at most n bytes of haystack.   *
      * *****************************************************************************/
-    const char *strnstr(const char *haystack, const char *needle, SIZE_T n) noexcept
+    PCSTR strnstr(PCSTR haystack, PCSTR needle, SIZE_T n) noexcept
     {
         SIZE_T needle_len = strlen(needle);
         if (needle_len == 0)
@@ -383,10 +383,10 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first character in s that appears in accept.                 *
      * *****************************************************************************/
-    const char *strpbrk(const char *s, const char *accept) noexcept
+    PCSTR strpbrk(PCSTR s, PCSTR accept) noexcept
     {
         for (; *s; ++s)
-            for (const char *a = accept; *a; ++a)
+            for (PCSTR a = accept; *a; ++a)
                 if (*s == *a)
                     return s;
         return nullptr;
@@ -399,14 +399,14 @@ namespace tklib
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            found in accept.                                                  *
      * *****************************************************************************/
-    SIZE_T strspn(const char *s, const char *accept) noexcept
+    SIZE_T strspn(PCSTR s, PCSTR accept) noexcept
     {
         SIZE_T n = 0;
         for (; s[n]; ++n) {
-            BOOL found = false;
-            for (const char *a = accept; *a; ++a)
+            BOOL found = FALSE;
+            for (PCSTR a = accept; *a; ++a)
                 if (s[n] == *a) {
-                    found = true;
+                    found = TRUE;
                     break;
                 }
             if (!found)
@@ -422,11 +422,11 @@ namespace tklib
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            NOT found in reject.                                              *
      * *****************************************************************************/
-    SIZE_T strcspn(const char *s, const char *reject) noexcept
+    SIZE_T strcspn(PCSTR s, PCSTR reject) noexcept
     {
         SIZE_T n = 0;
         for (; s[n]; ++n)
-            for (const char *r = reject; *r; ++r)
+            for (PCSTR r = reject; *r; ++r)
                 if (s[n] == *r)
                     return n;
         return n;

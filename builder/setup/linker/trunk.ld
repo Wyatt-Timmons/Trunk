@@ -29,13 +29,17 @@ SECTIONS
     . = KERNEL_VMA + BOOT_END_LMA;
 
     .text ALIGN(0x1000) : AT(ADDR(.text) - KERNEL_VMA) {
+        __text_start = .;
         *(.text)
         *(.text.*)
+        __text_end = .;
     }
 
     .rodata ALIGN(0x1000) : AT(ADDR(.rodata) - KERNEL_VMA) {
+        __rodata_start = .;
         *(.rodata)
         *(.rodata.*)
+        __rodata_end = .;
     }
 
     .init_array ALIGN(8) : AT(ADDR(.init_array) - KERNEL_VMA) {
@@ -53,8 +57,10 @@ SECTIONS
     }
 
     .data ALIGN(0x1000) : AT(ADDR(.data) - KERNEL_VMA) {
+        __data_start = .;
         *(.data)
         *(.data.*)
+        __data_end = .;
     }
 
     .bss ALIGN(0x1000) : AT(ADDR(.bss) - KERNEL_VMA) {

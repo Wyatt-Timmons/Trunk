@@ -34,5 +34,5 @@ namespace trunk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
-    NO_RETURN VOID KAbort(const char *message) noexcept;
+    NO_RETURN VOID KAbort(PCSTR message) noexcept;
 } // namespace trunk::kernel

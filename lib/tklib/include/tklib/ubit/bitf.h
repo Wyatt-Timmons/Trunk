@@ -34,10 +34,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the number of set bits in value.                           *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr DWORD popcount(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR DWORD popcount(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "popcount requires an integral type");
-        if constexpr (sizeof(T) <= 4) {
+        if CONSTEXPR (sizeof(T) <= 4) {
             return static_cast<DWORD>(__builtin_popcount(static_cast<unsigned int>(value)));
         } else
             return static_cast<DWORD>(__builtin_popcountll(static_cast<unsigned long long>(value)));
@@ -49,13 +49,13 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Count leading zero bits.                                           *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr DWORD clz(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR DWORD clz(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "clz requires an integral type");
-        if constexpr (sizeof(T) <= 4) {
+        if CONSTEXPR (sizeof(T) <= 4) {
             return static_cast<DWORD>(__builtin_clz(static_cast<unsigned int>(value)));
         } else {
-            constexpr DWORD delta = 64u - (sizeof(T) * 8u);
+            CONSTEXPR DWORD delta = 64u - (sizeof(T) * 8u);
             return static_cast<DWORD>(__builtin_clzll(static_cast<unsigned long long>(value))) -
                    delta;
         }
@@ -67,10 +67,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Count trailing zero bits.                                          *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr DWORD ctz(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR DWORD ctz(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "ctz requires an integral type");
-        if constexpr (sizeof(T) <= 4) {
+        if CONSTEXPR (sizeof(T) <= 4) {
             return static_cast<DWORD>(__builtin_ctz(static_cast<unsigned int>(value)));
         } else {
             return static_cast<DWORD>(__builtin_ctzll(static_cast<unsigned long long>(value)));
@@ -83,7 +83,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the number of bits needed to represent value.              *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr DWORD bit_width(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR DWORD bit_width(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "bit_width requires an integral type");
         return value == 0 ? 0u : (static_cast<DWORD>(sizeof(T) * 8u)) - clz(value);
@@ -95,7 +95,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the largest power of two not greater than value.           *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T bit_floor(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T bit_floor(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "bit_floor requires an integral type");
         return value == 0 ? T{0} : T{1} << (bit_width(value) - 1u);
@@ -107,7 +107,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns the smallest power of two not less than value.             *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T bit_ceil(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T bit_ceil(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "bit_ceil requires an integral type");
         if (value <= 1)
@@ -119,9 +119,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : has_single_bit                                                     *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Returns true if value is a non-zero power of two.                  *
+     *  PURPOSE : Returns TRUE if value is a non-zero power of two.                  *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr BOOL has_single_bit(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR BOOL has_single_bit(T value) noexcept
     {
         return value != 0 && (value & (value - 1)) == 0;
     }
@@ -130,9 +130,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : test_bit                                                           *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Returns true if bit at position pos is set in value.               *
+     *  PURPOSE : Returns TRUE if bit at position pos is set in value.               *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr BOOL test_bit(T value, DWORD pos) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR BOOL test_bit(T value, DWORD pos) noexcept
     {
         return (value >> pos) & T{1};
     }
@@ -143,7 +143,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos set.                        *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T set_bit(T value, DWORD pos) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T set_bit(T value, DWORD pos) noexcept
     {
         return value | (T{1} << pos);
     }
@@ -154,7 +154,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos cleared.                    *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T clear_bit(T value, DWORD pos) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T clear_bit(T value, DWORD pos) noexcept
     {
         return value & ~(T{1} << pos);
     }
@@ -165,7 +165,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns value with bit at position pos toggled.                    *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T toggle_bit(T value, DWORD pos) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T toggle_bit(T value, DWORD pos) noexcept
     {
         return value ^ (T{1} << pos);
     }
@@ -176,10 +176,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Rotate value left by shift bits.                                   *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T rotl(T value, DWORD shift) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T rotl(T value, DWORD shift) noexcept
     {
         static_assert(std::is_integral_v<T>, "rotl requires an integral type");
-        constexpr DWORD width  = sizeof(T) * 8u;
+        CONSTEXPR DWORD width  = sizeof(T) * 8u;
         shift                 &= (width - 1u);
         if (shift == 0)
             return value;
@@ -192,10 +192,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Rotate value right by shift bits.                                  *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T rotr(T value, DWORD shift) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T rotr(T value, DWORD shift) noexcept
     {
         static_assert(std::is_integral_v<T>, "rotr requires an integral type");
-        constexpr DWORD width  = sizeof(T) * 8u;
+        CONSTEXPR DWORD width  = sizeof(T) * 8u;
         shift                 &= (width - 1u);
         if (shift == 0)
             return value;
@@ -208,14 +208,14 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Reverse the byte order of value.                                   *
      ********************************************************************************/
-    template <typename T> NO_DISCARD constexpr T byteswap(T value) noexcept
+    template <typename T> NO_DISCARD CONSTEXPR T byteswap(T value) noexcept
     {
         static_assert(std::is_integral_v<T>, "byteswap requires an integral type");
-        if constexpr (sizeof(T) == 2) {
+        if CONSTEXPR (sizeof(T) == 2) {
             return static_cast<T>(__builtin_bswap16(static_cast<WORD>(value)));
-        } else if constexpr (sizeof(T) == 4) {
+        } else if CONSTEXPR (sizeof(T) == 4) {
             return static_cast<T>(__builtin_bswap32(static_cast<DWORD>(value)));
-        } else if constexpr (sizeof(T) == 8) {
+        } else if CONSTEXPR (sizeof(T) == 8) {
             return static_cast<T>(__builtin_bswap64(static_cast<QWORD>(value)));
         } else {
             return value;
@@ -228,7 +228,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Returns a QWORD mask with the lowest n bits set.                     *
      ********************************************************************************/
-    NO_DISCARD constexpr QWORD mask(DWORD n) noexcept
+    NO_DISCARD CONSTEXPR QWORD mask(DWORD n) noexcept
     {
         return n >= 64 ? ~QWORD{0} : (QWORD{1} << n) - 1;
     }
@@ -239,7 +239,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Extract a field of width bits starting at bit position pos.        *
      ********************************************************************************/
-    NO_DISCARD constexpr QWORD extract_bits(QWORD value, DWORD pos, DWORD width) noexcept
+    NO_DISCARD CONSTEXPR QWORD extract_bits(QWORD value, DWORD pos, DWORD width) noexcept
     {
         return (value >> pos) & mask(width);
     }
@@ -250,10 +250,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Insert field into value at bit position pos with given width.      *
      ********************************************************************************/
-    NO_DISCARD constexpr QWORD insert_bits(QWORD value, QWORD field, DWORD pos,
+    NO_DISCARD CONSTEXPR QWORD insert_bits(QWORD value, QWORD field, DWORD pos,
                                            DWORD width) noexcept
     {
-        const QWORD m = mask(width);
+        CONST QWORD m = mask(width);
         return (value & ~(m << pos)) | ((field & m) << pos);
     }
 

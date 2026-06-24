@@ -25,7 +25,9 @@
 
 #include <cbk/gdt/gdt.h>
 #include <cbk/hal/io.h>
+
 #include <cbk/interrupts/idt/idt.h>
+
 #include <drivers/hal/pic.h>
 
 #define STARTUP_FUNC_FLAGS extern "C" NO_RETURN __attribute__((section(".text")))
@@ -38,7 +40,7 @@ namespace trunk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
      ********************************************************************************/
-    VOID CbkSetupSubsystems() noexcept
+    VOID CbkSetupSubsystems(CONST boot::BootInfo &info) noexcept
     {
         gdt::GdtInit();
         interrupts::IdtInit();
@@ -51,9 +53,9 @@ namespace trunk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
-    STARTUP_FUNC_FLAGS VOID CbkStartup(const boot::BootInfo &info) noexcept
+    STARTUP_FUNC_FLAGS VOID CbkStartup(CONST boot::BootInfo &info) noexcept
     {
-        CbkSetupSubsystems();
+        CbkSetupSubsystems(info);
         hal::Sti();
 
         MUWelcome();

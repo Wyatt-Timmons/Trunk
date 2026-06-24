@@ -75,7 +75,7 @@ struct GNU_PACKED GdtEntry
      *  DATE    : 2026                                                               *
      *  PURPOSE : Creates a new GdtEntry with passed in paramaters                   *
      ********************************************************************************/
-    static constexpr GdtEntry Create(BYTE access, BYTE flags) noexcept
+    static CONSTEXPR GdtEntry Create(BYTE access, BYTE flags) noexcept
     {
         return GdtEntry{.limit_low        = 0,
                         .base_low         = 0,

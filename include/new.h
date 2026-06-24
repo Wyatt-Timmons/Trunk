@@ -16,22 +16,15 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : RMap                                                               *
+ *  MODULE  : New operator                                                       *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Stores MmRMapEntry                                                 *
+ *  PURPOSE : C++ 'new' operator replacement                                     *
  ********************************************************************************/
 #pragma once
 
-#include <cbk/mem/types/mmtypes.h>
-
 #include <types.h>
 
-namespace trunk::mem
+INLINE PVOID operator new(SIZE_T, PVOID p) noexcept
 {
-    struct MmRmapEntry
-    {
-        MmRmapEntry *next;
-        PEPROCESS process;
-        PVOID virtual_address;
-    };
-} // namespace trunk::mem
+    return p;
+}

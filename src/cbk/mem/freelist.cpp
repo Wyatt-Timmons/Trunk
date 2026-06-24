@@ -20,14 +20,16 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Alloc layer between MMU and Physical allocators                    *
  ********************************************************************************/
-#include <cbk/mem/alloc/freelist.h>
+#include <cbk/mem/freelist.h>
 
-#include <cbk/mem/pfn/pfn.h>
+#include <cbk/mem/pfn.h>
 
 #include <assert.h>
 
 namespace trunk::mem
 {
+    MMPFN *g_MmPfnDatabase = nullptr;
+
     PMMPFN mm_pfn_database = nullptr;
 
     PFN_NUM mm_available_pages            = 0;

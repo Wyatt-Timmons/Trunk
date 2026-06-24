@@ -76,7 +76,7 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &TssGet() noexcept
+    NO_DISCARD CONST Tss &TssGet() noexcept
     {
         return s_tss;
     }

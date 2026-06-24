@@ -29,7 +29,7 @@
 
 namespace trunk::gdt
 {
-    inline constexpr DWORD IST_STACK_SIZE = 4096;
+    INLINE_CONST DWORD IST_STACK_SIZE = 4096;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -53,5 +53,5 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &TssGet() noexcept;
+    NO_DISCARD CONST Tss &TssGet() noexcept;
 } // namespace trunk::gdt

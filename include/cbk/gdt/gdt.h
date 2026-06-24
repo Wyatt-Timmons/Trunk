@@ -29,13 +29,13 @@
 
 namespace trunk::gdt
 {
-    inline constexpr BYTE GDT_PRESENT    = 0x80;
-    inline constexpr BYTE GDT_RING0      = 0x00;
-    inline constexpr BYTE GDT_RING3      = 0x60;
-    inline constexpr BYTE GDT_SYSTEM     = 0x10;
-    inline constexpr BYTE GDT_EXECUTABLE = 0x08;
-    inline constexpr BYTE GDT_READ_WRITE = 0x02;
-    inline constexpr BYTE GDT_LONG_MODE  = 0x20;
+    INLINE_CONST BYTE GDT_PRESENT    = 0x80;
+    INLINE_CONST BYTE GDT_RING0      = 0x00;
+    INLINE_CONST BYTE GDT_RING3      = 0x60;
+    INLINE_CONST BYTE GDT_SYSTEM     = 0x10;
+    INLINE_CONST BYTE GDT_EXECUTABLE = 0x08;
+    INLINE_CONST BYTE GDT_READ_WRITE = 0x02;
+    INLINE_CONST BYTE GDT_LONG_MODE  = 0x20;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -59,6 +59,6 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept;
+    NO_DISCARD WORD GdtInstallTss(CONST Tss *tss_ptr) noexcept;
 
 } // namespace trunk::gdt

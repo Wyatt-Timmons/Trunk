@@ -51,10 +51,11 @@ SaveMb2ToMemory:
 ; *******************************************************************************
 _Start:
     cli
+    mov esp, 0x7C00
     
+
     call SaveMb2ToMemory
 
-    mov esp, 0x7C00
     
     call SetupPageTables
     call EnableLongMode

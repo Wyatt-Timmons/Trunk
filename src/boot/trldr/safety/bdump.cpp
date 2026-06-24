@@ -31,7 +31,7 @@ namespace serial = trunk::drivers::serial;
 
 namespace trunk::boot
 {
-    static char s_buf[67];
+    static CHAR s_buf[67];
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -39,7 +39,7 @@ namespace trunk::boot
      *  DATE    : 2026                                                               *
      *  PURPOSE : Dump BootInfo contents to serial output.                           *
      ********************************************************************************/
-    VOID BDump(const BootInfo &info) noexcept
+    VOID BDump(CONST BootInfo &info) noexcept
     {
         serial::SerialPuts("Bootloader: ");
         serial::SerialPuts(info.bootloader_name[0] ? info.bootloader_name : "(unknown)");
@@ -51,7 +51,7 @@ namespace trunk::boot
         serial::SerialPuts(" entries):\n");
 
         for (SIZE_T i = 0; i < info.mmap_count; ++i) {
-            const auto &region = info.mmap[i];
+            CONST auto &region = info.mmap[i];
 
             serial::SerialPuts("  ");
             tklib::fmt_hex(s_buf, sizeof(s_buf), region.base);

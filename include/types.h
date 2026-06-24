@@ -22,18 +22,31 @@
  ********************************************************************************/
 #pragma once
 
+#include <limits.h>
 #include <stddef.h>
 #include <stdint.h>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 
+#ifdef __cplusplus
+#define INLINE inline
+#define CONSTEXPR constexpr
+#define CONST const
+#define INLINE_CONST INLINE CONSTEXPR
+#else
+#define INLINE
+#define CONSTEXPR
+#define CONST
+#define INLINE_CONST
+#endif
+
 using BYTE  = uint8_t;
 using WORD  = uint16_t;
 using DWORD = uint32_t;
 using QWORD = uint64_t;
 
-using CHAR     = int8_t;
+using CHAR     = char;
 using SHORT    = int16_t;
 using LONG     = int32_t;
 using LONGLONG = int64_t;
@@ -53,7 +66,7 @@ using PBOOL = bool *;
 
 using VOID    = void;
 using PVOID   = void *;
-using LPCVOID = const void *;
+using LPCVOID = CONST void *;
 
 using PBYTE = BYTE *;
 
@@ -64,14 +77,14 @@ using PCHAR      = CHAR *;
 using PLONG      = LONG *;
 using PULONG     = ULONG *;
 using PULONG_PTR = ULONG **;
-using PCSTR      = const char *;
+using PCSTR      = CONST char *;
 using PWSTR      = wchar_t *;
-using PCWSTR     = const wchar_t *;
+using PCWSTR     = CONST wchar_t *;
 
 using HANDLE  = void *;
 using PHANDLE = HANDLE *;
 
-inline constexpr ULONG_PTR INVALID_HANDLE_VALUE = ~ULONG_PTR{0};
+INLINE_CONST ULONG_PTR INVALID_HANDLE_VALUE = ~ULONG_PTR{0};
 
 struct EProcess;
 using PEPROCESS = EProcess *;
@@ -89,28 +102,29 @@ using PFN_COUNT = QWORD;
 
 namespace limits
 {
-    inline constexpr BYTE BYTE_min   = 0;
-    inline constexpr BYTE BYTE_max   = UINT8_MAX;
-    inline constexpr WORD WORD_min   = 0;
-    inline constexpr WORD WORD_max   = UINT16_MAX;
-    inline constexpr DWORD DWORD_min = 0;
-    inline constexpr DWORD DWORD_max = UINT32_MAX;
-    inline constexpr QWORD QWORD_min = 0;
-    inline constexpr QWORD QWORD_max = UINT64_MAX;
+    INLINE_CONST BYTE BYTE_min   = 0;
+    INLINE_CONST BYTE BYTE_max   = UINT8_MAX;
+    INLINE_CONST WORD WORD_min   = 0;
+    INLINE_CONST WORD WORD_max   = UINT16_MAX;
+    INLINE_CONST DWORD DWORD_min = 0;
+    INLINE_CONST DWORD DWORD_max = UINT32_MAX;
+    INLINE_CONST QWORD QWORD_min = 0;
+    INLINE_CONST QWORD QWORD_max = UINT64_MAX;
 
-    inline constexpr CHAR CHAR_min         = INT8_MIN;
-    inline constexpr CHAR CHAR_max         = INT8_MAX;
-    inline constexpr SHORT SHORT_min       = INT16_MIN;
-    inline constexpr SHORT SHORT_max       = INT16_MAX;
-    inline constexpr LONG LONG_min         = INT32_MIN;
-    inline constexpr LONG LONG_max         = INT32_MAX;
-    inline constexpr LONGLONG LONGLONG_min = INT64_MIN;
-    inline constexpr LONGLONG LONGLONG_max = INT64_MAX;
+    INLINE_CONST CHAR CHAR_min = CHAR_MIN;
+    INLINE_CONST CHAR CHAR_max = CHAR_MAX;
 
-    inline constexpr SIZE_T SIZE_T_max       = SIZE_MAX;
-    inline constexpr ULONG_PTR ULONG_PTR_max = UINTPTR_MAX;
-    inline constexpr LONG_PTR LONG_PTR_min   = INTPTR_MIN;
-    inline constexpr LONG_PTR LONG_PTR_max   = INTPTR_MAX;
+    INLINE_CONST SHORT SHORT_min       = INT16_MIN;
+    INLINE_CONST SHORT SHORT_max       = INT16_MAX;
+    INLINE_CONST LONG LONG_min         = INT32_MIN;
+    INLINE_CONST LONG LONG_max         = INT32_MAX;
+    INLINE_CONST LONGLONG LONGLONG_min = INT64_MIN;
+    INLINE_CONST LONGLONG LONGLONG_max = INT64_MAX;
+
+    INLINE_CONST SIZE_T SIZE_T_max       = SIZE_MAX;
+    INLINE_CONST ULONG_PTR ULONG_PTR_max = UINTPTR_MAX;
+    INLINE_CONST LONG_PTR LONG_PTR_min   = INTPTR_MIN;
+    INLINE_CONST LONG_PTR LONG_PTR_max   = INTPTR_MAX;
 } // namespace limits
 
 namespace trunk::mem
@@ -135,5 +149,8 @@ namespace trunk::mem
     using MMPTE  = MmPte;
     using PMMPTE = MmPte *;
 } // namespace trunk::mem
+
+INLINE_CONST BOOL TRUE  = true;
+INLINE_CONST BOOL FALSE = false;
 
 #pragma GCC diagnostic pop

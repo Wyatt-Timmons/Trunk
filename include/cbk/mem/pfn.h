@@ -15,51 +15,83 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Page alloc                                                         *
+ *  MODULE  : Page frame number                                                  *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Buddy allocator                                                    *
+ *  PURPOSE : Assigns each page(4kb) a unique number for easy tracking.          *
  ********************************************************************************/
 #pragma once
 
+#include <assert.h>
 #include <macros.h>
 #include <types.h>
 
-#include <cbk/mem/pfn/pfn.h>
+#include <cbk/kern/kabort.h>
+
+#include <cbk/mem/list.h>
+#include <cbk/mem/mmarch.h>
+#include <cbk/mem/mmtypes.h>
+
+#define ASSERT_IS_CBK_PFN(pfn_num)                                                                 \
+    ASSERT((pfn_num) != 0 && (pfn_num) <= mm_highest_physical_page, "Invalid PFN provided")
 
 namespace trunk::mem
 {
-    struct PfnAllocatorState
+    INLINE_CONST SIZE_T BUDDY_MAX_ORDER = 11;
+
+    extern PMMPFN g_MmPfnDatabase;
+
+    struct MmPfn
     {
-        MMPFN *mm_pfn_database;
-        SIZE_T max_frames;
-        ListEntry free_lists[BUDDY_MAX_ORDER];
+        BYTE order;
+        MM_PFN_STATE page_location;
+        ListEntry list_entry;
+        PMM_RMAP_ENTRY rmap_list_head;
+        ULONG reference_count;
     };
 
-    extern PfnAllocatorState g_PfnAllocator;
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : AddrToPfn                                                          *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Shift address to Page frame number                                 *
+     ********************************************************************************/
+    NO_DISCARD INLINE_CONST QWORD AddrToPfn(QWORD addr) noexcept
+    {
+        return addr >> PAGE_SHIFT;
+    }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PfnAllocatorInit                                                   *
+     *  FUNC    : PfnToAddr                                                          *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Initialize the PFN allocator(buddy)                                *
+     *  PURPOSE : Shift Page frame number to address                                 *
      ********************************************************************************/
-    VOID PfnAllocatorInit(MMPFN *dbMemory, SIZE_T max) noexcept;
+    NO_DISCARD INLINE_CONST QWORD PfnToAddr(QWORD pfn) noexcept
+    {
+        return pfn << PAGE_SHIFT;
+    }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PfnAllocPages                                                      *
+     *  FUNC    : GetPfnEntry                                                        *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Allocate pages                                                     *
+     *  PURPOSE : Translates a raw PFN index into its metadata structure pointer     *
      ********************************************************************************/
-    NO_DISCARD MMPFN *PfnAllocPages(BYTE order) noexcept;
+    NO_DISCARD INLINE PMMPFN GetPfnEntry(PFN_NUM pfn_num) noexcept
+    {
+        return &g_MmPfnDatabase[pfn_num];
+    }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PfnFreePages                                                       *
+     *  FUNC    : GetPfnEntryIndex                                                   *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Free pages                                                         *
+     *  PURPOSE : Translates a raw PFN index into its metadata structure pointer     *
      ********************************************************************************/
-    VOID PfnFreePages(MMPFN *page, BYTE order) noexcept;
+    NO_DISCARD INLINE PFN_NUM GetPfnEntryIndex(PMMPFN pfn_entry) noexcept
+    {
+        return (PFN_NUM)(pfn_entry - g_MmPfnDatabase);
+    }
+
 } // namespace trunk::mem

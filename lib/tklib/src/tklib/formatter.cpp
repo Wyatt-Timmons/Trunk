@@ -32,7 +32,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a zero-padded 16-digit hex string into buf.          *
      ********************************************************************************/
-    VOID fmt_hex(char *buf, SIZE_T size, QWORD val) noexcept
+    VOID fmt_hex(PCHAR buf, SIZE_T size, QWORD val) noexcept
     {
         if (!buf || size < 19)
             return;
@@ -53,7 +53,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a zero-padded 8-digit hex string into buf.           *
      ********************************************************************************/
-    VOID fmt_hex32(char *buf, SIZE_T size, DWORD val) noexcept
+    VOID fmt_hex32(PCHAR buf, SIZE_T size, DWORD val) noexcept
     {
         if (!buf || size < 11)
             return;
@@ -74,7 +74,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a decimal string into buf.                           *
      ********************************************************************************/
-    VOID fmt_dec(char *buf, SIZE_T size, QWORD val) noexcept
+    VOID fmt_dec(PCHAR buf, SIZE_T size, QWORD val) noexcept
     {
         if (!buf || size < 2)
             return;
@@ -85,12 +85,12 @@ namespace tklib
             return;
         }
 
-        char tmp[21];
+        CHAR tmp[21];
         LONG i  = 20;
         tmp[20] = '\0';
 
         while (val > 0 && i > 0) {
-            tmp[--i]  = '0' + static_cast<char>(val % 10);
+            tmp[--i]  = '0' + static_cast<CHAR>(val % 10);
             val      /= 10;
         }
 
@@ -108,7 +108,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a signed decimal string into buf.                    *
      ********************************************************************************/
-    VOID fmt_dec_signed(char *buf, SIZE_T size, LONGLONG val) noexcept
+    VOID fmt_dec_signed(PCHAR buf, SIZE_T size, LONGLONG val) noexcept
     {
         if (!buf || size < 2)
             return;
@@ -128,7 +128,7 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a zero-padded 64-bit binary string into buf.         *
      ********************************************************************************/
-    VOID fmt_bin(char *buf, SIZE_T size, QWORD val) noexcept
+    VOID fmt_bin(PCHAR buf, SIZE_T size, QWORD val) noexcept
     {
         if (!buf || size < 67)
             return;
@@ -138,7 +138,7 @@ namespace tklib
         buf[66] = '\0';
 
         for (LONG i = 65; i >= 2; --i) {
-            buf[i]   = '0' + static_cast<char>(val & 1);
+            buf[i]   = '0' + static_cast<CHAR>(val & 1);
             val    >>= 1;
         }
     }
@@ -149,12 +149,12 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Format val as a human-readable size string (KB, MB, GB).           *
      ********************************************************************************/
-    VOID fmt_size(char *buf, SIZE_T size, QWORD val) noexcept
+    VOID fmt_size(PCHAR buf, SIZE_T size, QWORD val) noexcept
     {
         if (!buf || size < 2)
             return;
 
-        const char *unit;
+        PCSTR unit;
         QWORD display;
 
         if (val >= 1024ull * 1024ull * 1024ull) {
@@ -171,7 +171,7 @@ namespace tklib
             unit    = " B";
         }
 
-        char tmp[21];
+        CHAR tmp[21];
         fmt_dec(tmp, sizeof(tmp), display);
         strlcpy(buf, tmp, size);
         strlcat(buf, unit, size);

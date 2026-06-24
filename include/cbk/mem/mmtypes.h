@@ -16,36 +16,42 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Architecture address space                                         *
+ *  MODULE  : Memory types                                                       *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Holds ArchAspace                                                   *
+ *  PURPOSE : Stores common memory types and handlers                            *
  ********************************************************************************/
 #pragma once
 
+#include <macros.h>
 #include <types.h>
-
-#include <cbk/mem/types/mmtypes.h>
-#include <cbk/mem/util/list.h>
 
 namespace trunk::mem
 {
-    struct MmVad
+    INLINE_CONST ULONG MEM_COMMIT              = 0x00001000;
+    INLINE_CONST ULONG MEM_RESERVE             = 0x00002000;
+    INLINE_CONST ULONG MEM_REPLACE_PLACEHOLDER = 0x00004000;
+    INLINE_CONST ULONG MEM_RELEASE             = 0x00008000;
+    INLINE_CONST ULONG MEM_FREE                = 0x00010000;
+    INLINE_CONST ULONG MEM_RESET               = 0x00080000;
+    INLINE_CONST ULONG MEM_TOP_DOWN            = 0x00100000;
+    INLINE_CONST ULONG MEM_LARGE_PAGES         = 0x20000000;
+
+    INLINE_CONST SIZE_T MM_PFN_STATE_COUNT = 7;
+
+    enum class MM_PFN_STATE : BYTE
     {
-        LIST_ENTRY entry;
-        QWORD starting_address;
-        SIZE_T size;
-        ULONG state;
-        ULONG protect;
+        ZEROED_PAGE_LIST = 0,
+        FREE_PAGE_LIST   = 1,
+        ACTIVE_AND_VALID = 6
     };
 
-    struct ArchAspace
+    enum class MC_TYPE : ULONG
     {
-        QWORD *pml4_virt;
-        QWORD pml4_phys;
-        QWORD base;
-        SIZE_T size;
-
-        LIST_ENTRY vad_list_head;
+        SYSTEM     = 1,
+        USER       = 2,
+        NPPOOL     = 3,
+        PPOOL      = 4,
+        CACHE      = 5,
+        CONTIGUOUS = 6
     };
-
 } // namespace trunk::mem

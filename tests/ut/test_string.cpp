@@ -28,26 +28,26 @@
 
 TEST(String, Memcpy)
 {
-    char dst[16] = {};
-    char src[]   = "hello";
+    CHAR dst[16] = {};
+    CHAR src[]   = "hello";
     tklib::memcpy(dst, src, 6);
     EXPECT_STREQ(dst, "hello");
 }
 
 TEST(String, Memset)
 {
-    char buf[8] = {};
+    CHAR buf[8] = {};
     tklib::memset(buf, 0xAA, 4);
-    EXPECT_EQ((unsigned char)buf[0], 0xAAu);
-    EXPECT_EQ((unsigned char)buf[3], 0xAAu);
-    EXPECT_EQ((unsigned char)buf[4], 0x00u);
+    EXPECT_EQ((unsigned CHAR)buf[0], 0xAAu);
+    EXPECT_EQ((unsigned CHAR)buf[3], 0xAAu);
+    EXPECT_EQ((unsigned CHAR)buf[4], 0x00u);
 }
 
 TEST(String, Memcmp)
 {
-    char a[] = "abc";
-    char b[] = "abc";
-    char c[] = "abd";
+    CHAR a[] = "abc";
+    CHAR b[] = "abc";
+    CHAR c[] = "abd";
     EXPECT_EQ(tklib::memcmp(a, b, 3), 0);
     EXPECT_LT(tklib::memcmp(a, c, 3), 0);
     EXPECT_GT(tklib::memcmp(c, a, 3), 0);
@@ -55,7 +55,7 @@ TEST(String, Memcmp)
 
 TEST(String, Memmove)
 {
-    char buf[] = "12345678";
+    CHAR buf[] = "12345678";
     tklib::memmove(buf + 2, buf, 5);
     EXPECT_EQ(buf[2], '1');
     EXPECT_EQ(buf[6], '5');
@@ -99,14 +99,14 @@ TEST(String, Strcasecmp)
 
 TEST(String, Strcpy)
 {
-    char dst[16] = {};
+    CHAR dst[16] = {};
     tklib::strcpy(dst, "hello");
     EXPECT_STREQ(dst, "hello");
 }
 
 TEST(String, Strlcpy)
 {
-    char dst[4] = {};
+    CHAR dst[4] = {};
     SIZE_T ret  = tklib::strlcpy(dst, "hello", 4u);
     EXPECT_STREQ(dst, "hel");
     EXPECT_EQ(ret, 5u);
@@ -114,14 +114,14 @@ TEST(String, Strlcpy)
 
 TEST(String, Strcat)
 {
-    char dst[16] = "hello";
+    CHAR dst[16] = "hello";
     tklib::strcat(dst, " world");
     EXPECT_STREQ(dst, "hello world");
 }
 
 TEST(String, Strlcat)
 {
-    char dst[8] = "hi";
+    CHAR dst[8] = "hi";
     SIZE_T ret  = tklib::strlcat(dst, " world", 8u);
     EXPECT_STREQ(dst, "hi worl");
     EXPECT_EQ(ret, 8u);
@@ -129,7 +129,7 @@ TEST(String, Strlcat)
 
 TEST(String, Strchr)
 {
-    const char *s = "hello";
+    PCSTR s = "hello";
     EXPECT_EQ(tklib::strchr(s, 'e'), s + 1);
     EXPECT_EQ(tklib::strchr(s, 'z'), nullptr);
     EXPECT_EQ(tklib::strchr(s, 'l'), s + 2);
@@ -137,14 +137,14 @@ TEST(String, Strchr)
 
 TEST(String, Strrchr)
 {
-    const char *s = "hello";
+    PCSTR s = "hello";
     EXPECT_EQ(tklib::strrchr(s, 'l'), s + 3);
     EXPECT_EQ(tklib::strrchr(s, 'z'), nullptr);
 }
 
 TEST(String, Strstr)
 {
-    const char *s = "hello world";
+    PCSTR s = "hello world";
     EXPECT_EQ(tklib::strstr(s, "world"), s + 6);
     EXPECT_EQ(tklib::strstr(s, "xyz"), nullptr);
     EXPECT_EQ(tklib::strstr(s, ""), s);

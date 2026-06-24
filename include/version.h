@@ -46,15 +46,15 @@ struct KernelVersion
     WORD major;
     WORD minor;
     WORD patch;
-    const char *build_string;
+    CONST PCHAR build_string;
 };
 
-constexpr KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,
+CONSTEXPR KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,
                                         .minor        = TRUNK_VERSION_MINOR,
                                         .patch        = TRUNK_VERSION_PATCH,
                                         .build_string = TRUNK_VERSION_STRING};
 
-NO_DISCARD inline const KernelVersion &TrGetVersion() noexcept
+NO_DISCARD INLINE CONST KernelVersion &TrGetVersion() noexcept
 {
     return g_KernelVersion;
 }

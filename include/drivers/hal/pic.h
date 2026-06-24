@@ -28,21 +28,21 @@ namespace trunk::drivers::pic
 {
 
     // clang-format off
-    inline constexpr static BYTE PIC1         = 0x20;
-    inline constexpr static BYTE PIC2         = 0xA0;
+    INLINE_CONST static BYTE PIC1         = 0x20;
+    INLINE_CONST static BYTE PIC2         = 0xA0;
 
-    inline constexpr static BYTE PIC1_COMMAND = PIC1;
-    inline constexpr static BYTE PIC1_DATA    = PIC1 + 1;
-    inline constexpr static BYTE PIC2_COMMAND = PIC2;
-    inline constexpr static BYTE PIC2_DATA    = PIC2 + 1;
+    INLINE_CONST static BYTE PIC1_COMMAND = PIC1;
+    INLINE_CONST static BYTE PIC1_DATA    = PIC1 + 1;
+    INLINE_CONST static BYTE PIC2_COMMAND = PIC2;
+    INLINE_CONST static BYTE PIC2_DATA    = PIC2 + 1;
     
-    inline constexpr static BYTE PIC_EOI      = 0x20;
+    INLINE_CONST static BYTE PIC_EOI      = 0x20;
 
-    inline constexpr static BYTE PIC1_OFFSET  = 0x20;
-    inline constexpr static BYTE PIC2_OFFSET  = 0x28;
+    INLINE_CONST static BYTE PIC1_OFFSET  = 0x20;
+    INLINE_CONST static BYTE PIC2_OFFSET  = 0x28;
 
-    inline constexpr static BYTE ICW1_INIT    = 0x11;
-    inline constexpr static BYTE ICW4_8086    = 0x01;
+    INLINE_CONST static BYTE ICW1_INIT    = 0x11;
+    INLINE_CONST static BYTE ICW4_8086    = 0x01;
 
     // clang-format on
 

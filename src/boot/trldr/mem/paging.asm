@@ -58,18 +58,22 @@ ZeroPageTables:
 ; *  PURPOSE : Populates the page tables with mappings                          *
 ; *******************************************************************************
 PopulatePageTables:
+    mov dword [PML4_ADDR + 4], 0
     mov dword [PML4_ADDR],                   PDPT_ID | PTE_FLAGS
+    
+    mov dword [PML4_ADDR + 256 * 8 + 4], 0
+    mov dword [PML4_ADDR + 256 * 8],         PDPT_ID | PTE_FLAGS
+
+    mov dword [PML4_ADDR + 511 * 8 + 4], 0
     mov dword [PML4_ADDR + 511 * 8],         PDPT_HH | PTE_FLAGS
-    mov dword [PDPT_ID], PD_ADDR |           PTE_FLAGS
+    
+    mov dword [PDPT_ID + 4], 0
+    mov dword [PDPT_ID],                     PD_ADDR | PTE_FLAGS
+    
+    mov dword [PDPT_HH + HH_PDPT_INDEX * 8 + 4], 0
     mov dword [PDPT_HH + HH_PDPT_INDEX * 8], PD_ADDR | PTE_FLAGS
     ret
 
-; *******************************************************************************
-; *  AUTHOR  : Trollycat                                                        *
-; *  FUNC    : SetupPageTables                                                  *
-; *  DATE    : 2026                                                             *
-; *  PURPOSE : Setup the page tables                                            *
-; *******************************************************************************
 global SetupPageTables
 SetupPageTables:
     call ZeroPageTables
@@ -81,6 +85,7 @@ SetupPageTables:
 
 .FillPd:
     mov dword [edi], eax
+    mov dword [edi + 4], 0
     add eax, 0x200000
     add edi, 8
     loop .FillPd

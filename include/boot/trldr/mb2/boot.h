@@ -43,11 +43,11 @@ namespace trunk::boot
         QWORD length;
         MemoryType type;
 
-        NO_DISCARD constexpr QWORD End() const noexcept
+        NO_DISCARD CONSTEXPR QWORD End() CONST noexcept
         {
             return base + length;
         }
-        NO_DISCARD constexpr BOOL Available() const noexcept
+        NO_DISCARD CONSTEXPR BOOL Available() CONST noexcept
         {
             return type == MemoryType::Available;
         }
@@ -55,12 +55,12 @@ namespace trunk::boot
 
     struct BootInfo
     {
-        static constexpr SIZE_T BOOTLOADER_NAME_MAX = 64;
-        static constexpr SIZE_T MAX_MMAP_ENTRIES    = 64;
+        static CONSTEXPR SIZE_T BOOTLOADER_NAME_MAX = 64;
+        static CONSTEXPR SIZE_T MAX_MMAP_ENTRIES    = 64;
 
         MemoryRegion mmap[MAX_MMAP_ENTRIES]       = {};
         SIZE_T mmap_count                         = 0;
-        char bootloader_name[BOOTLOADER_NAME_MAX] = {};
+        CHAR bootloader_name[BOOTLOADER_NAME_MAX] = {};
 
         /* ***************************************************************************
          *  AUTHOR  : Trollycat                                                      *
@@ -69,7 +69,7 @@ namespace trunk::boot
          *  PURPOSE : Sum of all Available region lengths. Used by the PMM.          *
          ****************************************************************************/
         NO_DISCARD
-        QWORD TotalAvailableBytes() const noexcept
+        QWORD TotalAvailableBytes() CONST noexcept
         {
             QWORD total = 0;
             for (SIZE_T i = 0; i < mmap_count; ++i)
@@ -85,6 +85,6 @@ namespace trunk::boot
      *  DATE    : 2026                                                               *
      *  PURPOSE : Return a short string describing a MemoryType value.               *
      ********************************************************************************/
-    NO_DISCARD const char *MemoryTypeString(MemoryType type) noexcept;
+    NO_DISCARD PCSTR MemoryTypeString(MemoryType type) noexcept;
 
 } // namespace trunk::boot

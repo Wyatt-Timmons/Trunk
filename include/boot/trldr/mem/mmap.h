@@ -28,14 +28,14 @@
 
 namespace trunk::boot
 {
-    constexpr DWORD TAG_END        = 0;
-    constexpr DWORD TAG_BOOTLOADER = 2;
-    constexpr DWORD TAG_MMAP       = 6;
+    CONSTEXPR DWORD TAG_END        = 0;
+    CONSTEXPR DWORD TAG_BOOTLOADER = 2;
+    CONSTEXPR DWORD TAG_MMAP       = 6;
 
-    constexpr DWORD MMAP_AVAILABLE = 1;
-    constexpr DWORD MMAP_ACPI      = 3;
-    constexpr DWORD MMAP_NVS       = 4;
-    constexpr DWORD MMAP_BADRAM    = 5;
+    CONSTEXPR DWORD MMAP_AVAILABLE = 1;
+    CONSTEXPR DWORD MMAP_ACPI      = 3;
+    CONSTEXPR DWORD MMAP_NVS       = 4;
+    CONSTEXPR DWORD MMAP_BADRAM    = 5;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *

@@ -37,9 +37,9 @@
             if (!(condition)) UNLIKELY {                                      \
                 ::trunk::kernel::KAbort("ASSERTION FAILED: " message " (" #condition ")"); \
             }                                                                     \
-        } while (false)
+        } while (FALSE)
 #else
-    #define ASSERT(condition, message) do { (VOID )(condition); } while (false)
+    #define ASSERT(condition, message) do { (VOID )(condition); } while (FALSE)
 #endif
 
 // clang-format on

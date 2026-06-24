@@ -75,7 +75,7 @@ namespace tklib
      *  PURPOSE : Return the length of a null-terminated string, not including      *
      *            the null terminator.                                              *
      * *****************************************************************************/
-    NO_DISCARD SIZE_T strlen(const char *s) noexcept;
+    NO_DISCARD SIZE_T strlen(PCSTR s) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -83,7 +83,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return the length of s, stopping at max.                          *
      * *****************************************************************************/
-    NO_DISCARD SIZE_T strnlen(const char *s, SIZE_T max) noexcept;
+    NO_DISCARD SIZE_T strnlen(PCSTR s, SIZE_T max) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -91,7 +91,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare two null-terminated strings.                              *
      * *****************************************************************************/
-    NO_DISCARD LONG strcmp(const char *a, const char *b) noexcept;
+    NO_DISCARD LONG strcmp(PCSTR a, PCSTR b) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -99,7 +99,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare up to n characters of two strings.                        *
      * *****************************************************************************/
-    NO_DISCARD LONG strncmp(const char *a, const char *b, SIZE_T n) noexcept;
+    NO_DISCARD LONG strncmp(PCSTR a, PCSTR b, SIZE_T n) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -107,7 +107,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of two null-terminated strings.       *
      * *****************************************************************************/
-    NO_DISCARD LONG strcasecmp(const char *a, const char *b) noexcept;
+    NO_DISCARD LONG strcasecmp(PCSTR a, PCSTR b) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -115,7 +115,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of up to n characters.                *
      * *****************************************************************************/
-    NO_DISCARD LONG strncasecmp(const char *a, const char *b, SIZE_T n) noexcept;
+    NO_DISCARD LONG strncasecmp(PCSTR a, PCSTR b, SIZE_T n) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -123,7 +123,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy src into dst including null terminator. Prefer strlcpy.      *
      * *****************************************************************************/
-    char *strcpy(char *dst, const char *src) noexcept;
+    PCHAR strcpy(PCHAR dst, PCSTR src) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -131,7 +131,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy at most n bytes of src into dst.                             *
      * *****************************************************************************/
-    char *strncpy(char *dst, const char *src, SIZE_T n) noexcept;
+    PCHAR strncpy(PCHAR dst, PCSTR src, SIZE_T n) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -139,7 +139,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy src into dst writing at most (size - 1) chars                *
      * *****************************************************************************/
-    SIZE_T strlcpy(char *dst, const char *src, SIZE_T size) noexcept;
+    SIZE_T strlcpy(PCHAR dst, PCSTR src, SIZE_T size) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -147,7 +147,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst. dst must have enough space. Prefer strlcat.    *
      * *****************************************************************************/
-    char *strcat(char *dst, const char *src) noexcept;
+    PCHAR strcat(PCHAR dst, PCSTR src) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -155,7 +155,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append at most n characters of src to dst.                        *
      * *****************************************************************************/
-    char *strncat(char *dst, const char *src, SIZE_T n) noexcept;
+    PCHAR strncat(PCHAR dst, PCSTR src, SIZE_T n) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -163,7 +163,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst writing at most (size - strlen(dst) - 1).       *
      * *****************************************************************************/
-    SIZE_T strlcat(char *dst, const char *src, SIZE_T size) noexcept;
+    SIZE_T strlcat(PCHAR dst, PCSTR src, SIZE_T size) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -171,7 +171,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of c in s. Returns pointer or nullptr.      *
      * *****************************************************************************/
-    NO_DISCARD const char *strchr(const char *s, char c) noexcept;
+    NO_DISCARD PCSTR strchr(PCSTR s, CHAR c) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -179,7 +179,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find last occurrence of c in s. Returns pointer or nullptr.       *
      * *****************************************************************************/
-    NO_DISCARD const char *strrchr(const char *s, char c) noexcept;
+    NO_DISCARD PCSTR strrchr(PCSTR s, CHAR c) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -187,7 +187,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in haystack.                      *
      * *****************************************************************************/
-    NO_DISCARD const char *strstr(const char *haystack, const char *needle) noexcept;
+    NO_DISCARD PCSTR strstr(PCSTR haystack, PCSTR needle) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -195,7 +195,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in at most n bytes of haystack.   *
      * *****************************************************************************/
-    NO_DISCARD const char *strnstr(const char *haystack, const char *needle, SIZE_T n) noexcept;
+    NO_DISCARD PCSTR strnstr(PCSTR haystack, PCSTR needle, SIZE_T n) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -203,7 +203,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first character in s that appears in accept.                 *
      * *****************************************************************************/
-    NO_DISCARD const char *strpbrk(const char *s, const char *accept) noexcept;
+    NO_DISCARD PCSTR strpbrk(PCSTR s, PCSTR accept) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -212,7 +212,7 @@ namespace tklib
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            found in accept.                                                  *
      * *****************************************************************************/
-    NO_DISCARD SIZE_T strspn(const char *s, const char *accept) noexcept;
+    NO_DISCARD SIZE_T strspn(PCSTR s, PCSTR accept) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -221,15 +221,15 @@ namespace tklib
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            NOT found in reject.                                              *
      * *****************************************************************************/
-    NO_DISCARD SIZE_T strcspn(const char *s, const char *reject) noexcept;
+    NO_DISCARD SIZE_T strcspn(PCSTR s, PCSTR reject) noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_alpha                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is an alphabetic character.                      *
+     *  PURPOSE : Return TRUE if c is an alphabetic character.                      *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_alpha(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_alpha(CHAR c) noexcept
     {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
@@ -238,9 +238,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_digit                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is a decimal digit.                              *
+     *  PURPOSE : Return TRUE if c is a decimal digit.                              *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_digit(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_digit(CHAR c) noexcept
     {
         return c >= '0' && c <= '9';
     }
@@ -249,9 +249,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_alnum                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is alphanumeric.                                 *
+     *  PURPOSE : Return TRUE if c is alphanumeric.                                 *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_alnum(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_alnum(CHAR c) noexcept
     {
         return is_alpha(c) || is_digit(c);
     }
@@ -260,9 +260,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_space                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is a whitespace character.                       *
+     *  PURPOSE : Return TRUE if c is a whitespace character.                       *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_space(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_space(CHAR c) noexcept
     {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
     }
@@ -271,9 +271,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_upper                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is an uppercase letter.                          *
+     *  PURPOSE : Return TRUE if c is an uppercase letter.                          *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_upper(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_upper(CHAR c) noexcept
     {
         return c >= 'A' && c <= 'Z';
     }
@@ -282,9 +282,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_lower                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is a lowercase letter.                           *
+     *  PURPOSE : Return TRUE if c is a lowercase letter.                           *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_lower(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_lower(CHAR c) noexcept
     {
         return c >= 'a' && c <= 'z';
     }
@@ -293,9 +293,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_hex_digit                                                      *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is a valid hexadecimal digit.                    *
+     *  PURPOSE : Return TRUE if c is a valid hexadecimal digit.                    *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_hex_digit(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_hex_digit(CHAR c) noexcept
     {
         return is_digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
     }
@@ -304,9 +304,9 @@ namespace tklib
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : is_print                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Return true if c is a printable character including space.        *
+     *  PURPOSE : Return TRUE if c is a printable character including space.        *
      * *****************************************************************************/
-    NO_DISCARD constexpr BOOL is_print(char c) noexcept
+    NO_DISCARD CONSTEXPR BOOL is_print(CHAR c) noexcept
     {
         return c >= ' ' && c <= '~';
     }
@@ -317,9 +317,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Convert c to uppercase. Returns c unchanged if not lowercase.     *
      * *****************************************************************************/
-    NO_DISCARD constexpr char to_upper(char c) noexcept
+    NO_DISCARD CONSTEXPR CHAR to_upper(CHAR c) noexcept
     {
-        return is_lower(c) ? static_cast<char>(c - 32) : c;
+        return is_lower(c) ? static_cast<CHAR>(c - 32) : c;
     }
 
     /* ******************************************************************************
@@ -328,9 +328,9 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Convert c to lowercase. Returns c unchanged if not uppercase.     *
      * *****************************************************************************/
-    NO_DISCARD constexpr char to_lower(char c) noexcept
+    NO_DISCARD CONSTEXPR CHAR to_lower(CHAR c) noexcept
     {
-        return is_upper(c) ? static_cast<char>(c + 32) : c;
+        return is_upper(c) ? static_cast<CHAR>(c + 32) : c;
     }
 
 } // namespace tklib

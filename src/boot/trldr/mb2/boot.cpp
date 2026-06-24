@@ -34,11 +34,11 @@
 
 namespace trunk::boot
 {
-    extern "C" NO_RETURN VOID CbkStartup(const BootInfo &info) noexcept;
+    extern "C" NO_RETURN VOID CbkStartup(CONST BootInfo &info) noexcept;
 
     static BootInfo g_boot_info{};
 
-    NO_DISCARD const char *MemoryTypeString(MemoryType type) noexcept
+    NO_DISCARD PCSTR MemoryTypeString(MemoryType type) noexcept
     {
         switch (type) {
         case MemoryType::Available:
@@ -67,8 +67,8 @@ namespace trunk::boot
     NO_DISCARD BOOL VerifyMB2(DWORD mb2_m, DWORD mb2_ph) noexcept
     {
         if (!VerifyMb2Magic(mb2_m) || !VerifyMb2Pointer(mb2_ph))
-            return false;
-        return true;
+            return FALSE;
+        return TRUE;
     }
 
     /* ******************************************************************************
@@ -93,7 +93,7 @@ namespace trunk::boot
 
         CbkStartup(g_boot_info);
 
-        ASSERT(false, "CbkStartup() suddenly dropped: CbkLoad()");
+        ASSERT(FALSE, "CbkStartup() suddenly dropped: CbkLoad()");
     }
 
 } // namespace trunk::boot

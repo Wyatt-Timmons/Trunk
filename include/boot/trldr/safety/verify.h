@@ -28,9 +28,9 @@
 
 namespace trunk::boot
 {
-    inline constexpr DWORD MB2_MAGIC     = 0x36d76289;
-    inline constexpr DWORD MB2_PTR_MIN   = 0x1000;
-    inline constexpr DWORD MB2_PTR_ALIGN = 8;
+    INLINE_CONST DWORD MB2_MAGIC     = 0x36d76289;
+    INLINE_CONST DWORD MB2_PTR_MIN   = 0x1000;
+    INLINE_CONST DWORD MB2_PTR_ALIGN = 8;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *

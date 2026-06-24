@@ -1,6 +1,3 @@
-include src/cbk/mem/alloc/Makefile
-include src/cbk/mem/virt/Makefile
-
 CBK_MEM_DIR := $(SRC_DIR)/cbk/mem
 
 CBK_MEM_SRCS_NASM := $(wildcard $(CBK_MEM_DIR)/*.asm)
