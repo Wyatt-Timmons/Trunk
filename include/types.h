@@ -57,6 +57,7 @@ using ULONG     = uint32_t;
 using ULONGLONG = uint64_t;
 
 using SIZE_T    = size_t;
+using SSIZE_T   = ptrdiff_t;
 using PSIZE_T   = size_t *;
 using ULONG_PTR = uintptr_t;
 using LONG_PTR  = intptr_t;

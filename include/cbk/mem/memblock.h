@@ -22,11 +22,18 @@
  ********************************************************************************/
 #pragma once
 
+#include <assert.h>
 #include <types.h>
+
+#include <cbk/mem/freelist.h>
+#include <cbk/mem/list.h>
+#include <cbk/mem/mmarch.h>
+#include <cbk/mem/pfn.h>
 
 #include <boot/trldr/mb2/boot.h>
 
-#include <cbk/mem/mmarch.h>
+#include <tklib/math.h>
+#include <tklib/string.h>
 
 // Memblock is used when we're in early boot-stage, and need to allocate some space to startup the
 // advanced memory management system.
@@ -45,8 +52,12 @@
 // Mirrored memory - support after scheduling
 // Nomap from ARM - don't support, x86 only os
 
+#define ForEachMemoryRegion(i, type, reg)                                                          \
+    for (SIZE_T i = 0; i < (type)->cnt && ((reg) = &(type)->regions[i], true); i++)
+
 namespace cbk::mem
 {
+    INLINE_CONST BYTE INITIAL_POOL_SIZE = 16;
     struct BootAllocation
     {
         QWORD phys_addr;
@@ -54,12 +65,160 @@ namespace cbk::mem
         BOOL is_free;
     };
 
-    using BOOT_ALLOCATION = BootAllocation;
+    using BOOT_ALLOCATION  = BootAllocation;
+    using PBOOT_ALLOCATION = BootAllocation *;
 
-    INLINE_CONST WORD BOOT_BLOCKS_SIZE = 32;
+    struct Memblock;
+    extern Memblock g_Memblock;
 
-    extern BOOT_ALLOCATION boot_blocks[];
-    extern DWORD boot_blocks_count;
+    struct MemblockType
+    {
+        SIZE_T cnt;
+        SIZE_T max;
+        QWORD total_size;
+        PBOOT_ALLOCATION regions;
+        PCSTR name;
+
+        NO_DISCARD BOOL Add(QWORD phys_addr, QWORD size, BOOL is_free) noexcept
+        {
+            if (size == 0)
+                return FALSE;
+
+            QWORD new_end = phys_addr + size;
+
+            for (SIZE_T i = 0; i < cnt; i++) {
+                if (regions[i].is_free != is_free)
+                    continue;
+
+                QWORD r_start = regions[i].phys_addr;
+                QWORD r_end   = r_start + regions[i].size;
+
+                if (phys_addr <= r_end && new_end >= r_start) {
+                    QWORD merged_start = (phys_addr < r_start) ? phys_addr : r_start;
+                    QWORD merged_end   = (new_end > r_end) ? new_end : r_end;
+
+                    total_size           -= regions[i].size;
+                    regions[i].phys_addr  = merged_start;
+                    regions[i].size       = merged_end - merged_start;
+                    total_size           += regions[i].size;
+                    return TRUE;
+                }
+            }
+
+            if (cnt >= max)
+                if (!Grow())
+                    return FALSE;
+
+            SIZE_T insert_idx = cnt;
+            for (SIZE_T i = 0; i < cnt; i++) {
+                if (phys_addr < regions[i].phys_addr) {
+                    insert_idx = i;
+                    break;
+                }
+            }
+
+            for (SIZE_T i = cnt; i > insert_idx; i--)
+                regions[i] = regions[i - 1];
+
+            regions[insert_idx].phys_addr = phys_addr;
+            regions[insert_idx].size      = size;
+            regions[insert_idx].is_free   = is_free;
+
+            total_size += size;
+            cnt++;
+            return TRUE;
+        }
+
+        NO_DISCARD BOOL Grow() noexcept;
+
+        NO_DISCARD BOOL Intersects(QWORD phys_addr, QWORD size) noexcept
+        {
+            if (size == 0 || cnt == 0)
+                return FALSE;
+
+            QWORD end = phys_addr + size;
+
+            for (SIZE_T i = 0; i < cnt; i++) {
+                QWORD r_start = regions[i].phys_addr;
+                QWORD r_end   = r_start + regions[i].size;
+
+                if (phys_addr < r_end && end > r_start)
+                    return TRUE;
+            }
+
+            return FALSE;
+        }
+    };
+
+    struct Memblock
+    {
+        BOOL bottom_up;
+        BOOL allow_resize;
+        QWORD curr_limit;
+
+        MemblockType memory;
+        MemblockType reserved;
+    };
+
+    extern BOOT_ALLOCATION initial_memory_pool[];
+    extern BootAllocation initial_reserved_pool[];
+
+    extern PBOOT_ALLOCATION boot_blocks;
+    extern SIZE_T boot_blocks_count;
+
+    NO_DISCARD BOOL MemblockType::Grow() noexcept
+    {
+
+        if (!g_Memblock.allow_resize)
+            return FALSE;
+
+        SIZE_T new_max        = max * 2;
+        SIZE_T new_size_bytes = new_max * sizeof(BOOT_ALLOCATION);
+        QWORD new_array_phys  = 0;
+
+        for (SIZE_T i = 0; i < g_Memblock.memory.cnt; i++) {
+            if (g_Memblock.memory.regions[i].is_free &&
+                g_Memblock.memory.regions[i].size >= new_size_bytes) {
+
+                new_array_phys = g_Memblock.memory.regions[i].phys_addr;
+
+                g_Memblock.memory.regions[i].phys_addr += new_size_bytes;
+                g_Memblock.memory.regions[i].size      -= new_size_bytes;
+                g_Memblock.memory.total_size           -= new_size_bytes;
+
+                break;
+            }
+        }
+
+        if (new_array_phys == 0)
+            return FALSE;
+
+        PBOOT_ALLOCATION new_regions =
+            reinterpret_cast<PBOOT_ALLOCATION>(PaddrToKvaddr(new_array_phys));
+
+        if (new_regions == nullptr)
+            return FALSE;
+
+        for (SIZE_T i = 0; i < cnt; i++)
+            new_regions[i] = regions[i];
+
+        if (g_Memblock.reserved.cnt < g_Memblock.reserved.max) {
+
+            SIZE_T r_cnt = g_Memblock.reserved.cnt;
+
+            g_Memblock.reserved.regions[r_cnt].phys_addr  = new_array_phys;
+            g_Memblock.reserved.regions[r_cnt].size       = new_size_bytes;
+            g_Memblock.reserved.regions[r_cnt].is_free    = FALSE;
+            g_Memblock.reserved.total_size               += new_size_bytes;
+            g_Memblock.reserved.cnt++;
+
+        } else
+            return FALSE;
+
+        regions = new_regions;
+        max     = new_max;
+        return TRUE;
+    }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

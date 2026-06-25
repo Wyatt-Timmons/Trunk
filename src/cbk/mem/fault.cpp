@@ -25,9 +25,19 @@
 #include <cbk/hal/io.h>
 #include <cbk/kern/kabort.h>
 
-// NOTE: CURRENTLY, THIS WILL FAIL 100% OF THE TIME DURING A PAGE FAULT
-// LATER, IT WILL BE IMPROVED TO TRY AND STOP THE PAGE FAULT
-// BUT IF A PAGE FAULT OCCURS NOW, IT WILL CRASH INSTANTLY
+// Instead of a page fault being thrown, it calls this
+// Because we don't have any checks, it currently will just fail
+// And since there's no way to pass variables into uart logs, this technically doesn't work
+// It will just print 'PAGE_FAULT', nothing more.
+
+// Once we get UART formatting working, this will be a lot better.
+// It will make it easier to track memory bugs.
+
+// Also instead of panicing, it will try to recover the system.
+
+// MISSING FEATURES:
+//      INFORMATION ABOUT PAGE FAULT
+//      ATTEMPTING TO RECOVER INSTEAD OF INSTANT PANIC
 
 namespace cbk::mem
 {
@@ -58,7 +68,7 @@ namespace cbk::mem
     NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address,
                                   interrupts::InterruptFrame *frame) noexcept
     {
-        MAYBE_UNUSED bool is_present = (frame->error_code & 1) != 0;
+        MAYBE_UNUSED BOOL is_present = (frame->error_code & 1) != 0;
         MAYBE_UNUSED BOOL is_write   = (frame->error_code & 2) != 0;
         MAYBE_UNUSED BOOL is_user    = (frame->error_code & 4) != 0;
 
