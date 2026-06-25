@@ -1,0 +1,37 @@
+[Core Subsystem Engine & Enumeration]
+channel
+channel_mgmt
+connection
+hv
+hv_common
+hyperv_vmbus
+ring_buffer
+vmbus_drv
+
+[Guest Utilities & Telemetry Frameworks]
+hv_ballon
+hv_kvp
+hv_proc
+hv_snapshot
+hv_util
+hv_utils_transport
+
+[Debugging, Tracing & Microsoft Cloud Host Infrastructure]
+hv_debugfs
+hv_trace
+hv_trace_balloon
+mshv
+mshv_common
+mshv_debugfs
+mshv_debugfs_counters
+mshv_eventfd
+mshv_irq
+mshv_portid_table
+mshv_regions
+mshv_root
+mshv_root_hv_call
+mshv_root_main
+mshv_synic
+mshv_trace
+mshv_vtl
+mshv_vtl_main

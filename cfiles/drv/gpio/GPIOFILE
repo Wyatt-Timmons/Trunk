@@ -1,0 +1,71 @@
+GPIO DRIVERS
+
+[Core Engine & Library Infrastructure]
+gpiolib
+gpiolib-acpi
+gpiolib-acpi-core
+gpiolib-acpi-quirks
+gpiolib-cdev
+gpiolib-devres
+gpiolib-kunit
+gpiolib-legacy
+gpiolib-shared
+gpiolib-swnode
+gpiolib-sysfs
+
+[Intel & AMD Native Chipset Controllers]
+gpio-amd-fch
+gpio-amd8111
+gpio-amdpt
+gpio-elkhartlake
+gpio-graniterapids
+gpio-ich
+gpio-merrifield
+gpio-novalake-events
+gpio-pch
+gpio-sch
+gpio-sch311x
+gpio-sodaville
+gpio-tangier
+
+[Standard PC Mainboard Super I/O & Embedded Controllers]
+gpio-cgbc
+gpio-cros-ec
+gpio-f7188x
+gpio-it87
+gpio-nct6694
+gpio-winbond
+
+[PCI, PCIe & ISA Expansion Hardware]
+gpio-104-dio-48e
+gpio-104-idi-48
+gpio-104-ido-16
+gpio-exar
+gpio-gpio-mm
+gpio-i8255
+gpio-ido-16
+gpio-janz-ttl
+gpio-pci-idio-16
+gpio-pcie-idio-24
+
+[Virtual, Subsystem Framework & Mock Interfaces]
+gpio-aggregator
+gpio-by-pinctrl
+gpio-latch
+gpio-line-mux
+gpio-mmio
+gpio-mockup
+gpio-reg
+gpio-regmap
+gpio-sim
+gpio-syscon
+gpio-virtio
+gpio-virtuser
+
+[Universal USB & Interface Bridges]
+gpio-dln2
+gpio-kempld
+gpio-ljca
+gpio-lp3943
+gpio-ml-ioh
+gpio-usbio

@@ -1,0 +1,33 @@
+MMC DRIVERS
+
+[Core Storage & Protocol Engines]
+block
+bus
+card
+core
+crypto
+mmc
+mmc_ops
+queue
+quirks
+sd
+sd_ops
+sd_uhs2
+
+[Command Queue Extensions]
+cqhci
+cqhci-core
+
+[Universal x86 Hardware Host Controllers]
+sdhci
+sdhci-pci
+sdhci-pci-core
+sdhci-pci-gli
+sdhci-pci-o2micro
+sdhci-acpi
+
+[Legacy/Vintage x86 Controllers]
+cb710-mmc
+toshsd
+via-sdmmc
+wbsd

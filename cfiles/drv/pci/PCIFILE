@@ -1,0 +1,90 @@
+ALL PCI CORE & X86 SYSTEM DRIVERS
+
+[Core Subsystem Engine & Enumeration]
+access
+bus
+devres
+ecam
+host-bridge
+iomap
+pci
+pci-driver
+pci-sysfs
+probe
+proc
+quirks
+remove
+rom
+search
+setup-bus
+setup-res
+syscall
+trace
+
+[PCIe Endpoint Network Routing Infrastructure]
+ats
+doe
+iov
+npem
+p2pdma
+pci-bridge-emul
+pci-label
+pci-pf-stub
+pci-stub
+rebar
+slot
+tph
+tsm
+vc
+vgaarb
+vpd
+
+[X86 Architecture Hardware Interface Layer]
+pci-acpi
+setup-cardbus
+
+[PCIe Port Bus Services & Advanced Telemetry]
+aer
+aer_cxl_rch
+aer_inject
+aspm
+bwctrl
+dpc
+edr
+err
+pme
+portdrv
+ptm
+rcec
+tlp
+
+[Interrupt Management & MSI Matrix]
+api
+irq
+irqdomain
+legacy
+msi
+pcidev_msi
+
+[Universal Controller Frameworks & Virtualization Frontends]
+ide
+pci-host-common
+pci-host-generic
+pci-hyperv
+pci-hyperv-intf
+xen-pcifront
+
+[Peripheral Component Endpoint Mode Subsystem]
+pci-ep-cfs
+pci-ep-msi
+pci-epc-core
+pci-epc-mem
+pci-epf-core
+
+[Power Regulation Infrastructure]
+core
+generic
+pci-pwrctrl-pwrseq
+
+[Specialized PCIe Switch Backplane Utilities]
+switchtec

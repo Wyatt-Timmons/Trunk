@@ -1,0 +1,38 @@
+IIO DRIVER
+
+[Core Subsystem Engine]
+iio_core
+iio_core_trigger
+industrialio-core
+industrialio-event
+industrialio-triggered-event
+industrialio-configfs
+industrialio-gts-helper
+inkern
+
+[Data Buffering & Routing]
+industrialio-buffer
+industrialio-buffer-cb
+industrialio-buffer-dma
+industrialio-buffer-dmaengine
+industrialio-hw-consumer
+industrialio-triggered-buffer
+kfifo_buf
+
+[Interrupt & Event Triggers]
+industrialio-trigger
+industrialio-sw-device
+industrialio-sw-trigger
+iio-trig-hrtimer
+iio-trig-loop
+iio-trig-sysfs
+
+[X86 Laptop, Tablet & Firmware Interfaces]
+hid-sensor-attributes
+hid-sensor-trigger
+industrialio-acpi
+
+[Vendor Sensor Extensions]
+industrialio-backend
+inv_sensors-timestamp
+ms_sensors_i2c

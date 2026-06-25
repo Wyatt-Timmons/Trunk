@@ -1,0 +1,48 @@
+ALL USB STORAGE DRIVERS
+
+[Core Framework & Protocol Glue]
+debug
+initializers
+protocol
+scsiglue
+transport
+usb
+usual-tables
+
+[Modern High-Speed USB Attached SCSI]
+uas
+uas-detect
+unusual_uas
+
+[Vendor & Device Quirks Configuration Tables]
+unusual_alauda
+unusual_cypress
+unusual_datafab
+unusual_devs
+unusual_ene_ub6250
+unusual_freecom
+unusual_isd200
+unusual_jumpshot
+unusual_karma
+unusual_onetouch
+unusual_realtek
+unusual_sddr09
+unusual_sddr55
+unusual_usbat
+
+[Proprietary Media Reader & Storage Bridge Drivers]
+alauda
+cypress_atacb
+datafab
+ene_ub6250
+freecom
+isd200
+jumpshot
+karma
+onetouch
+option_ms
+realtek_cr
+sddr09
+sddr55
+shuttle_usbat
+sierra_ms

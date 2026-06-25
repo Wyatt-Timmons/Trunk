@@ -1,0 +1,64 @@
+FIRMWARE DRIVERS
+
+[Universal UEFI Engine & Variables]
+efi
+efi-init
+vars
+runtime-wrappers
+capsule
+capsule-loader
+dev-path-parser
+
+[UEFI Memory Management & Tables]
+memattr
+mokvar-table
+esrt
+fdtparams
+unaccepted_memory
+
+[UEFI Boot Diagnostics & UI Components]
+efi-bgrt
+efi-pstore
+efibc
+rci2-table
+ovmf-debug-log
+
+[Universal Hardware Tables (DMI/SMBIOS)]
+dmi_scan
+dmi-id
+dmi-sysfs
+
+[Universal Hardware Screen Handlers (SysFB)]
+sysfb
+sysfb_simplefb
+sysfb_efi
+
+[Hardware Error Logging]
+cper
+cper-x86
+cper_cxl
+
+[Universal Virtualization & Cloud]
+qemu_fw_cfg
+
+[Legacy BIOS Extensions]
+edd
+iscsi_ibft
+iscsi_ibft_find
+
+[Google & Coreboot (Your Nice-to-Haves)]
+coreboot_table
+cbmem
+framebuffer-coreboot
+gsmi
+memconsole
+memconsole-coreboot
+memconsole-x86-legacy
+vpd
+vpd_decode
+
+[Cirrus Audio Components]
+cs_dsp
+
+[Root Subsystem Engine]
+memmap

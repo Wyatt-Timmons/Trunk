@@ -1,0 +1,51 @@
+LEDS DRIVERS
+
+[Core LED Framework]
+led-core
+led-class
+led-class-flash
+led-class-multicolor
+leds
+uleds
+
+[Universal Software Event Triggers]
+led-triggers
+ledtrig-activity
+ledtrig-backlight
+ledtrig-camera
+ledtrig-cpu
+ledtrig-default-on
+ledtrig-disk
+ledtrig-gpio
+ledtrig-heartbeat
+ledtrig-input-events
+ledtrig-mtd
+ledtrig-netdev
+ledtrig-oneshot
+ledtrig-panic
+ledtrig-pattern
+ledtrig-timer
+ledtrig-transient
+ledtrig-tty
+
+[Standard x86 PC & Laptop Controllers]
+leds-apu
+leds-clevo-mail
+leds-upboard
+leds-wrap
+leds-cht-wcove
+
+[Generic Hardware Interfaces (Common on x86)]
+leds-gpio
+leds-gpio-register
+leds-pwm
+leds-pwm-multicolor
+leds-group-multicolor
+
+[Siemens Simatic Industrial PC Sub-Folder]
+simatic-ipc-leds
+simatic-ipc-leds-gpio
+simatic-ipc-leds-gpio-core
+simatic-ipc-leds-gpio-apollolake
+simatic-ipc-leds-gpio-elkhartlake
+simatic-ipc-leds-gpio-f7188x

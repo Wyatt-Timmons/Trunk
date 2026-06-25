@@ -1,0 +1,36 @@
+ALL MOUSE & TOUCHPAD DRIVERS
+
+[Universal Standard & Serial Implementations]
+gpiomouse
+psmouse
+sermouse
+vmmouse
+
+[Legacy Platform & Workstation Peripherals]
+amimouse
+atarimouse
+maplemouse
+rpcmouse
+vsxxxaa
+
+[Standard Desktop Trackpoint & Mouse Hardware Extensions]
+logips2pp
+trackpoint
+
+[Laptop Hardware Embedded Touchpads & Pointing Sticks]
+alps
+appletouch
+bcm5974
+byd
+cypress_ps2
+cyapa
+cpapa
+elan_i2c
+elantech
+focaltech
+lifebook
+sentelic
+synaptics
+
+[Specialized & Touchscreen Kiosk Interfaces]
+touchkit

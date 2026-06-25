@@ -1,0 +1,35 @@
+I2C DRIVER
+
+[Core Plumbing & Framework]
+i2c-boardinfo
+i2c-core-acpi
+i2c-core-base
+i2c-core-smbus
+i2c-core
+i2c-dev
+i2c-smbus
+
+[Core Bit-Banging Algorithms]
+i2c-algo-bit
+
+[Intel & AMD Motherboard Hardware]
+i2c-i801
+i2c-amd-asf-plat
+i2c-amd-mp2
+i2c-amd-mp2-pci
+i2c-amd-mp2-plat
+i2c-amd756
+i2c-amd8111
+
+[Synopsys DesignWare (Modern Laptop Trackpads/Touchscreens)]
+i2c-designware-baytrail
+i2c-designware-common
+i2c-designware-core
+i2c-designware-master
+i2c-designware-pcidrv
+i2c-designware-platdrv
+
+[Virtualization & USB Adaptors]
+i2c-tiny-usb
+i2c-usbio
+i2c-virtio

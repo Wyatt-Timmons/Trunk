@@ -1,0 +1,13 @@
+ALL TABLET & DIGITIZER DRIVERS
+
+[Vintage & Industrial Serial Hardware Engines]
+acecad
+wacom_serial4
+
+[Legacy Consumer Graphical Input Platforms]
+aiptek
+hanwang
+kbtab
+
+[Specialized Digital Pen & Note-Taking Capture Hardware]
+pegasus_notetaker

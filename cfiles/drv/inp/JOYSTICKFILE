@@ -1,0 +1,42 @@
+ALL JOYSTICK & GAMEPAD DRIVERS
+
+[Analog & Standard Communication Interface Drivers]
+adc-joystick
+analog
+joydump
+pxrc
+
+[Vintage Console Controller Adapter Layers]
+amijoy
+db9
+gamecon
+n64joy
+psxpad-spi
+turbografx
+
+[Classic Dedicated PC Gameport Devices]
+a3d
+adi
+cobra
+grip
+grip_mp
+guillemot
+interact
+sidewinder
+stinger
+tmdc
+warrior
+
+[3D Spatial Controllers & Trackballs]
+as5011
+magellan
+spaceball
+spaceorb
+twidjoy
+
+[Modern USB, Console, & Embedded Joysticks]
+fsia6b
+maplecontrol
+sensehat-joystick
+xpad
+zhenhua

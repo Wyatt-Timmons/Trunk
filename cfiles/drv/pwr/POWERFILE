@@ -1,0 +1,38 @@
+ALL POWER MANAGEMENT & SUPPLY DRIVERS
+
+[Core Power Subsystem Engine]
+power_supply_core
+power_supply_hwmon
+power_supply_leds
+power_supply_sysfs
+
+[Universal Smart Battery System Protocols]
+sbs-battery
+sbs-charger
+sbs-manager
+
+[Virtualization & Legacy x86 Power Interfaces]
+apm_power
+goldfish_battery
+
+[Global System State Sleep & Power Transitions]
+power
+reboot
+sleep
+wakeup
+
+[Physical ACPI Device & Input Drivers]
+ac
+battery
+button
+
+[CPU Performance & Idle Throttling]
+processor_core
+processor_driver
+processor_idle
+processor_perflib
+processor_throttling
+
+[Thermal & Active Cooling Loop]
+fan
+thermal

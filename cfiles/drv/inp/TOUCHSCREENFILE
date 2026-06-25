@@ -1,0 +1,34 @@
+ALL TOUCHSCREEN DRIVERS
+
+[Universal Serial & USB Legacy Hardware Engines]
+dynapro
+elo
+gunze
+hampshire
+inexio
+mtouch
+penmount
+touchright
+touchwin
+usbtouchscreen
+
+[Embedded Architecture Multi-Touch Controllers]
+atmel_mxt_ts
+auo-pixcir-ts
+goodix
+hideep
+silead
+stmfts
+
+[System-On-Chip Integrated Converters & Peripherals]
+apple_z2
+ar1021_i2c
+bcm_iproc_tsc
+htcpen
+
+[Analog-to-Digital SPI & I2C Hardware Bridges]
+ad7877
+ad7879
+ad7879-i2c
+ad7879-spi
+ads7846

@@ -1,0 +1,28 @@
+ALL INPUT SUBSYSTEM CORE DRIVERS
+
+[Universal Event Multiplexers & APIs]
+evdev
+joydev
+mousdev
+
+[Core Engine & Hardware Adaptation Layers]
+input
+input-compat
+input-poller
+
+[Force Feedback Frameworks]
+ff-core
+ff-memless
+
+[Keyboard Matrix & Specialized Mapping Engines]
+matrix-keymap
+sparse-keymap
+vivaldi-fmap
+
+[Touchscreen & Digitizer Coordination]
+touch-overlay
+touchscreen
+input-mt
+
+[System Led Infrastructure Integration]
+input-leds
