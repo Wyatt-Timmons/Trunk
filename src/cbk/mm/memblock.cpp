@@ -171,7 +171,7 @@ namespace cbk::mem
                                              QWORD max_addr, BOOL bottom_up) noexcept
         {
             if (!size || g_Memblock.memory.cnt == 0)
-                return 0;
+                return PHYS_ADDR_MAX;
 
             QWORD limit_min = min_addr;
             QWORD limit_max = (max_addr == 0) ? limits::QWORD_max : max_addr;
@@ -217,7 +217,7 @@ namespace cbk::mem
                 }
             }
 
-            return 0;
+            return PHYS_ADDR_MAX;
         }
     } // namespace
 
@@ -504,7 +504,7 @@ namespace cbk::mem
             return addr;
         }
 
-        return 0;
+        return PHYS_ADDR_MAX;
     }
 
     /* *******************************************************************************
@@ -530,7 +530,7 @@ namespace cbk::mem
         QWORD addr = MemblockFindInRange(size, align, 0, 0, g_Memblock.bottom_up);
         if (addr && MemblockReserve(addr, size))
             return addr;
-        return 0;
+        return PHYS_ADDR_MAX;
     }
 
     /* *******************************************************************************
@@ -547,7 +547,7 @@ namespace cbk::mem
             return addr;
         }
 
-        return 0;
+        return PHYS_ADDR_MAX;
     }
 
     /* *******************************************************************************
@@ -688,7 +688,7 @@ namespace cbk::mem
     NO_DISCARD QWORD MemblockStartOfDRam() noexcept
     {
         if (g_Memblock.memory.cnt == 0)
-            return 0;
+            return PHYS_ADDR_MAX;
         return g_Memblock.memory.regions[0].phys_addr;
     }
 
@@ -701,7 +701,7 @@ namespace cbk::mem
     NO_DISCARD QWORD MemblockEndOfDRam() noexcept
     {
         if (g_Memblock.memory.cnt == 0)
-            return 0;
+            return PHYS_ADDR_MAX;
         SIZE_T idx = g_Memblock.memory.cnt - 1;
         return (g_Memblock.memory.regions[idx].phys_addr + g_Memblock.memory.regions[idx].size);
     }

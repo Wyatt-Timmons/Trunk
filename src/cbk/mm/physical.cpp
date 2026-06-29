@@ -34,7 +34,8 @@ namespace cbk::mem
     {
         // Highest physical ram address available
         QWORD ram_address_high = MemblockEndOfDRam();
-        ASSERT(ram_address_high != 0, "MMInitializePfnDatabase: RAM_ADDRESS_HIGH FAILURE");
+        ASSERT(ram_address_high != PHYS_ADDR_MAX,
+               "MMInitializePfnDatabase: RAM_ADDRESS_HIGH FAILURE");
 
         // Calculate the highest physical page
         // ram_address_high - converted to a page frame number
