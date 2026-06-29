@@ -22,7 +22,7 @@
  * *****************************************************************************/
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace tklib
@@ -229,7 +229,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is an alphabetic character.                      *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_alpha(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_alpha(CHAR c) noexcept
     {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
@@ -240,7 +240,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is a decimal digit.                              *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_digit(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_digit(CHAR c) noexcept
     {
         return c >= '0' && c <= '9';
     }
@@ -251,7 +251,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is alphanumeric.                                 *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_alnum(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_alnum(CHAR c) noexcept
     {
         return is_alpha(c) || is_digit(c);
     }
@@ -262,7 +262,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is a whitespace character.                       *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_space(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_space(CHAR c) noexcept
     {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
     }
@@ -273,7 +273,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is an uppercase letter.                          *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_upper(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_upper(CHAR c) noexcept
     {
         return c >= 'A' && c <= 'Z';
     }
@@ -284,7 +284,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is a lowercase letter.                           *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_lower(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_lower(CHAR c) noexcept
     {
         return c >= 'a' && c <= 'z';
     }
@@ -295,7 +295,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is a valid hexadecimal digit.                    *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_hex_digit(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_hex_digit(CHAR c) noexcept
     {
         return is_digit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
     }
@@ -306,7 +306,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return TRUE if c is a printable character including space.        *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR BOOL is_print(CHAR c) noexcept
+    NO_DISCARD constexpr BOOL is_print(CHAR c) noexcept
     {
         return c >= ' ' && c <= '~';
     }
@@ -317,7 +317,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Convert c to uppercase. Returns c unchanged if not lowercase.     *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR CHAR to_upper(CHAR c) noexcept
+    NO_DISCARD constexpr CHAR to_upper(CHAR c) noexcept
     {
         return is_lower(c) ? static_cast<CHAR>(c - 32) : c;
     }
@@ -328,7 +328,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Convert c to lowercase. Returns c unchanged if not uppercase.     *
      * *****************************************************************************/
-    NO_DISCARD CONSTEXPR CHAR to_lower(CHAR c) noexcept
+    NO_DISCARD constexpr CHAR to_lower(CHAR c) noexcept
     {
         return is_upper(c) ? static_cast<CHAR>(c + 32) : c;
     }

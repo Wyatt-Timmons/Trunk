@@ -23,7 +23,7 @@
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace tklib
@@ -48,13 +48,13 @@ namespace tklib
      *  PURPOSE : Perfect forward t as T.                                           *
      * *****************************************************************************/
     template <typename T>
-    NO_DISCARD CONSTEXPR T &&forward(typename remove_reference<T>::type &t) noexcept
+    NO_DISCARD constexpr T &&forward(typename remove_reference<T>::type &t) noexcept
     {
         return static_cast<T &&>(t);
     }
 
     template <typename T>
-    NO_DISCARD CONSTEXPR T &&forward(typename remove_reference<T>::type &&t) noexcept
+    NO_DISCARD constexpr T &&forward(typename remove_reference<T>::type &&t) noexcept
     {
         return static_cast<T &&>(t);
     }
@@ -66,7 +66,7 @@ namespace tklib
      *  PURPOSE : Cast t to rvalue reference.                                       *
      * *****************************************************************************/
     template <typename T>
-    NO_DISCARD CONSTEXPR typename remove_reference<T>::type &&move(T &&t) noexcept
+    NO_DISCARD constexpr typename remove_reference<T>::type &&move(T &&t) noexcept
     {
         return static_cast<typename remove_reference<T>::type &&>(t);
     }
@@ -77,7 +77,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Replace obj with new_val, return old value.                       *
      * *****************************************************************************/
-    template <typename T, typename U = T> CONSTEXPR T exchange(T &obj, U &&new_val) noexcept
+    template <typename T, typename U = T> constexpr T exchange(T &obj, U &&new_val) noexcept
     {
         T old = move(obj);
         obj   = forward<U>(new_val);
@@ -90,7 +90,7 @@ namespace tklib
      *  DATE    : 2026                                                              *
      *  PURPOSE : Take address of ref bypassing overloaded operator&.               *
      * *****************************************************************************/
-    template <typename T> NO_DISCARD CONSTEXPR T *addressof(T &ref) noexcept
+    template <typename T> NO_DISCARD constexpr T *addressof(T &ref) noexcept
     {
         return __builtin_addressof(ref);
     }
@@ -105,80 +105,80 @@ namespace tklib
 
     template <typename A, typename B> struct is_same
     {
-        static CONSTEXPR BOOL value = FALSE;
+        static constexpr BOOL value = FALSE;
     };
     template <typename A> struct is_same<A, A>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
 
     template <typename A, typename B> INLINE_CONST BOOL is_same_v = is_same<A, B>::value;
 
     template <typename T> struct is_integral
     {
-        static CONSTEXPR BOOL value = FALSE;
+        static constexpr BOOL value = FALSE;
     };
     template <> struct is_integral<BYTE>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<WORD>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<DWORD>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<QWORD>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<CHAR>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<SHORT>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<LONG>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<LONGLONG>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
     template <> struct is_integral<BOOL>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
 
     template <typename T> INLINE_CONST BOOL is_integral_v = is_integral<T>::value;
 
     template <typename T> struct is_pointer
     {
-        static CONSTEXPR BOOL value = FALSE;
+        static constexpr BOOL value = FALSE;
     };
     template <typename T> struct is_pointer<T *>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
-    template <typename T> struct is_pointer<T * CONST>
+    template <typename T> struct is_pointer<T *const>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
 
     template <typename T> INLINE_CONST BOOL is_pointer_v = is_pointer<T>::value;
 
     template <typename T> struct is_const
     {
-        static CONSTEXPR BOOL value = FALSE;
+        static constexpr BOOL value = FALSE;
     };
-    template <typename T> struct is_const<CONST T>
+    template <typename T> struct is_const<const T>
     {
-        static CONSTEXPR BOOL value = TRUE;
+        static constexpr BOOL value = TRUE;
     };
 
     template <typename T> INLINE_CONST BOOL is_const_v = is_const<T>::value;

@@ -23,7 +23,7 @@
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace cbk::kernel

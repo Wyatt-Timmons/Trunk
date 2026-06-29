@@ -22,7 +22,7 @@
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 struct GNU_PACKED Tss
@@ -75,7 +75,7 @@ struct GNU_PACKED GdtEntry
      *  DATE    : 2026                                                               *
      *  PURPOSE : Creates a new GdtEntry with passed in paramaters                   *
      ********************************************************************************/
-    static CONSTEXPR GdtEntry Create(BYTE access, BYTE flags) noexcept
+    static constexpr GdtEntry Create(BYTE access, BYTE flags) noexcept
     {
         return GdtEntry{.limit_low        = 0,
                         .base_low         = 0,

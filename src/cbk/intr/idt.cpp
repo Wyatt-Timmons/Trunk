@@ -22,7 +22,7 @@
  ********************************************************************************/
 #include <cbk/intr/idt.h>
 
-extern "C" CONST QWORD g_InterruptVectorTable[256];
+extern "C" const QWORD g_InterruptVectorTable[256];
 
 namespace cbk::interrupts
 {
@@ -59,7 +59,7 @@ namespace cbk::interrupts
      ********************************************************************************/
     VOID IdtInit() noexcept
     {
-        CONST WORD kernel_code_selector = 0x08;
+        const WORD kernel_code_selector = 0x08;
 
         for (int i = 0; i < 256; ++i)
             SetGate(static_cast<BYTE>(i), g_InterruptVectorTable[i], kernel_code_selector, 0, 0);

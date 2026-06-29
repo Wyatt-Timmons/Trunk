@@ -29,6 +29,11 @@
     #define NO_RETURN  [[noreturn]]
     #define UNLIKELY   [[unlikely]]
     #define MAYBE_UNUSED [[maybe_unused]]
+
+    #define INLINE       inline
+    #define INLINE_CONST inline constexpr
+    #define ALWAYS_INLINE __always_inline
+
     #define ALIGNED(x) __attribute__((aligned(x)))
     #define IS_ALIGNED(addr, alignment) (((addr) & ((alignment) - 1)) == 0)
     #define OFFSET_OF(type, member) reinterpret_cast<SIZE_T>(&(reinterpret_cast<type*>(0)->member))
@@ -38,6 +43,9 @@
     #define NO_RETURN
     #define UNLIKELY
     #define MAYBE_UNUSED
+    #define INLINE
+    #define INLINE_CONST
+    #define ALWAYS_INLINE
     #define ALIGNED
     #define IS_ALIGNED
     #define OFFSET_OF

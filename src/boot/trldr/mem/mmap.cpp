@@ -24,7 +24,7 @@
 
 #include <tklib/string.h>
 
-#include <macros.h>
+#include <attributes.h>
 
 namespace cbk::boot
 {
@@ -60,11 +60,11 @@ namespace cbk::boot
          *  PURPOSE : Advance to the next MB2 tag.                                      *
          * *****************************************************************************/
         NO_DISCARD
-        static CONST MB2Tag *NextTag(CONST MB2Tag *tag) noexcept
+        static const MB2Tag *NextTag(const MB2Tag *tag) noexcept
         {
             ULONG_PTR addr = reinterpret_cast<ULONG_PTR>(tag) + tag->size;
             addr           = (addr + 7) & ~ULONG_PTR{7};
-            return reinterpret_cast<CONST MB2Tag *>(addr);
+            return reinterpret_cast<const MB2Tag *>(addr);
         }
 
         /* ******************************************************************************
@@ -73,10 +73,10 @@ namespace cbk::boot
          *  DATE    : 2026                                                              *
          *  PURPOSE : Walk MB2 memory map entries and copy them into BootInfo.          *
          * *****************************************************************************/
-        static VOID ParseMmap(CONST MB2MmapTag *tag, BootInfo &info) noexcept
+        static VOID ParseMmap(const MB2MmapTag *tag, BootInfo &info) noexcept
         {
-            CONST ULONG_PTR end = reinterpret_cast<ULONG_PTR>(tag) + tag->size;
-            CONST auto *entry   = tag->entries;
+            const ULONG_PTR end = reinterpret_cast<ULONG_PTR>(tag) + tag->size;
+            const auto *entry   = tag->entries;
 
             while (reinterpret_cast<ULONG_PTR>(entry) < end &&
                    info.mmap_count < BootInfo::MAX_MMAP_ENTRIES) {
@@ -102,7 +102,7 @@ namespace cbk::boot
                     break;
                 }
 
-                entry = reinterpret_cast<CONST MB2MmapEntry *>(reinterpret_cast<ULONG_PTR>(entry) +
+                entry = reinterpret_cast<const MB2MmapEntry *>(reinterpret_cast<ULONG_PTR>(entry) +
                                                                tag->entry_size);
             }
         }
@@ -117,13 +117,13 @@ namespace cbk::boot
     VOID ParseMb2(ULONG_PTR mb2_phys, BootInfo &info) noexcept
     {
         info.mmap_count     = 0;
-        CONST ULONG_PTR end = mb2_phys + *reinterpret_cast<CONST DWORD *>(mb2_phys);
-        CONST auto *tag     = reinterpret_cast<CONST MB2Tag *>(mb2_phys + 8);
+        const ULONG_PTR end = mb2_phys + *reinterpret_cast<const DWORD *>(mb2_phys);
+        const auto *tag     = reinterpret_cast<const MB2Tag *>(mb2_phys + 8);
 
         while (reinterpret_cast<ULONG_PTR>(tag) < end && tag->type != TAG_END) {
             switch (tag->type) {
             case TAG_MMAP:
-                ParseMmap(reinterpret_cast<CONST MB2MmapTag *>(tag), info);
+                ParseMmap(reinterpret_cast<const MB2MmapTag *>(tag), info);
                 break;
 
             case TAG_BOOTLOADER: {

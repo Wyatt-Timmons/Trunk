@@ -22,7 +22,7 @@
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 #ifndef TRUNK_VERSION_STRING
@@ -49,12 +49,12 @@ struct KernelVersion
     PCSTR build_string;
 };
 
-CONSTEXPR KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,
-                                        .minor        = TRUNK_VERSION_MINOR,
-                                        .patch        = TRUNK_VERSION_PATCH,
-                                        .build_string = TRUNK_VERSION_STRING};
+inline constexpr KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,
+                                               .minor        = TRUNK_VERSION_MINOR,
+                                               .patch        = TRUNK_VERSION_PATCH,
+                                               .build_string = TRUNK_VERSION_STRING};
 
-NO_DISCARD INLINE CONST KernelVersion &TrGetVersion() noexcept
+NO_DISCARD INLINE const KernelVersion &TrGetVersion() noexcept
 {
     return g_KernelVersion;
 }

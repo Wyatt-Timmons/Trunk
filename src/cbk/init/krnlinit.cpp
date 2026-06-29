@@ -41,7 +41,7 @@ namespace cbk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Setup all subsystems of the Trunk kernel                           *
      ********************************************************************************/
-    VOID CbkSetupSubsystems(CONST boot::BootInfo &info) noexcept
+    VOID CbkSetupSubsystems(const boot::BootInfo &info) noexcept
     {
         gdt::GdtInit();
         interrupts::IdtInit();
@@ -54,7 +54,7 @@ namespace cbk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
-    STARTUP_FUNC_FLAGS VOID CbkStartup(CONST boot::BootInfo &info) noexcept
+    STARTUP_FUNC_FLAGS VOID CbkStartup(const boot::BootInfo &info) noexcept
     {
         CbkSetupSubsystems(info);
 

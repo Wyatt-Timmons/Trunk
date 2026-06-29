@@ -39,7 +39,7 @@ namespace cbk::boot
      *  DATE    : 2026                                                               *
      *  PURPOSE : Dump BootInfo contents to serial output.                           *
      ********************************************************************************/
-    VOID BDump(CONST BootInfo &info) noexcept
+    VOID BDump(const BootInfo &info) noexcept
     {
         serial::SerialPuts("Bootloader: ");
         serial::SerialPuts(info.bootloader_name[0] ? info.bootloader_name : "(unknown)");
@@ -51,7 +51,7 @@ namespace cbk::boot
         serial::SerialPuts(" entries):\n");
 
         for (SIZE_T i = 0; i < info.mmap_count; ++i) {
-            CONST auto &region = info.mmap[i];
+            const auto &region = info.mmap[i];
 
             serial::SerialPuts("  ");
             tklib::fmt_hex(s_buf, sizeof(s_buf), region.base);

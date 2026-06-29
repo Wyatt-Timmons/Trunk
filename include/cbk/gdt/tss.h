@@ -23,8 +23,8 @@
  ********************************************************************************/
 #pragma once
 
+#include <attributes.h>
 #include <cbk/desc/descriptor.h>
-#include <macros.h>
 #include <types.h>
 
 namespace cbk::gdt
@@ -53,5 +53,5 @@ namespace cbk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD CONST Tss &TssGet() noexcept;
+    NO_DISCARD const Tss &TssGet() noexcept;
 } // namespace cbk::gdt

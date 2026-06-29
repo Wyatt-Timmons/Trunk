@@ -25,13 +25,13 @@
 #include <cbk/intr/interrupts.h>
 #include <cbk/intr/trap_frame.h>
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace cbk::mem
 {
-    CONSTEXPR LONG STATUS_SUCCESS          = 0x00000000L;
-    CONSTEXPR LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
+    constexpr LONG STATUS_SUCCESS          = 0x00000000L;
+    constexpr LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

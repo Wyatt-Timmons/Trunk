@@ -23,7 +23,7 @@
 #include <cbk/gdt/tss.h>
 
 #include <assert.h>
-#include <kmlayout.h>
+#include <lddef.h>
 
 #include <tklib/math.h>
 
@@ -76,7 +76,7 @@ namespace cbk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD CONST Tss &TssGet() noexcept
+    NO_DISCARD const Tss &TssGet() noexcept
     {
         return s_tss;
     }

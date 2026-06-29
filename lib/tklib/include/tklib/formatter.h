@@ -27,7 +27,7 @@
 
 namespace tklib
 {
-    INLINE_CONST CONST CHAR HEX_CHARS[] = "0123456789abcdef";
+    INLINE_CONST const CHAR HEX_CHARS[] = "0123456789abcdef";
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

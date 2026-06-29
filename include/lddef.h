@@ -18,7 +18,7 @@
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Global definitions                                                 *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel memory layout pulled from linkerscript                      *
+ *  PURPOSE : Linker script definitions pulled to c++                            *
  ********************************************************************************/
 #pragma once
 

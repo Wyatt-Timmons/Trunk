@@ -25,7 +25,7 @@
 
 #include <cbk/intr/interrupts.h>
 
-#include <macros.h>
+#include <attributes.h>
 
 namespace cbk::drivers::serial
 {

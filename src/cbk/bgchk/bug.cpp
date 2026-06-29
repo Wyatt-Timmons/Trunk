@@ -23,7 +23,7 @@
 #include <cbk/bgchk/bug.h>
 #include <drivers/serial/serial.h>
 
-#include <macros.h>
+#include <attributes.h>
 
 namespace cbk::kernel
 {

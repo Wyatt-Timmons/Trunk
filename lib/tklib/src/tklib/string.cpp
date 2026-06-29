@@ -34,7 +34,7 @@ namespace tklib
     PVOID memcpy(PVOID dst, LPCVOID src, SIZE_T n) noexcept
     {
         auto *d       = static_cast<BYTE *>(dst);
-        CONST auto *s = static_cast<CONST BYTE *>(src);
+        const auto *s = static_cast<const BYTE *>(src);
         for (SIZE_T i = 0; i < n; ++i)
             d[i] = s[i];
         return dst;
@@ -63,7 +63,7 @@ namespace tklib
     PVOID memmove(PVOID dst, LPCVOID src, SIZE_T n) noexcept
     {
         auto *d       = static_cast<BYTE *>(dst);
-        CONST auto *s = static_cast<CONST BYTE *>(src);
+        const auto *s = static_cast<const BYTE *>(src);
 
         if (d < s) {
             for (SIZE_T i = 0; i < n; ++i)
@@ -83,8 +83,8 @@ namespace tklib
      * *****************************************************************************/
     LONG memcmp(LPCVOID a, LPCVOID b, SIZE_T n) noexcept
     {
-        CONST auto *pa = static_cast<CONST BYTE *>(a);
-        CONST auto *pb = static_cast<CONST BYTE *>(b);
+        const auto *pa = static_cast<const BYTE *>(a);
+        const auto *pb = static_cast<const BYTE *>(b);
         for (SIZE_T i = 0; i < n; ++i) {
             if (pa[i] != pb[i])
                 return static_cast<LONG>(pa[i]) - static_cast<LONG>(pb[i]);
@@ -100,7 +100,7 @@ namespace tklib
      * *****************************************************************************/
     LPCVOID memchr(LPCVOID ptr, BYTE value, SIZE_T n) noexcept
     {
-        CONST auto *p = static_cast<CONST BYTE *>(ptr);
+        const auto *p = static_cast<const BYTE *>(ptr);
         for (SIZE_T i = 0; i < n; ++i)
             if (p[i] == value)
                 return &p[i];

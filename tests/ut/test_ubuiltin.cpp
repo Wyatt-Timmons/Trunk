@@ -62,7 +62,7 @@ TEST(Ubuiltin, IsSame)
     EXPECT_TRUE((tklib::is_same_v<DWORD, DWORD>));
     EXPECT_FALSE((tklib::is_same_v<int, float>));
     EXPECT_FALSE((tklib::is_same_v<DWORD, QWORD>));
-    EXPECT_FALSE((tklib::is_same_v<int, CONST int>));
+    EXPECT_FALSE((tklib::is_same_v<int, const int>));
 }
 
 TEST(Ubuiltin, IsIntegral)
@@ -84,7 +84,7 @@ TEST(Ubuiltin, IsIntegral)
 TEST(Ubuiltin, IsPointer)
 {
     EXPECT_TRUE(tklib::is_pointer_v<int *>);
-    EXPECT_TRUE(tklib::is_pointer_v<CONST int *>);
+    EXPECT_TRUE(tklib::is_pointer_v<const int *>);
     EXPECT_TRUE(tklib::is_pointer_v<PVOID>);
     EXPECT_FALSE(tklib::is_pointer_v<int>);
     EXPECT_FALSE(tklib::is_pointer_v<int &>);
@@ -92,8 +92,8 @@ TEST(Ubuiltin, IsPointer)
 
 TEST(Ubuiltin, IsConst)
 {
-    EXPECT_TRUE(tklib::is_const_v<CONST int>);
-    EXPECT_TRUE(tklib::is_const_v<CONST QWORD>);
+    EXPECT_TRUE(tklib::is_const_v<const int>);
+    EXPECT_TRUE(tklib::is_const_v<const QWORD>);
     EXPECT_FALSE(tklib::is_const_v<int>);
     EXPECT_FALSE(tklib::is_const_v<QWORD>);
 }

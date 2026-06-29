@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace cbk::boot
@@ -43,11 +43,11 @@ namespace cbk::boot
         QWORD length;
         MemoryType type;
 
-        NO_DISCARD CONSTEXPR QWORD End() CONST noexcept
+        NO_DISCARD constexpr QWORD End() const noexcept
         {
             return base + length;
         }
-        NO_DISCARD CONSTEXPR BOOL Available() CONST noexcept
+        NO_DISCARD constexpr BOOL Available() const noexcept
         {
             return type == MemoryType::Available;
         }
@@ -55,8 +55,8 @@ namespace cbk::boot
 
     struct BootInfo
     {
-        static CONSTEXPR SIZE_T BOOTLOADER_NAME_MAX = 64;
-        static CONSTEXPR SIZE_T MAX_MMAP_ENTRIES    = 64;
+        static constexpr SIZE_T BOOTLOADER_NAME_MAX = 64;
+        static constexpr SIZE_T MAX_MMAP_ENTRIES    = 64;
 
         MemoryRegion mmap[MAX_MMAP_ENTRIES]       = {};
         SIZE_T mmap_count                         = 0;
@@ -69,7 +69,7 @@ namespace cbk::boot
          *  PURPOSE : Sum of all Available region lengths. Used by the PMM.          *
          ****************************************************************************/
         NO_DISCARD
-        QWORD TotalAvailableBytes() CONST noexcept
+        QWORD TotalAvailableBytes() const noexcept
         {
             QWORD total = 0;
             for (SIZE_T i = 0; i < mmap_count; ++i)

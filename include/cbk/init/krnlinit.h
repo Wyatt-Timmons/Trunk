@@ -27,7 +27,7 @@
 
 #include <boot/trldr/mb2/boot.h>
 
-#include <macros.h>
+#include <attributes.h>
 
 namespace cbk::kernel
 {
@@ -37,6 +37,6 @@ namespace cbk::kernel
      *  DATE    : 2026                                                               *
      *  PURPOSE : Main kernel function. Called by CbkLoad()                          *
      ********************************************************************************/
-    extern "C" NO_RETURN VOID CbkStartup(CONST boot::BootInfo &info) noexcept;
+    extern "C" NO_RETURN VOID CbkStartup(const boot::BootInfo &info) noexcept;
 
 } // namespace cbk::kernel

@@ -78,7 +78,7 @@ namespace cbk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD WORD GdtInstallTss(CONST Tss *tss_ptr) noexcept
+    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept
     {
         QWORD base = reinterpret_cast<QWORD>(tss_ptr);
         WORD limit = sizeof(Tss) - 1;

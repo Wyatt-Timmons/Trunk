@@ -24,7 +24,7 @@
 
 #include <cbk/desc/descriptor.h>
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 namespace cbk::gdt
@@ -59,6 +59,6 @@ namespace cbk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD WORD GdtInstallTss(CONST Tss *tss_ptr) noexcept;
+    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept;
 
 } // namespace cbk::gdt

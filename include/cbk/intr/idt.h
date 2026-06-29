@@ -24,7 +24,7 @@
 #pragma once
 
 #include <assert.h>
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 #include <cbk/desc/descriptor.h>

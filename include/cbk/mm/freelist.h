@@ -24,7 +24,7 @@
 
 #include <cbk/mm/mmtypes.h>
 
-#include <macros.h>
+#include <attributes.h>
 #include <types.h>
 
 // The Freelist is a high-speed allocation engine,

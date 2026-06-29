@@ -34,7 +34,7 @@
 
 namespace cbk::boot
 {
-    extern "C" NO_RETURN VOID CbkStartup(CONST BootInfo &info) noexcept;
+    extern "C" NO_RETURN VOID CbkStartup(const BootInfo &info) noexcept;
 
     static BootInfo g_boot_info{};
 

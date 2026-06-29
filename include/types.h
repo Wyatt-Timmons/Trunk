@@ -22,24 +22,14 @@
  ********************************************************************************/
 #pragma once
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 
-#ifdef __cplusplus
-#define INLINE inline
-#define CONSTEXPR constexpr
-#define CONST const
-#define INLINE_CONST INLINE CONSTEXPR
-#else
-#define INLINE
-#define CONSTEXPR
-#define CONST
-#define INLINE_CONST
-#endif
+#include <attributes.h>
+
+#include <limits.h>
+#include <stddef.h>
+#include <stdint.h>
 
 using BYTE  = uint8_t;
 using WORD  = uint16_t;
@@ -67,7 +57,7 @@ using PBOOL = bool *;
 
 using VOID    = void;
 using PVOID   = void *;
-using LPCVOID = CONST void *;
+using LPCVOID = const void *;
 
 using PBYTE = BYTE *;
 
@@ -78,28 +68,14 @@ using PCHAR      = CHAR *;
 using PLONG      = LONG *;
 using PULONG     = ULONG *;
 using PULONG_PTR = ULONG **;
-using PCSTR      = CONST char *;
-using PWSTR      = wchar_t *;
-using PCWSTR     = CONST wchar_t *;
 
-using HANDLE  = void *;
-using PHANDLE = HANDLE *;
+using PCSTR  = const char *;
+using PWSTR  = wchar_t *;
+using PCWSTR = wchar_t *;
 
-INLINE_CONST ULONG_PTR INVALID_HANDLE_VALUE = ~ULONG_PTR{0};
-
-struct EProcess;
-using PEPROCESS = EProcess *;
-
-struct ExceptionRecord;
-using PEXCEPTION_RECORD = ExceptionRecord *;
-
-struct ExceptionPointers;
-using PEXCEPTION_POINTERS = ExceptionPointers *;
-
-using PFN_NUM  = QWORD;
-using PPFN_NUM = QWORD *;
-
+using PFN_NUM   = QWORD;
 using PFN_COUNT = QWORD;
+using PPFN_NUM  = QWORD *;
 
 namespace limits
 {
@@ -153,5 +129,11 @@ namespace cbk::mem
 
 INLINE_CONST BOOL TRUE  = true;
 INLINE_CONST BOOL FALSE = false;
+
+struct ExceptionRecord;
+using PEXCEPTION_RECORD = ExceptionRecord *;
+
+struct ExceptionPointers;
+using PEXCEPTION_POINTERS = ExceptionPointers *;
 
 #pragma GCC diagnostic pop
