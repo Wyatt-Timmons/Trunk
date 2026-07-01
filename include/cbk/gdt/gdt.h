@@ -39,26 +39,29 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_init                                                           *
+     *  FUNC    : KeInitializeGdt                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the global descriptor table                            *
      ********************************************************************************/
-    VOID GdtInit() noexcept;
+    VOID
+    KeInitializeGdt() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : GdtFlush                                                           *
+     *  FUNC    : KeFlushGdt                                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Flushes/Reloads the global descriptor table (external assembly)    *
      ********************************************************************************/
-    EXTERN_C VOID GdtFlush(ULONG_PTR gdt_ptr_addr) noexcept;
+    EXTERN_C VOID
+    KeFlushGdt(ULONG_PTR gdt_ptr_addr) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : GdtInstallTss                                                      *
+     *  FUNC    : KeGdtInstallTss                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept;
+    NO_DISCARD WORD
+    KeGdtInstallTss(const Tss *tss_ptr) noexcept;
 
 } // namespace cbk::gdt

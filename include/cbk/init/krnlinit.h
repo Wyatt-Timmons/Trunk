@@ -15,12 +15,10 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Core kernel                                                        *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point file, declares CbkStartup()                     *
- *                                                                               *
+ *  PURPOSE : Kernel entry point file, declares KeSystemStartup()                *
  ********************************************************************************/
 
 #pragma once
@@ -33,13 +31,14 @@ namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : CbkStartup()                                                       *
+     *  FUNC    : KeSystemStartup()                                                  *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Main kernel function. Called by CbkLoad()                          *
      ********************************************************************************/
     EXTERN_C
     NO_RETURN
     TEXT_SECTION
-    VOID CbkStartup(const boot::BootInfo &info) noexcept;
+    VOID
+    KeSystemStartup(const boot::BootInfo &info) noexcept;
 
 } // namespace cbk::kernel

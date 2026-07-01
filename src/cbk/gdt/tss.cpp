@@ -41,11 +41,12 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssInit                                                            *
+     *  FUNC    : KeInitializeTss                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the Task State Segment                                 *
      ********************************************************************************/
-    VOID TssInit() noexcept
+    VOID
+    KeInitializeTss() noexcept
     {
         s_tss.iopb_offset = sizeof(Tss);
         s_tss.ist[0]      = reinterpret_cast<QWORD>(s_ist1_stack + IST_STACK_SIZE);
@@ -59,11 +60,12 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssSetRsp0                                                         *
+     *  FUNC    : KeTssSetRsp0                                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Set the RSP0 field for ring mode                                   *
      ********************************************************************************/
-    VOID TssSetRsp0(QWORD rsp) noexcept
+    VOID
+    KeTssSetRsp0(QWORD rsp) noexcept
     {
         ASSERT(rsp == reinterpret_cast<QWORD>(__stack_top), "RSP0 DOES NOT MATCH KERNEL STACK TOP");
         ASSERT(tklib::math::is_aligned(rsp, 16), "RSP0 IS NOT 16-BYTE ALIGNED");
@@ -72,11 +74,12 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssGet                                                             *
+     *  FUNC    : KeGetSystemTss                                                     *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &TssGet() noexcept
+    NO_DISCARD const Tss &
+    KeGetSystemTss() noexcept
     {
         return s_tss;
     }

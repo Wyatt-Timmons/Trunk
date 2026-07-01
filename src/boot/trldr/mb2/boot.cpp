@@ -34,11 +34,13 @@
 
 namespace cbk::boot
 {
-    EXTERN_C NO_RETURN VOID CbkStartup(const BootInfo &info) noexcept;
+    EXTERN_C NO_RETURN VOID
+    KeSystemStartup(const BootInfo &info) noexcept;
 
     static BootInfo g_boot_info{};
 
-    NO_DISCARD PCSTR MemoryTypeString(MemoryType type) noexcept
+    NO_DISCARD PCSTR
+    MemoryTypeString(MemoryType type) noexcept
     {
         switch (type) {
         case MemoryType::Available:
@@ -64,7 +66,8 @@ namespace cbk::boot
      *  PURPOSE : Wrapper for verify_mb2_(NAME)                                     *
      *                                                                              *
      * *****************************************************************************/
-    NO_DISCARD BOOL VerifyMB2(DWORD mb2_m, DWORD mb2_ph) noexcept
+    NO_DISCARD BOOL
+    VerifyMB2(DWORD mb2_m, DWORD mb2_ph) noexcept
     {
         if (!VerifyMb2Magic(mb2_m) || !VerifyMb2Pointer(mb2_ph))
             return FALSE;
@@ -77,7 +80,8 @@ namespace cbk::boot
      *  DATE    : 2026                                                              *
      *  PURPOSE : Called from CbkSystemStartup. Builds BootInfo struct              *
      * *****************************************************************************/
-    EXTERN_C VOID CbkLoad(DWORD mb2_magic, DWORD mb2_phys) noexcept
+    EXTERN_C VOID
+    CbkLoad(DWORD mb2_magic, DWORD mb2_phys) noexcept
     {
         // TODO: IM PLANNING ON WRITING A BASIC NO BUFFER UART DRIVER FOR BOOT STAGE
         // THIS IS THE ACTUAL DRIVER, THIS CALL WILL BE REMOVED AND REPLACED WITH THE NEW BOOT CODE
@@ -92,9 +96,9 @@ namespace cbk::boot
         ParseMb2(static_cast<ULONG_PTR>(mb2_phys), g_boot_info);
         BDump(g_boot_info);
 
-        CbkStartup(g_boot_info);
+        KeSystemStartup(g_boot_info);
 
-        ASSERT(FALSE, "CbkStartup() suddenly dropped: CbkLoad()");
+        ASSERT(FALSE, "KeSystemStartup() suddenly dropped: CbkLoad()");
     }
 
 } // namespace cbk::boot

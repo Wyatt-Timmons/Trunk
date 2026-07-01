@@ -33,25 +33,28 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssInit                                                            *
+     *  FUNC    : KeInitializeTss                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the Task State Segment                                 *
      ********************************************************************************/
-    VOID TssInit() noexcept;
+    VOID
+    KeInitializeTss() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssSetRsp0                                                         *
+     *  FUNC    : KeTssSetRsp0                                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Set the RSP0 field for ring mode                                   *
      ********************************************************************************/
-    VOID TssSetRsp0(QWORD rsp) noexcept;
+    VOID
+    KeTssSetRsp0(QWORD rsp) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : TssGet                                                             *
+     *  FUNC    : KeGetSystemTss                                                     *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &TssGet() noexcept;
+    NO_DISCARD const Tss &
+    KeGetSystemTss() noexcept;
 } // namespace cbk::gdt

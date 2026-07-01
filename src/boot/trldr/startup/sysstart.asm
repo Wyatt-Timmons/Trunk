@@ -33,7 +33,7 @@ section .text
 ; *  FUNC    : CbkSystemStartup                                                  *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : Official System Startup. entry64.asm -> calls CbkSystemStartup -> *
-; *                                     calls CbkLoad() -> calls CbkStartup()   *
+; *                                     calls CbkLoad() -> calls KeSystemStartup()   *
 ; *******************************************************************************
 global CbkSystemStartup
 CbkSystemStartup:

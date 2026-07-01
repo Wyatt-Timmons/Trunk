@@ -18,7 +18,7 @@
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Core kernel                                                        *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (CbkStartup)                                    *
+ *  PURPOSE : Kernel entry point (KeSystemStartup)                               *
  ********************************************************************************/
 #include <cbk/init/krnlinit.h>
 
@@ -42,7 +42,7 @@ namespace cbk::kernel
     VOID
     CbkSetupSubsystems(const boot::BootInfo &info) noexcept
     {
-        gdt::GdtInit();
+        gdt::KeInitializeGdt();
         interrupts::KeInitializeIdt();
 
         CBKSTATUS status = drivers::pic::PicInit();
@@ -51,7 +51,7 @@ namespace cbk::kernel
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : CbkStartup                                                         *
+     *  FUNC    : KeSystemStartup                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
@@ -63,7 +63,7 @@ namespace cbk::kernel
     NO_RETURN
     TEXT_SECTION
     VOID
-    CbkStartup(const boot::BootInfo &info) noexcept
+    KeSystemStartup(const boot::BootInfo &info) noexcept
     {
         CbkSetupSubsystems(info);
 

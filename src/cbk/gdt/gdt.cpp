@@ -34,12 +34,12 @@ namespace cbk::gdt
     {
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : WriteGdtSegment                                                    *
+         *  FUNC    : KiWriteGdtSegment                                                  *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Utility to write a GDT segment                                     *
          ********************************************************************************/
-        static VOID WriteGdtSegment(GdtEntry *entry, WORD limit, DWORD base, BYTE access,
-                                    BYTE flags) noexcept
+        static VOID
+        KiWriteGdtSegment(GdtEntry *entry, WORD limit, DWORD base, BYTE access, BYTE flags) noexcept
         {
             entry->limit_low        = limit & 0xFFFF;
             entry->base_low         = base & 0xFFFF;
@@ -48,37 +48,52 @@ namespace cbk::gdt
             entry->flags_limit_high = ((flags & 0xF0)) | ((limit >> 16) & 0xF);
             entry->base_high        = (base >> 24) & 0xFF;
         }
+
+        /* *******************************************************************************
+         *  AUTHOR  : Trollycat                                                          *
+         *  FUNC    : KiCreateGdtEntries                                                 *
+         *  DATE    : 2026                                                               *
+         *  PURPOSE : Creates standard GDT entries                                       *
+         ********************************************************************************/
+        VOID
+        KiCreateGdtEntries() noexcept
+        {
+            tklib::memset(&gdt, 0, sizeof(GdtLayout));
+
+            KiWriteGdtSegment(&gdt.kernel_code,
+                              0,
+                              0,
+                              GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_EXECUTABLE |
+                                  GDT_READ_WRITE,
+                              GDT_LONG_MODE);
+            KiWriteGdtSegment(&gdt.kernel_data,
+                              0,
+                              0,
+                              GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_READ_WRITE,
+                              0);
+            KiWriteGdtSegment(&gdt.user_code,
+                              0,
+                              0,
+                              GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_EXECUTABLE |
+                                  GDT_READ_WRITE,
+                              GDT_LONG_MODE);
+            KiWriteGdtSegment(&gdt.user_data,
+                              0,
+                              0,
+                              GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_READ_WRITE,
+                              0);
+        }
+
     } // namespace
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_create_entries                                                 *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Creates standard GDT entries                                       *
-     ********************************************************************************/
-    VOID gdt_create_entries() noexcept
-    {
-        tklib::memset(&gdt, 0, sizeof(GdtLayout));
-
-        WriteGdtSegment(&gdt.kernel_code, 0, 0,
-                        GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
-                        GDT_LONG_MODE);
-        WriteGdtSegment(&gdt.kernel_data, 0, 0,
-                        GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_READ_WRITE, 0);
-        WriteGdtSegment(&gdt.user_code, 0, 0,
-                        GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
-                        GDT_LONG_MODE);
-        WriteGdtSegment(&gdt.user_data, 0, 0, GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_READ_WRITE,
-                        0);
-    }
-
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : GdtInstallTss                                                      *
+     *  FUNC    : KeGdtInstallTss                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD WORD GdtInstallTss(const Tss *tss_ptr) noexcept
+    NO_DISCARD WORD
+    KeGdtInstallTss(const Tss *tss_ptr) noexcept
     {
         QWORD base = reinterpret_cast<QWORD>(tss_ptr);
         WORD limit = sizeof(Tss) - 1;
@@ -109,21 +124,22 @@ namespace cbk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_init                                                           *
+     *  FUNC    : KeInitializeGdt                                                    *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the global descriptor table subsystem                  *
      ********************************************************************************/
-    VOID GdtInit() noexcept
+    VOID
+    KeInitializeGdt() noexcept
     {
-        gdt_create_entries();
-        TssInit();
+        KiCreateGdtEntries();
+        KeInitializeTss();
 
-        WORD tss_selector = GdtInstallTss(&TssGet());
+        WORD tss_selector = KeGdtInstallTss(&KeGetSystemTss());
 
         gdt_pointer.limit = sizeof(GdtLayout) - 1;
         gdt_pointer.base  = reinterpret_cast<ULONG_PTR>(&gdt);
 
-        GdtFlush(reinterpret_cast<ULONG_PTR>(&gdt_pointer));
+        KeFlushGdt(reinterpret_cast<ULONG_PTR>(&gdt_pointer));
 
         asm volatile("ltr %0" ::"r"(tss_selector));
     }
