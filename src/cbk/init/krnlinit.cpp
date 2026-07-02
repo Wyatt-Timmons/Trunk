@@ -57,7 +57,7 @@ namespace cbk::kernel
      *  PURPOSE : Top-level kernel entry.                                            *
      ********************************************************************************/
 
-    // EXTERN_C - Called as a C function to avoid garabge name
+    // EXTERN_C - Called as a C function to avoid garbage name
     // NO_RETURN - Does not return, infinite halt
     // TEXT_SECTION - Force this code into the .text section to assure it works
     EXTERN_C
